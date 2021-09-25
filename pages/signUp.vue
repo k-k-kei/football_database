@@ -1,0 +1,135 @@
+<template>
+  <div>
+    <div class="min-h-screen bg-gray-200 py-6 flex flex-col sm:py-12">
+      <div class="relative py-3 w-11/12 max-w-xl mx-auto">
+        <div class="relative p-8 bg-white shadow-sm rounded-lg">
+
+          <!-- フォーム -->
+          <div class="w-full">
+
+            <!-- バリデーションの監視 -->
+            <ValidationObserver v-slot="{ invalid }">
+
+                <!-- メールアドレス入力フォーム -->
+              <div class="mb-5 relative">
+                <ValidationProvider
+                  name="メールアドレス"
+                  rules="required|email"
+                  v-slot="v"
+                >
+                  <input
+                    type="email"
+                    id="email"
+                    class="peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
+                    placeholder="name@example.com"
+                    autocomplete="off"
+                    v-model.trim="mail"
+                  />
+                  <label
+                    for="email"
+                    class="peer-placeholder-shown:opacity-100   opacity-75 peer-focus:opacity-75 peer-placeholder-shown:scale-100 scale-75 peer-focus:scale-75 peer-placeholder-shown:translate-y-0 -translate-y-3 peer-focus:-translate-y-3 peer-placeholder-shown:translate-x-0 translate-x-1 peer-focus:translate-x-1 absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out"
+                    >Email address</label
+                  >
+                  <span>{{ v.errors[0] }}</span>
+                </ValidationProvider>
+              </div>
+
+                <!-- パスワード入力フォーム -->
+              <div class="mb-5 relative">
+                <ValidationProvider
+                  name="パスワード"
+                  rules="required|alpha_num|min"
+                  v-slot="v"
+                >
+                  <input
+                    type="password"
+                    id="password"
+                    class="peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
+                    placeholder="password"
+                    v-model.trim="pass"
+                  />
+                  <label
+                    for="password"
+                    class="peer-placeholder-shown:opacity-100   opacity-75 peer-focus:opacity-75 peer-placeholder-shown:scale-100 scale-75 peer-focus:scale-75 peer-placeholder-shown:translate-y-0 -translate-y-3 peer-focus:-translate-y-3 peer-placeholder-shown:translate-x-0 translate-x-1 peer-focus:translate-x-1 absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out"
+                    >Password</label
+                  >
+                  <span>{{ v.errors[0] }}</span>
+                </ValidationProvider>
+              </div>
+
+              <!-- 新規登録ボタン -->
+                <button
+                  @click="signup"
+                  :disabled="invalid"
+                  class="w-full bg-indigo-600 text-white p-3 rounded-md"
+                >
+                  新規登録
+                </button>
+
+            </ValidationObserver>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { auth } from "~/plugins/firebase";
+
+import { ValidationObserver } from "vee-validate";
+import { ValidationProvider } from "vee-validate";
+
+//バリデーションルールをここで定義
+import { extend } from "vee-validate";
+import { required } from "vee-validate/dist/rules";
+import { email } from "vee-validate/dist/rules";
+import { alpha_num } from "vee-validate/dist/rules";
+
+extend("required", {
+  ...required,
+  message: "必須入力項目です"
+});
+
+extend("min", value => {
+  if (value.length >= 8) {
+    return true;
+  }
+  return "8文字以上で設定してください";
+});
+
+extend("email", {
+  ...email,
+  message: "無効なメールアドレスです"
+});
+
+extend("alpha_num", {
+  ...alpha_num,
+  message: "アルファベットと数字のみ使用できます"
+});
+
+export default {
+  components: {
+    ValidationObserver,
+    ValidationProvider
+  },
+  data() {
+    return {
+      //   name: "",
+      mail: "",
+      pass: ""
+    };
+  },
+  methods: {
+    signup() {
+      auth
+        .createUserWithEmailAndPassword(this.mail, this.pass)
+        .then(user => {
+          console.log(user.user.uid);
+          this.$router.push("/nameUpdate");
+        })
+        .catch(e => console.log(e.message));
+    }
+  }
+};
+</script>
