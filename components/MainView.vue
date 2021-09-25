@@ -5,7 +5,7 @@
       <!-- 自分の作成したチームは非表示にする。 -->
       <div v-if="team.user_id != userInfo.user_id">
         <div
-          class="h-screen/5 w-11/12 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
+          class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
         >
           <NuxtLink :to="'/teams/' + team.id">
             <h1 class="text-base font-bold text-gray-800 p-2">
