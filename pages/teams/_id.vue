@@ -125,13 +125,17 @@ export default {
   methods: {
     //チャットルームを作成する
     add(other_id, team_id, team_name, team_image) {
-      this.$store.dispatch("chat/makeChatRoom", {
-        uid: this.uid,
-        other_id: other_id,
-        team_id: team_id,
-        team_name: team_name,
-        team_image: team_image,
-      });
+      if(this.uid === null){
+        this.$router.push("/login");
+      }else{
+        this.$store.dispatch("chat/makeChatRoom", {
+          uid: this.uid,
+          other_id: other_id,
+          team_id: team_id,
+          team_name: team_name,
+          team_image: team_image,
+        });
+      }
     }
   }
 };

@@ -42,7 +42,7 @@
                 <div class="col-span-6 sm:col-span-3">
                   <ValidationProvider
                     name="チーム名"
-                    rules="required|blank"
+                    rules="required"
                     v-slot="v"
                   >
                     <label
@@ -189,6 +189,7 @@ export default {
         level: this.teamInfo.level,
         area: this.teamInfo.area,
         image: this.teamInfo.image,
+        userProfileImage: this.teamInfo.userProfileImage,
         showImage: this.teamInfo.showImage
       });
     },
@@ -200,7 +201,6 @@ export default {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = e => {
-        console.log(e.target.result);
         this.teamInfo.showImage = e.target.result;
       };
     }

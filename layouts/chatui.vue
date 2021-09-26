@@ -1,5 +1,5 @@
 <template>
-  <div class="text-gray-700 font-sans text-sm md:text-lg">
+  <div class="fixed text-gray-700 font-sans text-sm md:text-lg">
     <div class="bg-white shadow">
       <div class="text-center flex justify-between mx-3 md:mx-8 py-2">
         <div class="p-2">

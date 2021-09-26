@@ -28,7 +28,7 @@
                         <div class=" flex-shrink-0 h-10 w-10">
                           <img
                             class="h-10 w-10 rounded-full"
-                            :src="chat.team_image"
+                            :src="user.profileImage"
                             alt=""
                           />
                         </div>
@@ -36,13 +36,13 @@
                         <!-- ユーザー名 -->
                         <div class="ml-4">
                           <div class="text-sm font-medium text-gray-900">
-                            {{ chat.team_name }}
-                          </div>
-
-                          <!-- ユーザーアドレス -->
-                          <div class="text-sm text-gray-500">
                             {{ user.displayName }}
                           </div>
+
+                          <!-- ユーザーチームネーム-->
+                          <!-- <div class="text-sm text-gray-500">
+                            {{ chat.team_name }}
+                          </div> -->
                         </div>
                       </div>
                     </nuxt-link>
@@ -68,17 +68,15 @@
 
 <script>
 import { auth } from "~/plugins/firebase";
-import firebase from "~/plugins/firebase";
 
 export default {
   data() {
     return {
-      chatInfo: {
-        uid: "",
-        other_id: ""
-      },
+      loginUserId: "",
 
-      userProfileImage: "",
+      chatInfo: {
+        uid: ""
+      },
     };
   },
   created: function() {
@@ -88,20 +86,9 @@ export default {
     //ログイン中のユーザーuidをdataに保存
     auth.onAuthStateChanged(user => {
       if (!user) {
-        this.chatInfo.uid = null;
+        this.loginUserId = null;
       } else {
-        this.chatInfo.uid = user.uid;
-        this.userProfileImage = `userProfileImages/${user.photoURL}`;
-
-      const storageRef = firebase.storage().ref();
-      storageRef
-        .child(this.userProfileImage)
-        .getDownloadURL()
-        .then(url => {
-          this.userProfileImage = url;
-          console.log(user);
-          console.log(this.userProfileImage);
-        });
+        this.loginUserId = user.uid;
       }
     });
   },
@@ -114,21 +101,22 @@ export default {
     //chatsデータの中で自分のuidが含まれるルームだけ表示する
     chats() {
       const chats = this.$store.state.chat.chats.filter(
-        el => el.uid === this.chatInfo.uid || el.other_id === this.chatInfo.uid
+        el => el.uid === this.loginUserId || el.other_id === this.loginUserId
       );
 
       chats.forEach(el => {
-        this.chatInfo.uid = el.uid;
-        this.chatInfo.uid = el.other_id;
+        if(el.uid === this.loginUserId){
+          this.chatInfo.uid = el.other_id;
+        }else{
+          this.chatInfo.uid = el.uid;
+        }
       });
       return chats;
     },
 
-    //チャット相手のユーザー名を表示する
+    //チャット相手のユーザー情報を表示する
     users() {
-      return this.$store.state.user.users.filter(
-        el => el.uid === this.chatInfo.uid
-      );
+      return this.$store.state.user.users.filter(el => el.uid === this.chatInfo.uid);
     }
   }
 };

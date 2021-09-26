@@ -38,18 +38,6 @@ export const actions = {
           uid: uid,
           read: read,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        // message: {
-        //     message: {
-        //         uid: uid,
-        //         text: message,
-        //         create_date: firebase.firestore.FieldValue.serverTimestamp(),
-        //     }
-        // },
-        // member: {
-        //     uid: "user1",
-        //     other_id: "user2",
-        // },
-        // create_date: firebase.firestore.FieldValue.serverTimestamp(),
       });
     }
   }),
@@ -58,8 +46,8 @@ export const actions = {
     console.log(docId, subDocId);
     chatsRef.doc(docId).collection("message").doc(subDocId).update({
         read: true,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
+    console.log("store内で変更完了")
   }),
 
   remove: firestoreAction((context, id) => {

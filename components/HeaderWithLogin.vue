@@ -78,7 +78,9 @@
                       マイページ
                     </button></nuxt-link
                   >
-                  <nuxt-link to="/"
+                  <!-- ログアウト後にキャッシュを残さないため、
+                  nuxt-linkではなくaタグにしている -->
+                  <a href="/"
                     ><button
                       @click="logout"
                       class="text-gray-700 block px-4 py-2 text-sm"
@@ -86,7 +88,7 @@
                       id="menu-item-1"
                     >
                       ログアウト
-                    </button></nuxt-link
+                    </button></a
                   >
                 </div>
               </div>

@@ -19,8 +19,8 @@
             </div>
 
             <!-- ユーザーアドレス -->
-            <div class="text-sm text-gray-500">
-              <button><nuxt-link to="profile">プロフィール</nuxt-link></button>
+            <div class="text-sm text-yellow-500">
+              <button><nuxt-link to="profile" class="underline">プロフィール</nuxt-link></button>
             </div>
           </div>
         </div>
@@ -48,13 +48,16 @@
         </option>
       </select>
     </div>
-
+    <!-- チームが選択されるまで表示する -->
+    <template v-if="teamInfo.selectedTeamId === '' ">
+      <div class="text-center py-10">チームを選択しよう！</div>
+    </template>
     <!-- 
   
   チーム表示エリア
 
  -->
-    <template v-if="isEdited">
+    <template v-if="isShow">
       <div
         v-for="one in oneTeam"
         :key="one.id"
@@ -263,7 +266,7 @@ export default {
       profileImage: "",
       updatedFile: "",
       showImage: "",
-      isEdited: true
+      isShow: true
     };
   },
   created: function() {
@@ -320,8 +323,7 @@ export default {
       return (this.isEdited = true);
     },
     update() {
-      this.teamInfo.image =
-        this.updatedFile === "" ? this.teamInfo.image : this.updatedFile;
+      this.updatedFile === "" ? this.teamInfo.image : this.updatedFile;
       this.$store.dispatch("update", this.teamInfo);
       this.isEdited = true;
     },

@@ -1,6 +1,6 @@
 import { vuexfireMutations } from "vuexfire";
-import { auth } from "~/plugins/firebase";
 import firebase from "~/plugins/firebase";
+import { auth } from "~/plugins/firebase";
 import { firestoreAction } from "vuexfire";
 
 const db = firebase.firestore();
@@ -43,7 +43,7 @@ export const actions = {
             area: area,
             image:
               "https://firebasestorage.googleapis.com/v0/b/nuxt-project-aff05.appspot.com/o/teamProfileImages%2Famoung%20us.webp?alt=media&token=97f9a5f4-9fb4-4ada-95bf-feb098a47fc6",
-            created: firebase.firestore.FieldValue.serverTimestamp()
+              created: firebase.firestore.FieldValue.serverTimestamp()
           });
         }
       } else {
@@ -173,10 +173,23 @@ export const getters = {
   //@param: teamInfo（検索フォームへの入力値）
   //@return: 部分一致した検索結果
   filterdTeams: state => teamInfo => {
-    return state.teams.filter(el => {
-      return el.name.indexOf(teamInfo) > -1 ||
-      el.level.indexOf(teamInfo) > -1 ||
-      el.area.indexOf(teamInfo) > -1
-    });
+    // return state.teams.filter(el => {
+    //   return el.name.indexOf(teamInfo) > -1 ||
+    //   el.level.indexOf(teamInfo) > -1 ||
+    //   el.area.indexOf(teamInfo) > -1
+    // });
+
+    let searchWords = teamInfo.split("　");
+
+    const searchResult = state.teams.filter(team => {
+         return  searchWords.every(el => {
+              return team.name.indexOf(el) > -1 ||
+              team.level.indexOf(el) > -1 ||
+              team.area.indexOf(el) > -1
+          })
+    })
+    return searchResult;
+
   },
+
 };

@@ -1,30 +1,46 @@
 <template>
   <div>
     <div
-      class="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-100 text-gray-800"
+      class="
+        flex flex-col
+        items-center
+        justify-center
+        w-screen
+        min-h-screen
+        bg-gray-100
+        text-gray-800
+      "
     >
       <div
-        class="relative flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden overscroll-auto"
+        class="
+          relative
+          flex flex-col flex-grow
+          w-full
+          max-w-xl
+          bg-white
+          shadow-xl
+          rounded-lg
+          overflow-hidden
+          overscroll-auto
+        "
       >
         <div
           id="top"
-          class="flex flex-col flex-grow h-0 mb-20 p-7 overflow-auto"
+          v-for="user in users"
+          :key="user.id"
+          class="flex flex-col flex-grow h-0 mb-28 p-7 overflow-auto"
         >
           <!-- テキスト -->
           <div
             :class="[
-              chat.uid === chatData.uid ? myMessageShape : othersMessageShape
+              chat.uid === chatData.uid ? myMessageShape : othersMessageShape,
             ]"
             v-for="chat in chats"
             :key="chat.id"
           >
             <div v-if="chat.uid != chatData.uid">
               <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
-                <img
-                  class="h-10 w-10 rounded-full"
-                  :src="teamImage"
-                  alt=""
-                />
+                <img class="h-10 w-10 rounded-full" :src="user.profileImage" alt="" />
               </div>
             </div>
             <div>
@@ -40,19 +56,11 @@
               <!-- チャット入力と同時に表示されるため、toDateの中身がnullになってエラーとなってしまう。 -->
               <!-- チャット入力後、timestampの値を受け取って時刻表示形式に直せばエラーは収まるはず。 -->
               <span class="text-xs text-gray-500 leading-none">{{
-                chat.timestamp.toDate().getHours() +
-                  ":" +
-                  chat.timestamp.toDate().getMinutes()
+                chat.timestamp.toDate().getMonth().toString().padStart(2, "0") + "/" +
+                chat.timestamp.toDate().getDate().toString().padStart(2, "0") + " " +
+                chat.timestamp.toDate().getHours().toString().padStart(2, "0") + ":" +
+                chat.timestamp.toDate().getMinutes().toString().padStart(2, "0")
               }}</span>
-            </div>
-            <div v-if="chat.uid === chatData.uid">
-              <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
-                <img
-                  class="h-10 w-10 rounded-full"
-                  :src="userProfileImage"
-                  alt=""
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -103,7 +111,7 @@ export default {
         message: "",
         docId: this.$route.params.id,
         uid: "",
-        read: false
+        read: false,
       },
 
       // チャット表示用オブジェクト
@@ -114,38 +122,56 @@ export default {
       myMessageShape: "myMessageShape",
       othersMessageShape: "othersMessageShape",
       myMessage: "myMessage",
-      othersMessage: "othersMessage"
+      othersMessage: "othersMessage",
     };
   },
-  created: function() {
+  created: function () {
+    this.$store.dispatch("user/userInit");
+
     //サブコレクションからメッセージを取得する
     chatsRef
       .doc(this.$route.params.id)
       .collection("message")
       .orderBy("timestamp", "asc")
-      .onSnapshot(snapshot => {
-        snapshot.docChanges().forEach(change => {
+      .onSnapshot((snapshot) => {
+        snapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
-            this.chats.push(change.doc.data());
-            //チャットルームを開くと既読フラグ(read)をtrueにする
-            // if (change.doc.data().read === false) {
-            //   console.log("aaa");
-            //   this.$store.dispatch("chat/setReadFlag", {
-            //     docId: this.$route.params.id,
-            //     subDocId: change.doc.id
-            //   });
-            // }
+            this.chats.push(change.doc.data({ serverTimestamps: "estimate" }));
           }
         });
       });
 
-      chatsRef
-      .doc(this.$route.params.id).get().then(doc => {
+    //チャットルームを開くと既読フラグ(read)をtrueにする
+    // chatsRef
+    //   .doc(this.$route.params.id)
+    //   .collection("message")
+    //   .where("read", "==", false)
+    //   .onSnapshot((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+
+    //     console.log(doc.id)
+            
+    //       // console.log("trueに変更する処理");
+    //       if(doc.data().uid != this.chatData.uid){
+    //         this.$store.dispatch("chat/setReadFlag", {
+    //           docId: this.chatData.docId,
+    //           subDocId: doc.id,
+    //         });
+    //       }
+    //     });
+    //   });
+
+
+
+    chatsRef
+      .doc(this.$route.params.id)
+      .get()
+      .then((doc) => {
         this.teamImage = doc.data().team_image;
-      })
+      });
 
     //メッセージにuidを含める
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged((user) => {
       if (!user) {
         this.chatData.uid = null;
       } else {
@@ -156,11 +182,17 @@ export default {
         storageRef
           .child(this.userProfileImage)
           .getDownloadURL()
-          .then(url => {
+          .then((url) => {
             this.userProfileImage = url;
           });
       }
     });
+  },
+  computed: {
+    //チャット相手のユーザー情報を表示する
+    users() {
+      return this.$store.state.user.users.filter(el => el.uid != this.chatData.uid);
+    }
   },
   methods: {
     scrollToEnd() {
@@ -174,7 +206,7 @@ export default {
     add() {
       this.$store.dispatch("chat/add", this.chatData);
       this.chatData.message = "";
-    }
+    },
   },
   updated() {
     this.scrollToEnd();
@@ -189,7 +221,7 @@ export default {
 }
 
 .othersMessageShape {
-  @apply flex w-full mt-2 space-x-3 max-w-xs ml-auto;
+  @apply flex w-full space-x-3 max-w-xs;
 }
 
 /* チャットメッセージの背景色、テキスト色 */

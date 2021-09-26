@@ -45,7 +45,9 @@
       
        -->
     <template v-else>
-      <div class="bg-white divide-y divide-gray-200">
+      <div 
+        v-for="user in users"  :key="user.id"
+        class="bg-white divide-y divide-gray-200">
         <ValidationObserver v-slot="{ invalid }">
           <div class="px-6 py-4 whitespace-nowrap">
             <div class="flex items-center">
@@ -92,7 +94,7 @@
             </div>
           </div>
           <button
-            @click="update"
+            @click="update(user.id)"
             :disabled="invalid"
             class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
           >
@@ -142,10 +144,12 @@ export default {
 
       profileImage: "",
       showImage: "",
-      isEdited: true
+      isEdited: true,
     };
   },
   created: function() {
+     this.$store.dispatch("user/userInit");
+
     auth.onAuthStateChanged(user => {
       if (!user) {
         this.userInfo.loginName = null;
@@ -168,7 +172,11 @@ export default {
         });
     });
   },
-
+  computed: {
+    users() {
+      return this.$store.state.user.users.filter(el => el.uid === this.userInfo.user_id);
+    }
+  },
   methods: {
     edit() {
       return (this.isEdited = false);
@@ -176,8 +184,14 @@ export default {
     cancel() {
       return (this.isEdited = true);
     },
-    update() {
+    update(id) {
+      //firebase authのユーザー情報を変更する
       this.$store.dispatch("updateUser", this.userInfo);
+
+      //firestoreのusersコレクションの情報を変更する
+      this.$store.dispatch("user/updateUserImage", { docId: id, profileImage: this.userInfo.image});
+
+      //表示画面に戻す
       this.isEdited = true;
     },
     selectImage(e) {
@@ -190,7 +204,7 @@ export default {
       reader.onload = e => {
         this.profileImage = e.target.result;
       };
-    }
+    },
   }
 };
 </script>
