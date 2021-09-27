@@ -142,24 +142,24 @@ export default {
       });
 
     //チャットルームを開くと既読フラグ(read)をtrueにする
-    // chatsRef
-    //   .doc(this.$route.params.id)
-    //   .collection("message")
-    //   .where("read", "==", false)
-    //   .onSnapshot((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
+    chatsRef
+      .doc(this.$route.params.id)
+      .collection("message")
+      .where("read", "==", false)
+      .onSnapshot((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
 
-    //     console.log(doc.id)
+        console.log(doc.id)
             
-    //       // console.log("trueに変更する処理");
-    //       if(doc.data().uid != this.chatData.uid){
-    //         this.$store.dispatch("chat/setReadFlag", {
-    //           docId: this.chatData.docId,
-    //           subDocId: doc.id,
-    //         });
-    //       }
-    //     });
-    //   });
+          // console.log("trueに変更する処理");
+          if(doc.data().uid != this.chatData.uid){
+            this.$store.dispatch("chat/setReadFlag", {
+              docId: this.chatData.docId,
+              subDocId: doc.id,
+            });
+          }
+        });
+      });
 
 
 
