@@ -39,9 +39,11 @@
             :key="chat.id"
           >
             <div v-if="chat.uid != chatData.uid">
+              <nuxt-link :to="'/userPage/' + user.uid">
               <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
                 <img class="h-10 w-10 rounded-full" :src="user.profileImage" alt="" />
               </div>
+              </nuxt-link>
             </div>
             <div>
               <div

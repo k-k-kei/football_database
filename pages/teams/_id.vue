@@ -73,18 +73,24 @@
           <h1 class="px-2 text-sm">{{ team.area }}</h1>
         </div>
 
-        <div 
-          v-for="user in users" :key="user.id"
-          class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
-          <div class=" flex-shrink-0 h-10 w-10">
-          <img
-            class="h-10 w-10 rounded-full"
-            :src="user.profileImage"
-            :alt="user.name"
-            >
-        </div>
-          <h1 class="px-2 text-sm">{{ user.displayName }}</h1>
-        </div>
+          <div
+            v-for="user in users"
+            :key="user.id"
+          >
+        <nuxt-link
+          :to="'/userPage/' + user.uid"
+          class="flex items-center mt-4 text-gray-700 dark:text-gray-200"
+          >
+            <div class="flex-shrink-0 h-10 w-10">
+              <img
+                class="h-10 w-10 rounded-full"
+                :src="user.profileImage"
+                :alt="user.name"
+              />
+            </div>
+            <h1 class="px-2 text-sm">{{ user.displayName }}</h1>
+        </nuxt-link>
+          </div>
       </div>
 
       <!-- 過去にチャットをしたこと合うかでボタンを出し分け -->
@@ -134,10 +140,10 @@ export default {
   computed: {
     // 条件を元に表示するチームを決定
     teams() {
-      const teams = this.$store.state.teams.filter(el => {
+      const teams = this.$store.state.teams.filter((el) => {
         return el.id === this.$route.params.id;
       });
-      teams.forEach(el => this.makeUserId = el.user_id);
+      teams.forEach((el) => (this.makeUserId = el.user_id));
       return teams;
     },
     //以前チャットしたことがあるかを判定
@@ -150,7 +156,9 @@ export default {
       // return chatData.some(el => el.team_id === this.teamId || el.chat_required_team === this.teamId) ? false : true;
     },
     users() {
-      return this.$store.state.user.users.filter(el => this.makeUserId === el.uid);
+      return this.$store.state.user.users.filter(
+        (el) => this.makeUserId === el.uid
+      );
     },
   },
   methods: {
