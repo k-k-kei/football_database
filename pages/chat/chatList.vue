@@ -40,9 +40,12 @@
                           </div>
 
                           <!-- ユーザーチームネーム-->
-                          <!-- <div class="text-sm text-gray-500">
-                            {{ chat.team_name }}
-                          </div> -->
+                          <div
+                            v-for="chatRequiredTeam in chatRequiredTeams"
+                            :key="chatRequiredTeam.id"
+                            class="text-sm text-gray-500">
+                            {{ chatRequiredTeam.name }}
+                          </div>
                         </div>
                       </div>
                     </nuxt-link>
@@ -73,6 +76,7 @@ export default {
   data() {
     return {
       loginUserId: "",
+      chatRequiredTeamId: "",
 
       chatInfo: {
         uid: ""
@@ -80,6 +84,7 @@ export default {
     };
   },
   created: function() {
+    this.$store.dispatch("init");
     this.$store.dispatch("chat/init");
     this.$store.dispatch("user/userInit");
 
@@ -98,6 +103,12 @@ export default {
     }
   },
   computed: {
+    chatRequiredTeams() {
+      const chatRequiredTeams = this.$store.state.teams.filter(
+        el => el.id === this.chatRequiredTeamId
+      );
+      return chatRequiredTeams;
+    },
     //chatsデータの中で自分のuidが含まれるルームだけ表示する
     chats() {
       const chats = this.$store.state.chat.chats.filter(
@@ -107,8 +118,10 @@ export default {
       chats.forEach(el => {
         if(el.uid === this.loginUserId){
           this.chatInfo.uid = el.other_id;
+          this.chatRequiredTeamId = el.chat_required_team;
         }else{
           this.chatInfo.uid = el.uid;
+          this.chatRequiredTeamId = el.chat_required_team;
         }
       });
       return chats;

@@ -66,8 +66,13 @@
 
       <!-- 過去にチャットをしたこと合うかでボタンを出し分け -->
       <template v-if="chatLog">
+        <div>
+          <select v-model="selectedTeam">
+            <option v-for="myTeam in myTeams" :value="myTeam.id" :key="myTeam.id">{{ myTeam.name }}</option>
+          </select>
+        </div>
         <button
-          @click="add(team.user_id, team.id, team.name, team.image)"
+          @click="add(team.user_id, team.id, team.name)"
           class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-lg"
         >
           チャット申請
@@ -91,7 +96,9 @@ export default {
   data() {
     return {
       uid: "",
-      teamId: this.$route.params.id
+      teamId: this.$route.params.id, 
+
+      selectedTeam: "",
     };
   },
   created: function() {
@@ -114,17 +121,24 @@ export default {
       );
       return teams;
     },
+
+    myTeams() {
+      const myTeams = this.$store.state.teams.filter(
+        el => el.user_id === this.uid
+      );
+      return myTeams;
+    },
     //以前チャットしたことがあるかを判定
     chatLog() {
       const chatData = this.$store.state.chat.chats.filter(
-        el => el.uid === this.uid
+        el => el.uid === this.uid || el.other_id === this.uid
       );
-      return chatData.some(el => el.team_id === this.teamId) ? false : true;
+      return chatData.some(el => el.team_id === this.teamId || el.chat_required_team === this.teamId) ? false : true;
     }
   },
   methods: {
     //チャットルームを作成する
-    add(other_id, team_id, team_name, team_image) {
+    add(other_id, team_id, team_name) {
       if(this.uid === null){
         this.$router.push("/login");
       }else{
@@ -133,7 +147,7 @@ export default {
           other_id: other_id,
           team_id: team_id,
           team_name: team_name,
-          team_image: team_image,
+          chat_required_team: this.selectedTeam,
         });
       }
     }

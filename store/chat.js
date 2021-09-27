@@ -19,13 +19,13 @@ export const actions = {
     bindFirestoreRef("chats", chatsRef);
   }),
 
-  makeChatRoom: firestoreAction((context, { uid, other_id, team_id, team_name, team_image }) => {
+  makeChatRoom: firestoreAction((context, { uid, other_id, team_id, team_name, chat_required_team }) => {
     chatsRef.add({
         uid: uid,
         other_id: other_id,
         team_id: team_id,
         team_name: team_name,
-        team_image: team_image,
+        chat_required_team: chat_required_team,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
   }),
