@@ -3,7 +3,17 @@
     <div
       v-for="team in teams"
       :key="team.id"
-      class="h-screen max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 mt-3"
+      class="
+        h-screen
+        max-w-sm
+        mx-auto
+        overflow-hidden
+        bg-white
+        rounded-lg
+        shadow-lg
+        dark:bg-gray-800
+        mt-3
+      "
     >
       <!-- チームプロフィール画像 -->
       <img
@@ -62,28 +72,36 @@
 
           <h1 class="px-2 text-sm">{{ team.area }}</h1>
         </div>
+
+        <div 
+          v-for="user in users" :key="user.id"
+          class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
+          <div class=" flex-shrink-0 h-10 w-10">
+          <img
+            class="h-10 w-10 rounded-full"
+            :src="user.profileImage"
+            :alt="user.name"
+            >
+        </div>
+          <h1 class="px-2 text-sm">{{ user.displayName }}</h1>
+        </div>
       </div>
 
       <!-- 過去にチャットをしたこと合うかでボタンを出し分け -->
       <template v-if="chatLog">
-        <div>
-          <select v-model="selectedTeam">
-            <option v-for="myTeam in myTeams" :value="myTeam.id" :key="myTeam.id">{{ myTeam.name }}</option>
-          </select>
-        </div>
+        <nuxt-link to="/chat/chatList"
+          ><button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-lg">
+            チャット申請済み
+          </button></nuxt-link
+        >
+      </template>
+      <template v-else>
         <button
           @click="add(team.user_id, team.id, team.name)"
           class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-lg"
         >
           チャット申請
         </button>
-      </template>
-      <template v-else>
-        <nuxt-link to="/chat/chatList"
-          ><button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-lg">
-            チャット申請済み
-          </button></nuxt-link
-        >
       </template>
     </div>
   </div>
@@ -96,16 +114,16 @@ export default {
   data() {
     return {
       uid: "",
-      teamId: this.$route.params.id, 
-
-      selectedTeam: "",
+      teamId: this.$route.params.id,
+      makeUserId: "",
     };
   },
-  created: function() {
+  created: function () {
     this.$store.dispatch("init");
+    this.$store.dispatch("user/userInit");
     this.$store.dispatch("chat/init");
 
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged((user) => {
       if (!user) {
         this.uid = null;
       } else {
@@ -116,41 +134,39 @@ export default {
   computed: {
     // 条件を元に表示するチームを決定
     teams() {
-      const teams = this.$store.state.teams.filter(
-        el => el.id === this.$route.params.id
-      );
+      const teams = this.$store.state.teams.filter(el => {
+        return el.id === this.$route.params.id;
+      });
+      teams.forEach(el => this.makeUserId = el.user_id);
       return teams;
-    },
-
-    myTeams() {
-      const myTeams = this.$store.state.teams.filter(
-        el => el.user_id === this.uid
-      );
-      return myTeams;
     },
     //以前チャットしたことがあるかを判定
     chatLog() {
-      const chatData = this.$store.state.chat.chats.filter(
-        el => el.uid === this.uid || el.other_id === this.uid
+      const chatData = this.$store.state.chat.chats.some(
+        (el) => el.uid === this.uid || el.other_id === this.uid
       );
-      return chatData.some(el => el.team_id === this.teamId || el.chat_required_team === this.teamId) ? false : true;
-    }
+      console.log(chatData);
+      return chatData;
+      // return chatData.some(el => el.team_id === this.teamId || el.chat_required_team === this.teamId) ? false : true;
+    },
+    users() {
+      return this.$store.state.user.users.filter(el => this.makeUserId === el.uid);
+    },
   },
   methods: {
     //チャットルームを作成する
     add(other_id, team_id, team_name) {
-      if(this.uid === null){
+      if (this.uid === null) {
         this.$router.push("/login");
-      }else{
+      } else {
         this.$store.dispatch("chat/makeChatRoom", {
           uid: this.uid,
           other_id: other_id,
           team_id: team_id,
           team_name: team_name,
-          chat_required_team: this.selectedTeam,
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
