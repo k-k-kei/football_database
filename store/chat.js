@@ -38,6 +38,9 @@ export const actions = {
           read: read,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       });
+      chatsRef.doc(docId).update({
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
     }
   }),
 

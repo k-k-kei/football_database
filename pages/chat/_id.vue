@@ -58,7 +58,7 @@
               <!-- チャット入力と同時に表示されるため、toDateの中身がnullになってエラーとなってしまう。 -->
               <!-- チャット入力後、timestampの値を受け取って時刻表示形式に直せばエラーは収まるはず。 -->
               <span class="text-xs text-gray-500 leading-none">{{
-                chat.timestamp.toDate().getMonth().toString().padStart(2, "0") + "/" +
+                (Number(chat.timestamp.toDate().getMonth().toString().padStart(2, "0")) + 1) + "/" +
                 chat.timestamp.toDate().getDate().toString().padStart(2, "0") + " " +
                 chat.timestamp.toDate().getHours().toString().padStart(2, "0") + ":" +
                 chat.timestamp.toDate().getMinutes().toString().padStart(2, "0")
@@ -144,24 +144,24 @@ export default {
       });
 
     //チャットルームを開くと既読フラグ(read)をtrueにする
-    chatsRef
-      .doc(this.$route.params.id)
-      .collection("message")
-      .where("read", "==", false)
-      .onSnapshot((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+    // chatsRef
+    //   .doc(this.$route.params.id)
+    //   .collection("message")
+    //   .where("read", "==", false)
+    //   .onSnapshot((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
 
-        console.log(doc.id)
+    //     console.log(doc.id)
             
-          // console.log("trueに変更する処理");
-          if(doc.data().uid != this.chatData.uid){
-            this.$store.dispatch("chat/setReadFlag", {
-              docId: this.chatData.docId,
-              subDocId: doc.id,
-            });
-          }
-        });
-      });
+    //       // console.log("trueに変更する処理");
+    //       if(doc.data().uid != this.chatData.uid){
+    //         this.$store.dispatch("chat/setReadFlag", {
+    //           docId: this.chatData.docId,
+    //           subDocId: doc.id,
+    //         });
+    //       }
+    //     });
+    //   });
 
 
 

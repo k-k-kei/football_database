@@ -4,7 +4,7 @@
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div
-            class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+            class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg px-3"
           >
             <!-- テーブル全体 -->
             <table class="min-w-full divide-y divide-gray-200">
@@ -45,11 +45,17 @@
 
                   <!-- 左から2番目の要素 -->
                   <td class="px-6 py-4">
-                    <span
+                      <div class="text-xs text-gray-500 text-right leading-none">{{
+                        (Number(chat.timestamp.toDate().getMonth().toString().padStart(2, "0")) + 1) + "/" +
+                        chat.timestamp.toDate().getDate().toString().padStart(2, "0") + " " +
+                        chat.timestamp.toDate().getHours().toString().padStart(2, "0") + ":" +
+                        chat.timestamp.toDate().getMinutes().toString().padStart(2, "0")
+                      }}</div>
+                    <div
                       class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
                     >
-                      <button v-on:click="remove(chat.id)">delete</button>
-                    </span>
+                      <button @click="remove(chat.id)">delete</button>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -95,9 +101,9 @@ export default {
   computed: {
     //chatsデータの中で自分のuidが含まれるルームだけ表示する
     chats() {
-      const chats = this.$store.state.chat.chats.filter(
-        el => el.uid === this.loginUserId || el.other_id === this.loginUserId
-      );
+      const chats = this.$store.state.chat.chats
+      .filter(el => el.uid === this.loginUserId || el.other_id === this.loginUserId)
+      .sort((a, b) => b - a);
 
       chats.forEach(el => {
         if(el.uid === this.loginUserId){
