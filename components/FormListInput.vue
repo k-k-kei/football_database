@@ -14,25 +14,44 @@
 
                   <!-- アップロード画像ビューエリア -->
                   <div
-                    class="mt-1 flex justify-center border-2 border-gray-300 border-dashed rounded-md"
+                    class="
+                      mt-1
+                      flex
+                      justify-center
+                      border-2 border-gray-300 border-dashed
+                      rounded-md
+                    "
                   >
-                  <img :src="teamInfo.showImage" class="h-full w-full" />
+                    <img :src="teamInfo.showImage" class="h-full w-full" />
                   </div>
                   <!-- アップロードリンク -->
                   <div class="flex text-sm text-gray-600">
                     <label
                       for="file-upload"
-                      class="relative cursor-pointer my-3 bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                      class="
+                        relative
+                        cursor-pointer
+                        my-3
+                        bg-white
+                        rounded-md
+                        font-medium
+                        text-indigo-600
+                        hover:text-indigo-500
+                        focus-within:outline-none
+                        focus-within:ring-2
+                        focus-within:ring-offset-2
+                        focus-within:ring-indigo-500
+                      "
                     >
                       <span>画像をアップロードする</span>
                       <form @input="submit">
-                      <input
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        @change="selectImage" 
-                        class="sr-only"
-                      />
+                        <input
+                          id="file-upload"
+                          name="file-upload"
+                          type="file"
+                          @change="selectImage"
+                          class="sr-only"
+                        />
                       </form>
                     </label>
                   </div>
@@ -55,7 +74,19 @@
                       v-model.trim="teamInfo.name"
                       name="name"
                       id="name"
-                      class="bg-gray-200 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      class="
+                        bg-gray-200
+                        mt-1
+                        p-2
+                        focus:ring-indigo-500
+                        focus:border-indigo-500
+                        block
+                        w-full
+                        shadow-sm
+                        sm:text-sm
+                        border-gray-300
+                        rounded-md
+                      "
                     />
                     <span>{{ v.errors[0] }}</span>
                   </ValidationProvider>
@@ -76,7 +107,19 @@
                     <select
                       v-model="teamInfo.level"
                       name="level"
-                      class="bg-gray-200 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      class="
+                        bg-gray-200
+                        mt-1
+                        p-2
+                        focus:ring-indigo-500
+                        focus:border-indigo-500
+                        block
+                        w-full
+                        shadow-sm
+                        sm:text-sm
+                        border-gray-300
+                        rounded-md
+                      "
                     >
                       <option disabled>競技レベルを選択</option>
                       <option>競技志向（ハイレベル）</option>
@@ -106,33 +149,59 @@
                       type="text"
                       v-model.trim="teamInfo.area"
                       name="area"
-                      class="bg-gray-200 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      class="
+                        bg-gray-200
+                        mt-1
+                        p-2
+                        focus:ring-indigo-500
+                        focus:border-indigo-500
+                        block
+                        w-full
+                        shadow-sm
+                        sm:text-sm
+                        border-gray-300
+                        rounded-md
+                      "
                     />
                     <span>{{ v.errors[0] }}</span>
                   </ValidationProvider>
                 </div>
 
                 <!-- チーム自己紹介 -->
-                <!-- <div>
-                  <label
-                    for="about"
-                    class="block text-sm font-medium text-gray-700"
-                  >
-                    チーム自己紹介
-                  </label>
-                  <div class="mt-1">
-                    <textarea
-                      id="about"
-                      name="about"
-                      rows="3"
-                      class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-                      placeholder="こんにちは、私たちはチームフットボールです！"
-                    ></textarea>
+                <ValidationProvider name="活動場所" rules="required" v-slot="v">
+                  <div>
+                    <label
+                      for="about"
+                      class="block text-sm font-medium text-gray-700"
+                    >
+                      チーム自己紹介
+                    </label>
+                    <div class="mt-1">
+                      <textarea
+                        id="about"
+                        name="selfIntroduction"
+                        v-model.trim="teamInfo.selfIntroduction"
+                        rows="10"
+                        class="
+                          shadow-sm
+                          focus:ring-indigo-500
+                          focus:border-indigo-500
+                          mt-1
+                          block
+                          w-full
+                          sm:text-sm
+                          border border-gray-300
+                          rounded-md
+                        "
+                        placeholder="こんにちは、私たちはチームフットボールです！"
+                      ></textarea>
+                    </div>
+                    <p class="mt-2 text-xs text-gray-500">
+                      チームの特徴や試合へのモチベーションを書いて他チームがマッチングしやすいようにしましょう！
+                    </p>
                   </div>
-                  <p class="mt-2 text-xs text-gray-500">
-                    チームの特徴や試合へのモチベーションを書いて他チームがマッチングしやすいようにしましょう！
-                  </p>
-                </div> -->
+                  <span>{{ v.errors[0] }}</span>
+                </ValidationProvider>
               </div>
             </div>
           </form>
@@ -157,10 +226,10 @@ import { required } from "vee-validate/dist/rules";
 
 extend("required", {
   ...required,
-  message: "必須入力項目です"
+  message: "必須入力項目です",
 });
 
-extend("blank", value => {
+extend("blank", (value) => {
   if (value.indexOf(" ") === -1 && value.indexOf("　") === -1) {
     return true;
   }
@@ -169,7 +238,7 @@ extend("blank", value => {
 
 export default {
   components: {
-    ValidationProvider
+    ValidationProvider,
   },
   data() {
     return {
@@ -178,19 +247,21 @@ export default {
         level: "",
         area: "",
         image: "",
-        showImage: ""
-      }
+        showImage: "",
+        selfIntroduction: "",
+      },
     };
   },
   methods: {
-    submit: function() {
+    submit: function () {
       this.$emit("update", {
         name: this.teamInfo.name,
         level: this.teamInfo.level,
         area: this.teamInfo.area,
         image: this.teamInfo.image,
         userProfileImage: this.teamInfo.userProfileImage,
-        showImage: this.teamInfo.showImage
+        showImage: this.teamInfo.showImage,
+        selfIntroduction: this.teamInfo.selfIntroduction,
       });
     },
     selectImage(e) {
@@ -200,10 +271,10 @@ export default {
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = e => {
+      reader.onload = (e) => {
         this.teamInfo.showImage = e.target.result;
       };
-    }
-  }
+    },
+  },
 };
 </script>

@@ -37,8 +37,8 @@ export const actions = {
   }),
 
   add: firestoreAction(
-    (context, { user_id, name, level, area, image, showImage }) => {
-      console.log(user_id, level, area, image);
+    (context, { user_id, name, level, area, selfIntroduction, image, showImage }) => {
+      console.log(user_id, level, area, selfIntroduction, image);
 
       // refの中身が保存する場所のpathになる
       if (image === "") {
@@ -48,6 +48,7 @@ export const actions = {
             name: name,
             level: level,
             area: area,
+            selfIntroduction: selfIntroduction,
             image:
               "https://firebasestorage.googleapis.com/v0/b/nuxt-project-aff05.appspot.com/o/teamProfileImages%2Famoung%20us.webp?alt=media&token=97f9a5f4-9fb4-4ada-95bf-feb098a47fc6",
             created: firebase.firestore.FieldValue.serverTimestamp(),
@@ -74,6 +75,7 @@ export const actions = {
                   name: name,
                   level: level,
                   area: area,
+                  selfIntroduction: selfIntroduction,
                   image: url,
                   created: firebase.firestore.FieldValue.serverTimestamp(),
                 });
@@ -86,8 +88,8 @@ export const actions = {
   ),
 
   update: firestoreAction(
-    (context, { selectedTeamId, name, level, area, image }) => {
-      console.log(selectedTeamId, name, level, area, image);
+    (context, { selectedTeamId, name, level, area, selfIntroduction, image }) => {
+      console.log(selectedTeamId, name, level, area, selfIntroduction, image);
 
       if (image === "") {
         if (name.trim()) {
@@ -95,6 +97,7 @@ export const actions = {
             name: name,
             level: level,
             area: area,
+            selfIntroduction: selfIntroduction,
             updated: firebase.firestore.FieldValue.serverTimestamp(),
           });
         }
@@ -119,6 +122,7 @@ export const actions = {
                   name: name,
                   level: level,
                   area: area,
+                  selfIntroduction: selfIntroduction,
                   image: url,
                   updated: firebase.firestore.FieldValue.serverTimestamp(),
                 });

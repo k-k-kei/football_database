@@ -75,6 +75,7 @@ export default {
         name: "",
         level: "",
         area: "",
+        selfIntroduction: "",
         image: "",
         showImage: ""
       }

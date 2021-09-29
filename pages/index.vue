@@ -14,8 +14,8 @@
       >
         <!-- トップビュー -->
         <div class="hidden md:block inset-12 text-2xl md:text-4xl">
-          <span>もっと</span><br />
-          <span class="bg-black text-white">わくわくする日常を</span><br />
+          <span>探してみよう</span><br />
+          <span class="bg-black text-white">あなたに合ったチームが見つかる</span><br />
           <span class="text-xs md:text-sm">we need football more.</span>
         </div>
 
@@ -34,8 +34,8 @@
       "
     >
       <div class="md:hidden block inset-12 text-2xl p-10">
-        <span class="text-white">もっと</span><br />
-        <span class="bg-black text-white">わくわくする日常を</span><br />
+        <span class="text-white">探してみよう</span><br />
+        <span class="bg-black text-white">あなたに合ったチームが見つかる</span><br />
         <span class="text-xs text-white">we need football more.</span>
       </div>
     </div>
@@ -136,7 +136,7 @@ export default {
     // カテゴリー別表示
     filterArea() {
       return this.$store.state.teams.filter(el => {
-        return el.user_id != this.userInfo.user_id && el.area === "渋谷区";
+        return el.user_id != this.userInfo.user_id && el.area === "枚方市";
       });
     },
 
@@ -145,7 +145,7 @@ export default {
       return this.$store.state.teams.filter(el => {
         return (
           el.user_id != this.userInfo.user_id &&
-          el.level.indexOf("ハイレベル") > -1
+          el.level.indexOf("シリアス") > -1
         );
       });
     },

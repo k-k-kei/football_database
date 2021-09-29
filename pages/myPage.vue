@@ -4,7 +4,7 @@
       <div class="px-6 py-4 whitespace-nowrap">
         <div class="flex items-center">
           <!-- ユーザー画像 -->
-          <div class=" flex-shrink-0 h-10 w-10">
+          <div class="flex-shrink-0 h-10 w-10">
             <img
               class="h-10 w-10 rounded-full"
               :src="userProfileImage"
@@ -20,7 +20,11 @@
 
             <!-- ユーザーアドレス -->
             <div class="text-sm text-yellow-500">
-              <button><nuxt-link to="profile" class="underline">プロフィール</nuxt-link></button>
+              <button>
+                <nuxt-link to="profile" class="underline"
+                  >プロフィール</nuxt-link
+                >
+              </button>
             </div>
           </div>
         </div>
@@ -49,7 +53,7 @@
       </select>
     </div>
     <!-- チームが選択されるまで表示する -->
-    <template v-if="teamInfo.selectedTeamId === '' ">
+    <template v-if="teamInfo.selectedTeamId === ''">
       <div class="text-center py-10">チームを選択しよう！</div>
     </template>
     <!-- 
@@ -57,11 +61,20 @@
   チーム表示エリア
 
  -->
-    <template v-if="isShow">
+    <template v-if="isEdited">
       <div
         v-for="one in oneTeam"
         :key="one.id"
-        class="max-w-sm my-5 mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800"
+        class="
+          max-w-sm
+          my-5
+          mx-auto
+          overflow-hidden
+          bg-white
+          rounded-lg
+          shadow-lg
+          dark:bg-gray-800
+        "
       >
         <!-- チームプロフィール画像 -->
         <img class="object-cover object-center w-full h-56" :src="showImage" />
@@ -112,22 +125,12 @@
           </div>
 
           <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
-            <svg
-              class="w-6 h-6 fill-current"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M3.00977 5.83789C3.00977 5.28561 3.45748 4.83789 4.00977 4.83789H20C20.5523 4.83789 21 5.28561 21 5.83789V17.1621C21 18.2667 20.1046 19.1621 19 19.1621H5C3.89543 19.1621 3 18.2667 3 17.1621V6.16211C3 6.11449 3.00333 6.06765 3.00977 6.0218V5.83789ZM5 8.06165V17.1621H19V8.06199L14.1215 12.9405C12.9499 14.1121 11.0504 14.1121 9.87885 12.9405L5 8.06165ZM6.57232 6.80554H17.428L12.7073 11.5263C12.3168 11.9168 11.6836 11.9168 11.2931 11.5263L6.57232 6.80554Z"
-              />
-            </svg>
-
-            <h1 class="px-2 text-sm">patterson@example.com</h1>
+            <h1 class="px-2 text-sm">
+              {{ one.selfIntroduction }}
+            </h1>
           </div>
         </div>
+
         <button
           @click="edit"
           class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
@@ -146,7 +149,16 @@
       <div
         v-for="one in oneTeam"
         :key="one.id"
-        class="max-w-sm my-5 mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800"
+        class="
+          max-w-sm
+          my-5
+          mx-auto
+          overflow-hidden
+          bg-white
+          rounded-lg
+          shadow-lg
+          dark:bg-gray-800
+        "
       >
         <!-- チームプロフィール画像 -->
         <img
@@ -206,7 +218,38 @@
               </div>
               <span>{{ errors[0] }}</span>
             </ValidationProvider>
+
+                <!-- チーム自己紹介 -->
+                <ValidationProvider name="活動場所" rules="required" v-slot="v">
+                  <div>
+                    <div class="mt-1">
+                      <textarea
+                        id="about"
+                        name="selfIntroduction"
+                        v-model.trim="teamInfo.selfIntroduction"
+                        rows="10"
+                        class="
+                          shadow-sm
+                          focus:ring-indigo-500
+                          focus:border-indigo-500
+                          mt-2
+                          p-2
+                          block
+                          w-full
+                          sm:text-sm
+                          bg-gray-200
+                          border border-gray-300
+                          rounded-lg
+                        "
+                        placeholder="こんにちは、私たちはチームフットボールです！"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <span>{{ v.errors[0] }}</span>
+                </ValidationProvider>
+
           </div>
+
           <button
             @click="update"
             :disabled="invalid"
@@ -239,19 +282,19 @@ import { required } from "vee-validate/dist/rules";
 
 extend("required", {
   ...required,
-  message: "必須入力項目です"
+  message: "必須入力項目です",
 });
 
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
   },
   data() {
     return {
       userInfo: {
         user_id: "",
-        loginName: ""
+        loginName: "",
       },
 
       teamInfo: {
@@ -259,18 +302,19 @@ export default {
         name: "",
         level: "",
         area: "",
-        image: ""
+        selfIntroduction: "",
+        image: "",
       },
 
       userProfileImage: "",
       profileImage: "",
       updatedFile: "",
       showImage: "",
-      isShow: true
+      isEdited: true,
     };
   },
-  created: function() {
-    auth.onAuthStateChanged(user => {
+  created: function () {
+    auth.onAuthStateChanged((user) => {
       if (!user) {
         this.userInfo.loginName = null;
       } else {
@@ -278,15 +322,15 @@ export default {
         this.userInfo.user_id = user.uid;
         this.userProfileImage = `userProfileImages/${user.photoURL}`;
 
-      const storageRef = firebase.storage().ref();
-      storageRef
-        .child(this.userProfileImage)
-        .getDownloadURL()
-        .then(url => {
-          this.userProfileImage = url;
-          console.log(user);
-          console.log(this.userProfileImage);
-        });
+        const storageRef = firebase.storage().ref();
+        storageRef
+          .child(this.userProfileImage)
+          .getDownloadURL()
+          .then((url) => {
+            this.userProfileImage = url;
+            console.log(user);
+            console.log(this.userProfileImage);
+          });
       }
     });
 
@@ -295,25 +339,26 @@ export default {
   computed: {
     teams() {
       return this.$store.state.teams.filter(
-        el => el.user_id === this.userInfo.user_id
+        (el) => el.user_id === this.userInfo.user_id
       );
     },
     oneTeam() {
       const oneTeam = this.$store.state.teams.filter(
-        el =>
+        (el) =>
           el.user_id === this.userInfo.user_id &&
           el.id === this.teamInfo.selectedTeamId
       );
 
-      oneTeam.forEach(el => {
+      oneTeam.forEach((el) => {
         this.teamInfo.name = el.name;
         this.teamInfo.level = el.level;
         this.teamInfo.area = el.area;
+        this.teamInfo.selfIntroduction = el.selfIntroduction;
         this.showImage = el.image;
       });
 
       return oneTeam;
-    }
+    },
   },
   methods: {
     edit() {
@@ -334,11 +379,11 @@ export default {
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = e => {
+      reader.onload = (e) => {
         console.log(e.target.result);
         this.profileImage = e.target.result;
       };
-    }
-  }
+    },
+  },
 };
 </script>

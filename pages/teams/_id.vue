@@ -73,6 +73,12 @@
           <h1 class="px-2 text-sm">{{ team.area }}</h1>
         </div>
 
+        <!-- チーム自己紹介 -->
+        <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
+          <p class="px-2 text-sm">{{ team.selfIntroduction }}</p>
+        </div>
+        <!-- チーム自己紹介ここまで -->
+
           <div
             v-for="user in users"
             :key="user.id"
@@ -93,7 +99,7 @@
           </div>
       </div>
 
-      <!-- 過去にチャットをしたこと合うかでボタンを出し分け -->
+      <!-- 過去にチャットをしたことあるかでボタンを出し分け -->
       <template v-if="chatLog">
         <nuxt-link to="/chat/chatList"
           ><button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-lg">

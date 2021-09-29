@@ -49,6 +49,16 @@
                   >
                   {{ form.area }}
                 </div>
+
+                <!-- チーム自己紹介 -->
+                <div class="col-span-6 sm:col-span-4">
+                  <label
+                    for="email-address"
+                    class="block text-sm font-medium text-gray-700"
+                    >チーム自己紹介</label
+                  >
+                  {{ form.selfIntroduction }}
+                </div>
               </div>
             </div>
           </div>
