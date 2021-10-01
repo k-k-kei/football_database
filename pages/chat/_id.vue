@@ -40,9 +40,13 @@
           >
             <div v-if="chat.uid != chatData.uid">
               <nuxt-link :to="'/userPage/' + user.uid">
-              <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
-                <img class="h-10 w-10 rounded-full" :src="user.profileImage" alt="" />
-              </div>
+                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
+                  <img
+                    class="h-10 w-10 rounded-full"
+                    :src="user.profileImage"
+                    alt=""
+                  />
+                </div>
               </nuxt-link>
             </div>
             <div>
@@ -58,10 +62,32 @@
               <!-- チャット入力と同時に表示されるため、toDateの中身がnullになってエラーとなってしまう。 -->
               <!-- チャット入力後、timestampの値を受け取って時刻表示形式に直せばエラーは収まるはず。 -->
               <span class="text-xs text-gray-500 leading-none">{{
-                (Number(chat.timestamp.toDate().getMonth().toString().padStart(2, "0")) + 1) + "/" +
-                chat.timestamp.toDate().getDate().toString().padStart(2, "0") + " " +
-                chat.timestamp.toDate().getHours().toString().padStart(2, "0") + ":" +
-                chat.timestamp.toDate().getMinutes().toString().padStart(2, "0")
+                Number(
+                  chat.timestamp
+                    .toDate()
+                    .getMonth()
+                    .toString()
+                    .padStart(2, "0")
+                ) +
+                  1 +
+                  "/" +
+                  chat.timestamp
+                    .toDate()
+                    .getDate()
+                    .toString()
+                    .padStart(2, "0") +
+                  " " +
+                  chat.timestamp
+                    .toDate()
+                    .getHours()
+                    .toString()
+                    .padStart(2, "0") +
+                  ":" +
+                  chat.timestamp
+                    .toDate()
+                    .getMinutes()
+                    .toString()
+                    .padStart(2, "0")
               }}</span>
             </div>
           </div>
@@ -127,7 +153,7 @@ export default {
       othersMessage: "othersMessage",
     };
   },
-  created: function () {
+  created: function() {
     this.$store.dispatch("user/userInit");
 
     //サブコレクションからメッセージを取得する
@@ -142,28 +168,6 @@ export default {
           }
         });
       });
-
-    //チャットルームを開くと既読フラグ(read)をtrueにする
-    // chatsRef
-    //   .doc(this.$route.params.id)
-    //   .collection("message")
-    //   .where("read", "==", false)
-    //   .onSnapshot((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-
-    //     console.log(doc.id)
-            
-    //       // console.log("trueに変更する処理");
-    //       if(doc.data().uid != this.chatData.uid){
-    //         this.$store.dispatch("chat/setReadFlag", {
-    //           docId: this.chatData.docId,
-    //           subDocId: doc.id,
-    //         });
-    //       }
-    //     });
-    //   });
-
-
 
     chatsRef
       .doc(this.$route.params.id)
@@ -193,8 +197,13 @@ export default {
   computed: {
     //チャット相手のユーザー情報を表示する
     users() {
-      return this.$store.state.user.users.filter(el => el.uid != this.chatData.uid);
-    }
+      const talkUser = this.chats
+      .map(el => el["uid"] != this.chatData.uid ? el["uid"] : undefined)
+      .filter(el => el != undefined);
+      
+      const user = new Set(talkUser);
+      return user;
+    },
   },
   methods: {
     scrollToEnd() {
@@ -207,11 +216,47 @@ export default {
 
     add() {
       this.$store.dispatch("chat/add", this.chatData);
+      this.$store.dispatch("chat/setLatestMessage", { docId: this.chatData.docId, latestMessage: this.chatData.message });
       this.chatData.message = "";
     },
   },
   updated() {
     this.scrollToEnd();
+
+    this.chats.forEach((el) => {
+      if (el.read === false && el.uid === this.chatData.uid) {
+        console.log(el); //相手が未読のメッセージ
+        this.$store.dispatch("chat/setUnreadFlag", {
+          docId: this.chatData.docId,
+          unReadMessage: el.uid,
+        });
+        return;
+      } else {
+        this.$store.dispatch("chat/setUnreadFlag", {
+          docId: this.chatData.docId,
+          unReadMessage: false,
+        });
+      }
+    });
+
+    //チャットルームを開くと既読フラグ(read)をtrueにする
+    chatsRef
+      .doc(this.$route.params.id)
+      .collection("message")
+      .where("read", "==", false)
+      .onSnapshot((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id);
+
+          // console.log("trueに変更する処理");
+          if (doc.data().uid != this.chatData.uid) {
+            this.$store.dispatch("chat/setReadFlag", {
+              docId: this.chatData.docId,
+              subDocId: doc.id,
+            });
+          }
+        });
+      });
   },
 };
 </script>

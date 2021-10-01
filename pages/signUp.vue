@@ -4,6 +4,8 @@
       <div class="relative py-3 w-11/12 max-w-xl mx-auto">
         <div class="relative p-8 bg-white shadow-sm rounded-lg">
 
+          <!-- 入力画面 -->
+
           <!-- フォーム -->
           <div class="w-full">
 
@@ -63,7 +65,7 @@
                   :disabled="invalid"
                   class="w-full bg-indigo-600 text-white p-3 rounded-md"
                 >
-                  新規登録
+                  登録する
                 </button>
 
             </ValidationObserver>
@@ -124,9 +126,14 @@ export default {
     signup() {
       auth
         .createUserWithEmailAndPassword(this.mail, this.pass)
-        .then(user => {
-          console.log(user.user.uid);
-          this.$router.push("/nameUpdate");
+        .then(() => {
+          auth.onAuthStateChanged(user => {
+            this.$store.dispatch("user/makeUserInfo", {
+              uid: user.uid,
+              displayName: "デフォルトネーム"
+            });
+          });
+          this.$router.push("/signUpComplateMessage");
         })
         .catch(e => console.log(e.message));
     }

@@ -4,7 +4,10 @@
       <div class="relative py-3 w-11/12 max-w-xl mx-auto">
         <div class="relative p-8 bg-white shadow-sm rounded-lg">
           <!-- フォーム -->
-          <div class="w-full">
+          <div
+            v-for="user in users"
+            :key="user.id"
+            class="w-full">
             <!-- バリデーションの監視 -->
             <ValidationObserver v-slot="{ invalid }">
               <!-- メールアドレス入力フォーム -->
@@ -29,7 +32,7 @@
 
               <!-- 新規登録ボタン -->
               <button
-                @click="update"
+                @click="update(user.id)"
                 :disabled="invalid"
                 class="w-full bg-indigo-600 text-white p-3 rounded-md"
               >
@@ -66,23 +69,37 @@ export default {
   },
   data() {
     return {
-      name: ""
+      uid: "",
+      name: "",
+      docId: "",
     };
   },
+  created(){
+    this.$store.dispatch("user/userInit");
+
+    auth.onAuthStateChanged(user => {
+      this.uid = user.uid;
+    });
+  },
+  computed: {
+    users() {
+      return this.$store.state.user.users.filter(el => el.uid === this.uid);
+    }
+  },
   methods: {
-    update() {
+    update(id) {
       user
         .updateProfile({
           displayName: this.name
         })
         .then(() => {
           auth.onAuthStateChanged(user => {
-            this.$store.dispatch("user/makeUserInfo", {
-              uid: user.uid,
+            this.$store.dispatch("user/updateUserInfo", {
+              docId: id,
               displayName: user.displayName
             });
           });
-          console.log("success");
+          this.$router.push("/nameUpdateComplate");
         })
         .catch(error => {
           console.log(error);

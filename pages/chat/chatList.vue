@@ -10,12 +10,7 @@
             <table class="min-w-full divide-y divide-gray-200">
               <!-- テーブルカード -->
               <tbody class="bg-white divide-y divide-gray-200">
-                <tr
-                  v-for="chat in chats"
-                  :key="chat.id"
-                  class="px-6 py-4"
-                >
-
+                <tr v-for="chat in chats" :key="chat.id" class="px-6 py-4">
                   <!-- 左から1番目の要素 -->
                   <td>
                     <nuxt-link :to="'/chat/' + chat.id">
@@ -38,6 +33,9 @@
                           <div class="text-sm font-medium text-gray-900">
                             {{ user.displayName }}
                           </div>
+                          <div class="text-xs">
+                            {{ chat.latestMessage }}
+                          </div>
                         </div>
                       </div>
                     </nuxt-link>
@@ -45,17 +43,44 @@
 
                   <!-- 左から2番目の要素 -->
                   <td class="px-6 py-4">
-                      <div class="text-xs text-gray-500 text-right leading-none">{{
-                        (Number(chat.timestamp.toDate().getMonth().toString().padStart(2, "0")) + 1) + "/" +
-                        chat.timestamp.toDate().getDate().toString().padStart(2, "0") + " " +
-                        chat.timestamp.toDate().getHours().toString().padStart(2, "0") + ":" +
-                        chat.timestamp.toDate().getMinutes().toString().padStart(2, "0")
-                      }}</div>
-                    <div
+                    <div class="text-xs text-gray-500 text-right leading-none">
+                      {{
+                        Number(
+                          chat.timestamp
+                            .toDate()
+                            .getMonth()
+                            .toString()
+                            .padStart(2, "0")
+                        ) +
+                          1 +
+                          "/" +
+                          chat.timestamp
+                            .toDate()
+                            .getDate()
+                            .toString()
+                            .padStart(2, "0") +
+                          " " +
+                          chat.timestamp
+                            .toDate()
+                            .getHours()
+                            .toString()
+                            .padStart(2, "0") +
+                          ":" +
+                          chat.timestamp
+                            .toDate()
+                            .getMinutes()
+                            .toString()
+                            .padStart(2, "0")
+                      }}
+                    </div>
+                    <div v-if="chatInfo.unReadMessage" class="text-right text-red-800 p-1">
+                      未読
+                    </div>
+                    <!-- <div
                       class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
                     >
                       <button @click="remove(chat.id)">delete</button>
-                    </div>
+                    </div> -->
                   </td>
                 </tr>
               </tbody>
@@ -69,6 +94,10 @@
 
 <script>
 import { auth } from "~/plugins/firebase";
+import firebase from "~/plugins/firebase";
+
+const db = firebase.firestore();
+const chatsRef = db.collection("chats");
 
 export default {
   data() {
@@ -76,8 +105,12 @@ export default {
       loginUserId: "",
 
       chatInfo: {
-        uid: ""
+        uid: "",
+        unReadMessage: false,
       },
+
+      // unReadMessage: "",
+      // chats: []
     };
   },
   created: function() {
@@ -85,7 +118,7 @@ export default {
     this.$store.dispatch("user/userInit");
 
     //ログイン中のユーザーuidをdataに保存
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged((user) => {
       if (!user) {
         this.loginUserId = null;
       } else {
@@ -93,33 +126,41 @@ export default {
       }
     });
   },
-  methods: {
-    remove(id) {
-      this.$store.dispatch("chat/remove", id);
-    },
-  },
+  // methods: {
+  //   remove(id) {
+  //     this.$store.dispatch("chat/remove", id);
+  //   },
+  // },
   computed: {
-    //chatsデータの中で自分のuidが含まれるルームだけ表示する
     chats() {
-      const chats = this.$store.state.chat.chats
-      .filter(el => el.uid === this.loginUserId || el.other_id === this.loginUserId)
-      .sort((a, b) => b - a);
+      const chatData = this.$store.state.chat.chats
+        .filter(
+          (el) =>
+            el.uid === this.loginUserId || el.other_id === this.loginUserId
+        )
+        .sort((a, b) => b - a);
 
-      chats.forEach(el => {
-        if(el.uid === this.loginUserId){
+      chatData.forEach((el) => {
+        if (el.uid === this.loginUserId) {
           this.chatInfo.uid = el.other_id;
-        }else{
+          if (el.unReadMessage != this.loginUserId && el.unReadMessage != false)
+            return (this.chatInfo.unReadMessage = true);
+        } else {
           this.chatInfo.uid = el.uid;
+          if (el.unReadMessage != this.loginUserId && el.unReadMessage != false)
+            return (this.chatInfo.unReadMessage = true);
         }
       });
-      return chats;
+      return chatData;
     },
 
     //チャット相手のユーザー情報を表示する
     users() {
-      return this.$store.state.user.users.filter(el => el.uid === this.chatInfo.uid);
-    }
-  }
+      return this.$store.state.user.users.filter(
+        (el) => el.uid === this.chatInfo.uid
+      );
+    },
+  },
 };
 </script>
 

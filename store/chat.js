@@ -25,6 +25,7 @@ export const actions = {
         other_id: other_id,
         team_id: team_id,
         team_name: team_name,
+        unReadMessage: false,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
   }),
@@ -42,6 +43,20 @@ export const actions = {
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       });
     }
+  }),
+
+  setLatestMessage: firestoreAction((context, { docId, latestMessage }) => {
+    console.log(docId, latestMessage);
+    chatsRef.doc(docId).set({
+        latestMessage: latestMessage,
+    }, {merge: true});
+  }),
+
+  setUnreadFlag: firestoreAction((context, { docId, unReadMessage }) => {
+    console.log(docId, unReadMessage);
+    chatsRef.doc(docId).update({
+        unReadMessage: unReadMessage,
+    });
   }),
 
   setReadFlag: firestoreAction((context, { docId, subDocId }) => {

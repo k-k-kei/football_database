@@ -27,6 +27,13 @@ export const actions = {
     });
   }),
 
+  updateUserInfo: firestoreAction((context, { docId, displayName }) => {
+    console.log(docId, displayName);
+    usersRef.doc(docId).set({
+      displayName: displayName,
+    }, {merge: true});
+  }),
+
   updateUserImage: firestoreAction((context, { docId, profileImage }) => {
     console.log(docId, profileImage);
     // usersRef.doc(docId).set({
