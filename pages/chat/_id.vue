@@ -26,24 +26,20 @@
       >
         <div
           id="top"
-          v-for="user in users"
-          :key="user.id"
           class="flex flex-col flex-grow h-0 mb-28 p-7 overflow-auto"
         >
           <!-- テキスト -->
           <div
-            :class="[
-              chat.uid === chatData.uid ? myMessageShape : othersMessageShape,
-            ]"
+            :class="[chat.uid === chatData.uid ? myMessageShape : othersMessageShape,]"
             v-for="chat in chats"
             :key="chat.id"
           >
             <div v-if="chat.uid != chatData.uid">
-              <nuxt-link :to="'/userPage/' + user.uid">
+              <nuxt-link :to="'/userPage/' + getUserId(chat.uid)">
                 <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
                   <img
                     class="h-10 w-10 rounded-full"
-                    :src="user.profileImage"
+                    :src="getUserImage(chat.uid)"
                     alt=""
                   />
                 </div>
@@ -218,6 +214,18 @@ export default {
       this.$store.dispatch("chat/add", this.chatData);
       this.$store.dispatch("chat/setLatestMessage", { docId: this.chatData.docId, latestMessage: this.chatData.message });
       this.chatData.message = "";
+    },
+
+    getUserImage(uid){
+      return this.$store.state.user.users
+      .filter(el => el.uid === uid)
+      .map(el => el.profileImage);
+    },
+
+    getUserId(uid){
+      return this.$store.state.user.users
+      .filter(el => el.uid === uid)
+      .map(el => el.uid);
     },
   },
   updated() {

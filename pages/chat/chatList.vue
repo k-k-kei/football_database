@@ -15,15 +15,13 @@
                   <td>
                     <nuxt-link :to="'/chat/' + chat.id">
                       <div
-                        v-for="user in users"
-                        :key="user.id"
                         class="flex items-center mx-4 my-2"
                       >
                         <!-- ユーザー画像 -->
                         <div class=" flex-shrink-0 h-10 w-10">
                           <img
                             class="h-10 w-10 rounded-full"
-                            :src="user.profileImage"
+                            :src="getUserImage(chat.uid, chat.other_id)"
                             alt=""
                           />
                         </div>
@@ -31,7 +29,7 @@
                         <!-- ユーザー名 -->
                         <div class="ml-4">
                           <div class="text-sm font-medium text-gray-900">
-                            {{ user.displayName }}
+                            {{ getUserName(chat.uid, chat.other_id) }}
                           </div>
                           <div class="text-xs">
                             {{ chat.latestMessage }}
@@ -73,7 +71,7 @@
                             .padStart(2, "0")
                       }}
                     </div>
-                    <div v-if="chatInfo.unReadMessage" class="text-right text-red-800 p-1">
+                    <div v-if="checkUnReadMessage(chat.unReadMessage)" class="text-right text-red-800 p-1">
                       未読
                     </div>
                     <!-- <div
@@ -94,10 +92,6 @@
 
 <script>
 import { auth } from "~/plugins/firebase";
-import firebase from "~/plugins/firebase";
-
-const db = firebase.firestore();
-const chatsRef = db.collection("chats");
 
 export default {
   data() {
@@ -106,11 +100,9 @@ export default {
 
       chatInfo: {
         uid: "",
+        other_id: "",
         unReadMessage: false,
       },
-
-      // unReadMessage: "",
-      // chats: []
     };
   },
   created: function() {
@@ -133,34 +125,32 @@ export default {
   // },
   computed: {
     chats() {
-      const chatData = this.$store.state.chat.chats
-        .filter(
-          (el) =>
-            el.uid === this.loginUserId || el.other_id === this.loginUserId
-        )
-        .sort((a, b) => b - a);
-
-      chatData.forEach((el) => {
-        if (el.uid === this.loginUserId) {
-          this.chatInfo.uid = el.other_id;
-          if (el.unReadMessage != this.loginUserId && el.unReadMessage != false)
-            return (this.chatInfo.unReadMessage = true);
-        } else {
-          this.chatInfo.uid = el.uid;
-          if (el.unReadMessage != this.loginUserId && el.unReadMessage != false)
-            return (this.chatInfo.unReadMessage = true);
-        }
-      });
-      return chatData;
-    },
-
-    //チャット相手のユーザー情報を表示する
-    users() {
-      return this.$store.state.user.users.filter(
-        (el) => el.uid === this.chatInfo.uid
-      );
+      return this.$store.state.chat.chats
+      .filter(el => el.uid === this.loginUserId || el.other_id === this.loginUserId)
+      .sort((a, b) => b.timestamp - a.timestamp);
     },
   },
+  methods: {
+    getUserImage(uid, other_id){
+      const id = uid === this.loginUserId ? other_id : uid;
+
+      return this.$store.state.user.users
+      .filter(el => el.uid === id)
+      .map(el => el.profileImage);
+    },
+    getUserName(uid, other_id){
+      const id = uid === this.loginUserId ? other_id : uid;
+
+      return this.$store.state.user.users
+      .filter(el => el.uid === id)
+      .map(el => el.displayName)[0];
+    },
+
+    checkUnReadMessage(status){
+      if(status != this.loginUserId && status != false)
+      return this.chatInfo.unReadMessage = true;
+    }
+  }
 };
 </script>
 
