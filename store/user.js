@@ -67,4 +67,11 @@ export const actions = {
       );
     }
   }),
+
+  addTeamInfo: firestoreAction((context, { docId, teams }) => {
+    console.log(docId, teams);
+    usersRef.doc(docId).set({
+      teams: teams,
+    }, {merge: true});
+  }),
 };

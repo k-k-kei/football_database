@@ -1,70 +1,9 @@
 <template>
   <div>
-    <div class="bg-white divide-y divide-gray-200">
-      <div class="px-6 py-4 whitespace-nowrap">
-        <div class="flex items-center">
-          <!-- ユーザー画像 -->
-          <div class="flex-shrink-0 h-10 w-10">
-            <img
-              class="h-10 w-10 rounded-full"
-              :src="userProfileImage"
-              alt=""
-            />
-          </div>
-
-          <div class="ml-4">
-            <!-- ユーザー名 -->
-            <div class="text-sm font-medium text-gray-900">
-              {{ userInfo.loginName }}
-            </div>
-
-            <!-- ユーザーアドレス -->
-            <div class="text-sm text-yellow-500">
-              <button>
-                <nuxt-link to="profile" class="underline"
-                  >プロフィール</nuxt-link
-                >
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="w-full flex items-center">
-      <button class="w-1/2 bg-yellow-500 text-white m-3 p-3 rounded-lg">
-        <NuxtLink to="forms/registration">チーム登録</NuxtLink>
-      </button>
-      <button class="w-1/2 bg-yellow-500 text-white m-3 p-3 rounded-lg">
-        <NuxtLink to="chat/chatList">チャット</NuxtLink>
-      </button>
-    </div>
-
-    <div class="w-full text-center">
-      <select
-        v-model="teamInfo.selectedTeamId"
-        name="teams"
-        class="bg-gray-200 w-11/12 p-2 rounded-lg"
-      >
-        <option>チームを選択してください</option>
-        <option v-for="team in teams" :value="team.id" :key="team.id">
-          <div>{{ team.name }}</div>
-        </option>
-      </select>
-    </div>
-    <!-- チームが選択されるまで表示する -->
-    <template v-if="teamInfo.selectedTeamId === ''">
-      <div class="text-center py-10">チームを選択しよう！</div>
-    </template>
-    <!-- 
-  
-  チーム表示エリア
-
- -->
     <template v-if="isEdited">
       <div
-        v-for="one in oneTeam"
-        :key="one.id"
+        v-for="team in teams"
+        :key="team.id"
         class="
           max-w-sm
           my-5
@@ -81,7 +20,7 @@
 
         <div class="px-6 py-4">
           <h1 class="text-xl font-semibold text-gray-800 dark:text-white">
-            {{ one.name }}
+            {{ team.name }}
           </h1>
 
           <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
@@ -99,7 +38,7 @@
               />
             </svg>
 
-            <h1 class="px-2 text-sm">{{ one.level }}</h1>
+            <h1 class="px-2 text-sm">{{ team.level }}</h1>
           </div>
 
           <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
@@ -121,22 +60,24 @@
               />
             </svg>
 
-            <h1 class="px-2 text-sm">{{ one.area }}</h1>
+            <h1 class="px-2 text-sm">{{ team.area }}</h1>
           </div>
 
           <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
             <h1 class="px-2 text-sm">
-              {{ one.selfIntroduction }}
+              {{ team.selfIntroduction }}
             </h1>
           </div>
         </div>
 
+        <div v-if="hasAuthority(team.user_id)">
         <button
           @click="edit"
           class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
         >
           編集
         </button>
+        </div>
       </div>
     </template>
 
@@ -147,8 +88,8 @@
  -->
     <template v-else>
       <div
-        v-for="one in oneTeam"
-        :key="one.id"
+        v-for="team in teams"
+        :key="team.id"
         class="
           max-w-sm
           my-5
@@ -298,7 +239,7 @@ export default {
       },
 
       teamInfo: {
-        selectedTeamId: "",
+        selectedTeamId: this.$route.params.id,
         name: "",
         level: "",
         area: "",
@@ -338,18 +279,9 @@ export default {
   },
   computed: {
     teams() {
-      return this.$store.state.teams.filter(
-        (el) => el.user_id === this.userInfo.user_id
-      );
-    },
-    oneTeam() {
-      const oneTeam = this.$store.state.teams.filter(
-        (el) =>
-          el.user_id === this.userInfo.user_id &&
-          el.id === this.teamInfo.selectedTeamId
-      );
-
-      oneTeam.forEach((el) => {
+      const teams = this.$store.state.teams.filter(el => el.id === this.$route.params.id);
+      
+      teams.forEach(el => {
         this.teamInfo.name = el.name;
         this.teamInfo.level = el.level;
         this.teamInfo.area = el.area;
@@ -357,7 +289,7 @@ export default {
         this.showImage = el.image;
       });
 
-      return oneTeam;
+    return teams;
     },
   },
   methods: {
@@ -384,6 +316,9 @@ export default {
         this.profileImage = e.target.result;
       };
     },
+    hasAuthority(id){
+        return this.userInfo.user_id === id;
+    }
   },
 };
 </script>

@@ -82,6 +82,9 @@ export default {
     };
   },
   created: function() {
+    this.$store.dispatch("init");
+    this.$store.dispatch("user/userInit");
+
     auth.onAuthStateChanged(user => {
       if (!user) {
         this.user_id = null;
@@ -104,6 +107,16 @@ export default {
     add() {
       this.$store.dispatch("add", this.formVal);
       this.formNumber++;
+
+      const teams = this.$store.state.teams
+      .filter(el => el.user_id === this.formVal.user_id)
+      .map(data => data.id);
+
+      const userDocId = this.$store.state.user.users
+      .filter(el => el.uid === this.formVal.user_id)
+      .map(data => data.id)[0];
+
+      this.$store.dispatch("user/addTeamInfo", { docId: userDocId, teams: teams })
     }
   }
 };

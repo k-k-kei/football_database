@@ -18,9 +18,6 @@
           <span class="bg-black text-white">あなたに合ったチームが見つかる</span><br />
           <span class="text-xs md:text-sm">we need football more.</span>
         </div>
-
-        <!-- 検索ボックス -->
-        <SideBar />
       </div>
     </div>
 
@@ -118,7 +115,7 @@
 import { auth } from "~/plugins/firebase";
 
 export default {
-  layout: "default",
+  layout: "search",
   data() {
     return {
       userInfo: {

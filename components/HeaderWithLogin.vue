@@ -2,7 +2,7 @@
   <div>
     <div class="bg-white shadow">
       <div class="text-center flex justify-between mx-3 md:mx-8 py-2">
-        <div class="p-2"><NuxtLink to="/">Football DB</NuxtLink></div>
+        <div class="p-2"><a href="/">Football DB</a></div>
         <ul class="flex justify-between text-xs md:text-sm">
           <!-- チャットアイコン -->
           <li class="md:ml-8 p-3">

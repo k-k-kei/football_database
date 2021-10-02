@@ -1,8 +1,8 @@
 <template>
   <div>
     <div
-      v-for="team in teams"
-      :key="team.id"
+      v-for="teamInfo in teamDetailed"
+      :key="teamInfo.id"
       class="
         h-screen
         max-w-sm
@@ -18,13 +18,13 @@
       <!-- チームプロフィール画像 -->
       <img
         class="object-cover object-center w-full h-56"
-        :src="team.image"
+        :src="teamInfo.image"
         alt="avatar"
       />
 
       <div class="px-6 py-4">
         <h1 class="text-xl font-semibold text-gray-800 dark:text-white">
-          {{ team.name }}
+          {{ teamInfo.name }}
         </h1>
 
         <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
@@ -48,7 +48,7 @@
               d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"
             />
           </svg>
-          <h1 class="px-2 text-sm">{{ team.level }}</h1>
+          <h1 class="px-2 text-sm">{{ teamInfo.level }}</h1>
         </div>
 
         <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
@@ -70,22 +70,20 @@
             />
           </svg>
 
-          <h1 class="px-2 text-sm">{{ team.area }}</h1>
+          <h1 class="px-2 text-sm">{{ teamInfo.area }}</h1>
         </div>
 
         <!-- チーム自己紹介 -->
         <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
-          <p class="px-2 text-sm">{{ team.selfIntroduction }}</p>
+          <p class="px-2 text-sm">{{ teamInfo.selfIntroduction }}</p>
         </div>
         <!-- チーム自己紹介ここまで -->
 
-          <div
-            v-for="user in users"
-            :key="user.id"
-          >
-        <nuxt-link
-          :to="'/userPage/' + user.uid"
-          class="flex items-center mt-4 text-gray-700 dark:text-gray-200"
+        <!-- 登録したユーザー情報 -->
+        <div v-for="user in users" :key="user.id">
+          <nuxt-link
+            :to="'/userPage/' + user.uid"
+            class="flex items-center mt-4 text-gray-700 dark:text-gray-200"
           >
             <div class="flex-shrink-0 h-10 w-10">
               <img
@@ -95,9 +93,10 @@
               />
             </div>
             <h1 class="px-2 text-sm">{{ user.displayName }}</h1>
-        </nuxt-link>
-          </div>
+          </nuxt-link>
+        </div>
       </div>
+      <!-- 登録したユーザー情報 -->
 
       <!-- 過去にチャットをしたことあるかでボタンを出し分け -->
       <template v-if="chatLog">
@@ -107,13 +106,46 @@
           </button></nuxt-link
         >
       </template>
+
       <template v-else>
+        <!-- チャット申請するチームを選ぶ -->
+        <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
+          チームを選択してチャット申請
+        </h1>
+        <div v-if="uid === null">
+        <h1>チャット申請を送るにはログインが必要です。</h1>
+        </div>
+        <div class="w-full text-center">
+          <select
+            v-model="selectedTeamId"
+            id="select"
+            name="teams"
+            class="bg-gray-200 w-11/12 p-2 rounded-lg"
+          >
+            <option disabled value="">チームを選択してください</option>
+            <option v-for="team in teams" :value="team.id" :key="team.id">
+              <div>{{ team.name }}</div>
+            </option>
+          </select>
+          <!-- チャット申請するチームを選ぶ -->
+        </div>
+        <div v-if="selectedTeamId != ''">
+        <div v-if="chatLog">
         <button
-          @click="add(team.user_id, team.id, team.name)"
+          @click="add(teamInfo.user_id, teamInfo.id)"
           class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-lg"
         >
           チャット申請
         </button>
+        </div>
+        <div v-else>
+        <button
+          class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-lg"
+        >
+          チャット申請済み
+        </button>
+        </div>
+        </div>
       </template>
     </div>
   </div>
@@ -128,9 +160,10 @@ export default {
       uid: "",
       teamId: this.$route.params.id,
       makeUserId: "",
+      selectedTeamId: "",
     };
   },
-  created: function () {
+  created: function() {
     this.$store.dispatch("init");
     this.$store.dispatch("user/userInit");
     this.$store.dispatch("chat/init");
@@ -144,8 +177,13 @@ export default {
     });
   },
   computed: {
+    // チャット申請する自チームを選択
+    teams(){
+      return this.$store.state.teams
+      .filter(el => el.user_id === this.uid);
+    },
     // 条件を元に表示するチームを決定
-    teams() {
+    teamDetailed() {
       const teams = this.$store.state.teams.filter((el) => {
         return el.id === this.$route.params.id;
       });
@@ -154,13 +192,17 @@ export default {
     },
     //以前チャットしたことがあるかを判定
     chatLog() {
-      const chatData = this.$store.state.chat.chats.some(
+      const chatData = this.$store.state.chat.chats.filter(
         (el) => el.uid === this.uid || el.other_id === this.uid
       );
       console.log(chatData);
-      return chatData;
-      // return chatData.some(el => el.team_id === this.teamId || el.chat_required_team === this.teamId) ? false : true;
+      return chatData.some(el => {
+        return el.team_id.some(data => {
+          return data === this.teamId;
+        });
+      });
     },
+    
     users() {
       return this.$store.state.user.users.filter(
         (el) => this.makeUserId === el.uid
@@ -169,15 +211,14 @@ export default {
   },
   methods: {
     //チャットルームを作成する
-    add(other_id, team_id, team_name) {
+    add(other_id, team_id) {
       if (this.uid === null) {
         this.$router.push("/login");
       } else {
         this.$store.dispatch("chat/makeChatRoom", {
           uid: this.uid,
           other_id: other_id,
-          team_id: team_id,
-          team_name: team_name,
+          team_id: [team_id, this.selectedTeamId],
         });
       }
     },

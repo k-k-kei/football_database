@@ -65,8 +65,6 @@
 </template>
 
 <script>
-import { auth } from "~/plugins/firebase";
-
 export default {
   data() {
     return {

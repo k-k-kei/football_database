@@ -51,8 +51,26 @@
         <p>チームレベルで探す</p>
       </div>
     </div>
-    <div v-for="selectedItem in selectedItemLevel" :key="selectedItem.id">
-      <span>{{ selectedItem }}</span>
+
+    <div class="flex flex-wrap m-2">
+    <!-- 選択肢たレベルタグ一覧を表示 -->
+      <div v-for="selectedItem in selectedItemLevel" :key="selectedItem.id" @click="deleteLevelTag(selectedItem.id)" class="flex bg-blue-200 text-blue-900 m-1 p-1 rounded-lg">
+        <p>{{ selectedItem }}</p>
+        <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        </div>
+      </div>
+    <!-- 選択肢たエリアタグ一覧を表示 -->
+      <div v-for="selectedItem in selectedItemArea" :key="selectedItem.id" @click="deleteAreaTag(selectedItem.id)" class="flex bg-yellow-200 text-yellow-900 m-1 p-1 rounded-lg">
+        <p>{{ selectedItem }}</p>
+        <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        </div>
+      </div>
     </div>
 
     <!-- 
@@ -105,7 +123,11 @@
               <div class="w-11/12 mx-auto">
                 <div class="block">
                   <div class="mt-2">
-                    <div v-for="area in teamAreas" :key="area.id" class="flex flex-wrap">
+                    <div
+                      v-for="area in teamAreas"
+                      :key="area.id"
+                      class="flex flex-wrap"
+                    >
                       <label class="w-1/2 inline-flex items-center mb-3">
                         <input
                           type="checkbox"
@@ -181,10 +203,14 @@
             </div>
             <!-- チェックボックス検索エリア-->
             <div class="flex mt-5">
-             <div class="w-11/12 mx-auto">
+              <div class="w-11/12 mx-auto">
                 <div class="block">
                   <div class="mt-2">
-                    <div v-for="level in teamLevels" :key="level.id" class="flex flex-wrap">
+                    <div
+                      v-for="level in teamLevels"
+                      :key="level.id"
+                      class="flex flex-wrap"
+                    >
                       <label class="w-1/2 inline-flex items-center mb-3">
                         <input
                           type="checkbox"
@@ -240,7 +266,7 @@ export default {
       user_id: "",
     };
   },
-  created: function () {
+  created: function() {
     this.$store.dispatch("init");
     auth.onAuthStateChanged((user) => (this.user_id = user.uid));
   },
@@ -310,6 +336,16 @@ export default {
     //closeModalが発火しないようにしている。
     stopEvent() {
       event.stopPropagation();
+    },
+
+    deleteLevelTag(id){
+      this.selectedItemLevel.splice(id, 1);
+      this.selectedLevel();
+    },
+    
+    deleteAreaTag(id){
+      this.selectedItemArea.splice(id, 1);
+      this.selectedArea();
     },
   },
 };
