@@ -1,11 +1,11 @@
 <template>
   <div>
     <!-- 検索されたアイテムを表示 -->
-    <div v-for="team in filterdTeams(getName)" :key="team.id">
+    <div v-for="team in filterdTeams(getName)" :key="team.id" class="md:w-3/4 md:mx-auto">
       <!-- 自分の作成したチームは非表示にする。 -->
       <div v-if="team.user_id != userInfo.user_id">
         <div
-          class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
+          class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow"
         >
           <NuxtLink :to="'/teams/' + team.id">
             <h1 class="text-base font-bold text-gray-800 p-2">

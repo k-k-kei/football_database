@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="md:w-2/5 md:mx-auto">
     <ValidationObserver v-slot="{ invalid }">
       <keep-alive>
         <form-list-input v-if="formNumber === 0" @update="updateForm" />
@@ -7,16 +7,16 @@
         <form-complate v-if="formNumber === 2" />
       </keep-alive>
 
-      <div class="px-4 bg-gray-50 text-right sm:px-6">
+      <!-- <div class="px-4 bg-gray-50 text-right sm:px-6"> -->
         <button
           v-if="formNumber === 0"
           @click="plusNum"
           :disabled="invalid"
-          class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          class="w-full py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           確認画面へ
         </button>
-      </div>
+      <!-- </div> -->
 
       <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
         <button

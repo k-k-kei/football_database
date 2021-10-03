@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- フリーキーワード -->
+    <div class="md:w-3/4 md:mx-auto">
     <div class="bg-gray-100 m-2 p-2 flex rounded-lg">
       <span class="w-auto flex justify-end items-center text-gray-500 p-2">
         <svg
@@ -72,6 +73,7 @@
         </div>
       </div>
     </div>
+    </div>
 
     <!-- 
       
@@ -79,10 +81,10 @@
       
        -->
     <div>
-      <div class="overlay" v-show="showContentArea">
+      <div class="overlay md:w-3/4 md:mx-auto" v-show="showContentArea">
         <div class="content" @click="stopEvent">
           <!-- モーダルウィンドウのコンテンツ -->
-          <div class="bg-white shadow">
+          <div class="bg-white">
             <div
               class="
                 text-center
@@ -162,10 +164,10 @@
       
        -->
     <div>
-      <div class="overlay" v-show="showContentLevel">
+      <div class="overlay md:w-3/4 md:mx-auto" v-show="showContentLevel">
         <div class="content" @click="stopEvent">
           <!-- モーダルウィンドウのコンテンツ -->
-          <div class="bg-white shadow">
+          <div class="bg-white">
             <div
               class="
                 text-center

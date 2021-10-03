@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div class="md:w-3/4 md:mx-auto md:flex">
+  <div class="my-2 md:w-1/3">
+  
     <div class="bg-white divide-y divide-gray-200">
       <div class="px-6 py-4 whitespace-nowrap">
         <div class="flex items-center">
@@ -39,8 +41,9 @@
         <NuxtLink to="chat/chatList">チャット</NuxtLink>
       </button>
     </div>
+  </div>
 
-
+<div class="md:w-2/3">
       <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
           チーム一覧
       </h1>
@@ -70,6 +73,7 @@
             </div>
           </NuxtLink>
         </div>
+    </div>
     </div>
       </div>
     </template>

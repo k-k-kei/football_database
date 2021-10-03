@@ -2,8 +2,6 @@
   <div>
     <div>
       <div>
-        <div class="md:grid md:grid-cols-3 md:gap-6">
-          <div class="mt-5 md:mt-0 md:col-span-2">
             <div class="shadow sm:rounded-md sm:overflow-hidden">
               <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                 <!-- アップロードエリア -->
@@ -61,8 +59,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
       </div>
 
       <div class="hidden sm:block" aria-hidden="true">

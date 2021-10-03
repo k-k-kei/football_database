@@ -39,24 +39,24 @@
 
     <!-- メインエリア -->
     <div class="relative backdrop-opacity-50">
-      <div class="md:flex md:w-11/12 mx-auto"></div>
-      <div class="md:w-4/5 mx-auto">
+      <div class="md:w-3/4 mx-auto">
         <!-- カテゴリー別表示 -->
         <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
           活動場所の近いチーム
         </h1>
+        <div class="md:flex md:flex-wrap">
         <div
           v-for="team in filterArea"
           :key="team.id"
-          class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
+          class="h-44 md:h-56 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow md:w-1/2"
         >
           <NuxtLink :to="'/teams/' + team.id">
-            <h1 class="text-base font-bold text-gray-800 p-2">
+            <h1 class="text-base font-bold text-gray-800 p-2 overflow-hidden">
               {{ team.name }}
             </h1>
             <div class="flex">
               <div class="w-1/2">
-                <img :src="team.image" :alt="team.image" />
+                <img :src="team.image" :alt="team.image" class="h-full w-full"/>
               </div>
 
               <div class="w-1/2 px-4 md:p-4">
@@ -72,24 +72,26 @@
             </div>
           </NuxtLink>
         </div>
+        </div>
         <!-- ここまでカテゴリー別表示 -->
 
         <!-- カテゴリー別表示 -->
         <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
           レベルの近いチーム
         </h1>
+        <div class="md:flex md:flex-wrap">
         <div
           v-for="team in filterLevel"
           :key="team.id"
-          class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
+          class="h-44 md:h-56 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow md:w-1/2"
         >
           <NuxtLink :to="'/teams/' + team.id">
-            <h1 class="text-base font-bold text-gray-800 p-2">
+            <h1 class="text-base font-bold text-gray-800 p-2 overflow-hidden">
               {{ team.name }}
             </h1>
             <div class="flex">
               <div class="w-1/2">
-                <img :src="team.image" :alt="team.image" />
+                <img :src="team.image" :alt="team.image" class="h-full w-full"/>
               </div>
 
               <div class="w-1/2 px-4 md:p-4">
@@ -104,6 +106,7 @@
               </div>
             </div>
           </NuxtLink>
+        </div>
         </div>
       </div>
     </div>

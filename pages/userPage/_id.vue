@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div class="md:w-3/4 md:mx-auto md:flex">
+  <div class="my-2 md:w-1/3">
+
     <div class="bg-white divide-y divide-gray-200">
       <div class="px-6 py-4 whitespace-nowrap">
         <div v-for="user in users" :key="user.id" class="flex items-center">
@@ -19,9 +21,12 @@
           </div>
         </div>
       </div>
+    </div>
+    </div>
 
 
       <!-- 所属チーム一覧 -->
+      <div class="md:w-2/3">
       <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
           チーム一覧
       </h1>

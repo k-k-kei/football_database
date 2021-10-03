@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-1 md:w-2/5 md:mx-auto">
     <!-- 
       
       プロフィール表示画面

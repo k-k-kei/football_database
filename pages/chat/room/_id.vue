@@ -2,12 +2,8 @@
   <div>
     <div
       class="
-        flex flex-col
-        items-center
-        justify-center
-        w-screen
+        flex
         min-h-screen
-        bg-gray-100
         text-gray-800
       "
     >
@@ -16,10 +12,8 @@
           relative
           flex flex-col flex-grow
           w-full
-          max-w-xl
           bg-white
-          shadow-xl
-          rounded-lg
+          shadow
           overflow-hidden
           overscroll-auto
         "
@@ -91,7 +85,7 @@
         <!-- テキストここまで -->
 
         <!-- 送信フォーム -->
-        <div class="fixed w-full bottom-0 bg-gray-400 p-4">
+        <div class="fixed w-full bottom-0 bg-gray-400 p-4 md:w-2/5 md:mx-auto">
           <div class="flex w-full">
             <input
               type="text"
