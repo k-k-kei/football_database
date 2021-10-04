@@ -152,8 +152,8 @@ export default {
     },
 
     checkUnReadMessage(status){
-      if(status != this.loginUserId && status != false)
-      return this.chatInfo.unReadMessage = true;
+      if(status != this.loginUserId && status != false) return true
+      return false;
     },
 
     getTeamName(array){

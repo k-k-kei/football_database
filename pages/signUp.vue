@@ -32,11 +32,12 @@
                     class="peer-placeholder-shown:opacity-100   opacity-75 peer-focus:opacity-75 peer-placeholder-shown:scale-100 scale-75 peer-focus:scale-75 peer-placeholder-shown:translate-y-0 -translate-y-3 peer-focus:-translate-y-3 peer-placeholder-shown:translate-x-0 translate-x-1 peer-focus:translate-x-1 absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out"
                     >Email address</label
                   >
-                  <span>{{ v.errors[0] }}</span>
+                  <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                 </ValidationProvider>
               </div>
 
                 <!-- パスワード入力フォーム -->
+              <span>※パスワードは8文字以上必須</span>
               <div class="mb-5 relative">
                 <ValidationProvider
                   name="パスワード"
@@ -55,7 +56,7 @@
                     class="peer-placeholder-shown:opacity-100   opacity-75 peer-focus:opacity-75 peer-placeholder-shown:scale-100 scale-75 peer-focus:scale-75 peer-placeholder-shown:translate-y-0 -translate-y-3 peer-focus:-translate-y-3 peer-placeholder-shown:translate-x-0 translate-x-1 peer-focus:translate-x-1 absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out"
                     >Password</label
                   >
-                  <span>{{ v.errors[0] }}</span>
+                  <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                 </ValidationProvider>
               </div>
 

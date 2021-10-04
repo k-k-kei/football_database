@@ -18,6 +18,22 @@
           overscroll-auto
         "
       >
+      
+      <!-- チャットで使う便利ツール -->
+      <div class="flex">
+      <button
+        class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
+      >
+        <p>日程調整</p>
+      </button>
+      <button
+        class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
+      >
+        <p>マッチレポート</p>
+      </button>
+      </div>
+      <!-- チャットで使う便利ツール -->
+
         <div
           id="top"
           class="flex flex-col flex-grow h-0 mb-28 p-7 overflow-auto"

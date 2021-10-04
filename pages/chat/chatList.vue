@@ -6,9 +6,18 @@
     </h1>
     <div class="bg-white divide-y divide-gray-200">
       <div class="flex flex-wrap px-6 py-4 whitespace-nowrap">
-        <div v-for="team in teams" :key="team.id" class="w-1/5 m-2 items-center">
+        <div v-for="team in teams" :key="team.id" class="relative w-1/5 m-2 items-center">
           <NuxtLink :to="'/chat/' + team.id">
-            <div class="flex-shrink-0 h-16 w-16 mx-auto md:h-28 md:w-28">
+            
+            <!-- 未読数表示 -->
+            <div
+              v-if="getUnreadMessage(team.id) != 0"
+              class="absolute -top-2 -right-2 bg-red-500 rounded-full h-7 w-7 text-center">
+                <span class="text-white align-middle">{{getUnreadMessage(team.id)}}</span>
+            </div>
+            <!-- 未読数表示 -->
+            
+            <div class="flex-shrink-0 h-16 w-16 mx-auto md:h-28 md:w-28 md:h-full md:w-full">
               <img class="h-full w-full rounded-lg" :src="team.image" alt="" />
             </div>
             <!-- ユーザー名 -->
@@ -33,6 +42,7 @@ export default {
   },
   created: function() {
     this.$store.dispatch("init");
+    this.$store.dispatch("chat/init");
 
     auth.onAuthStateChanged((user) => {
       if (!user) {
@@ -46,6 +56,13 @@ export default {
     teams() {
       return this.$store.state.teams.filter((el) => el.user_id === this.uid);
     },
+  },
+  methods: {
+      getUnreadMessage(status){
+        return this.$store.state.chat.chats
+        .filter(el => el.team_id.some(data => data === status))
+        .filter(team => team.unReadMessage != false && team.unReadMessage != this.uid).length;
+      }
   },
 };
 </script>

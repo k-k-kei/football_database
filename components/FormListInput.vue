@@ -86,7 +86,7 @@
                         rounded-md
                       "
                     />
-                    <span>{{ v.errors[0] }}</span>
+                    <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                   </ValidationProvider>
                 </div>
 
@@ -127,7 +127,7 @@
                       <option>エンジョイ（ジェネラル）</option>
                       <option>エンジョイ（ファン）</option>
                     </select>
-                    <span>{{ v.errors[0] }}</span>
+                    <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                   </ValidationProvider>
                 </div>
 
@@ -161,7 +161,7 @@
                         rounded-md
                       "
                     />
-                    <span>{{ v.errors[0] }}</span>
+                    <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                   </ValidationProvider>
                 </div>
 
@@ -198,7 +198,7 @@
                       チームの特徴や試合へのモチベーションを書いて他チームがマッチングしやすいようにしましょう！
                     </p>
                   </div>
-                  <span>{{ v.errors[0] }}</span>
+                  <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                 </ValidationProvider>
               </div>
             </div>
