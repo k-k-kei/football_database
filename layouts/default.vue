@@ -8,6 +8,7 @@
       </div>
       <Nuxt />
       <Footer />
+      <AppBar />
     </div>
 </template>
 

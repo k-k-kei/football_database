@@ -4,7 +4,6 @@
       v-for="teamInfo in teamDetailed"
       :key="teamInfo.id"
       class="
-        h-screen
         max-w-sm
         mx-auto
         overflow-hidden

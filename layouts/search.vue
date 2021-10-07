@@ -9,6 +9,7 @@
       <SideBar />
       <Nuxt />
       <Footer />
+      <AppBar />
     </div>
 </template>
 

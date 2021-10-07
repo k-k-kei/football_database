@@ -96,7 +96,7 @@
 import { auth } from "~/plugins/firebase";
 
 export default {
-  layout: "chatui",
+  layout: "default",
   data() {
     return {
       loginUserId: "",
