@@ -1,7 +1,7 @@
 import { vuexfireMutations } from "vuexfire";
 
 export const mutations = {
-  ...vuexfireMutations
+  ...vuexfireMutations,
 };
 
 import firebase from "~/plugins/firebase";
@@ -21,23 +21,26 @@ export const actions = {
 
   makeChatRoom: firestoreAction((context, { uid, other_id, team_id }) => {
     chatsRef.add({
-        uid: uid,
-        other_id: other_id,
-        team_id: team_id,
-        unReadMessage: false,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      uid: uid,
+      other_id: other_id,
+      team_id: team_id,
+      unReadMessage: false,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
   }),
 
-  add: firestoreAction((context, { docId, message, uid, read}) => {
-    console.log(docId, message, uid, read);
+  add: firestoreAction((context, { docId, message, uid, read }) => {
     if (message.trim()) {
-      chatsRef.doc(docId).collection("message").doc().set({
+      chatsRef
+        .doc(docId)
+        .collection("message")
+        .doc()
+        .set({
           message: message,
           uid: uid,
           read: read,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      });
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        });
       chatsRef.doc(docId).update({
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       });
@@ -45,29 +48,31 @@ export const actions = {
   }),
 
   setLatestMessage: firestoreAction((context, { docId, latestMessage }) => {
-    console.log(docId, latestMessage);
-    chatsRef.doc(docId).set({
+    chatsRef.doc(docId).set(
+      {
         latestMessage: latestMessage,
-    }, {merge: true});
+      },
+      { merge: true }
+    );
   }),
 
   setUnreadFlag: firestoreAction((context, { docId, unReadMessage }) => {
-    console.log(docId, unReadMessage);
     chatsRef.doc(docId).update({
-        unReadMessage: unReadMessage,
+      unReadMessage: unReadMessage,
     });
   }),
 
   setReadFlag: firestoreAction((context, { docId, subDocId }) => {
-    console.log(docId, subDocId);
-    chatsRef.doc(docId).collection("message").doc(subDocId).update({
+    chatsRef
+      .doc(docId)
+      .collection("message")
+      .doc(subDocId)
+      .update({
         read: true,
-    });
-    console.log("store内で変更完了")
+      });
   }),
 
   remove: firestoreAction((context, id) => {
     chatsRef.doc(id).delete();
   }),
-  
 };

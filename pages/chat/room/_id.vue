@@ -18,21 +18,19 @@
           overscroll-auto
         "
       >
-      
-      <!-- チャットで使う便利ツール -->
-      <div class="flex">
-      <button
-        class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
-      >
-        <p>日程調整</p>
-      </button>
-      <button
-        class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
-      >
-        <p>マッチレポート</p>
-      </button>
-      </div>
-      <!-- チャットで使う便利ツール -->
+        <!-- チャットで使う便利ツール -->
+        <div class="flex">
+          <button
+            @click="openModalArea"
+            class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
+          >
+            <p>日程調整</p>
+          </button>
+          <button class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center">
+            <p>マッチレポート</p>
+          </button>
+        </div>
+        <!-- チャットで使う便利ツール -->
 
         <div
           id="top"
@@ -40,7 +38,9 @@
         >
           <!-- テキスト -->
           <div
-            :class="[chat.uid === chatData.uid ? myMessageShape : othersMessageShape,]"
+            :class="[
+              chat.uid === chatData.uid ? myMessageShape : othersMessageShape,
+            ]"
             v-for="chat in chats"
             :key="chat.id"
           >
@@ -126,6 +126,160 @@
         <!-- 送信フォームここまで -->
       </div>
     </div>
+
+    <!-- モーダルウィンドウ -->
+    <div>
+      <div class="overlay md:w-3/4 md:mx-auto" v-show="showContentArea">
+        <div class="content" @click="stopEvent">
+          <div class="bg-white">
+            <div
+              class="
+                text-center
+                align-middle
+                flex
+                justify-between
+                mx-5
+                md:mx-8
+                py-2
+              "
+            >
+              <!-- 検索ヘッダー -->
+              <div class="w-full">
+                <h1 class="text-center p-1">日程調整作成フォーム</h1>
+              </div>
+              <!-- クローズボタン -->
+              <div>
+                <button @click="closeModalArea">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- バリデーションの監視 -->
+            <ValidationObserver v-slot="{ invalid }">
+              <!-- チェックボックス検索エリア-->
+              <div class="flex mt-5">
+                <div class="w-11/12 mx-auto">
+                  <!-- チーム名 -->
+                  <div>候補日</div>
+                  <ValidationProvider
+                    name="候補日時"
+                    rules="required"
+                    v-slot="v"
+                  >
+                    <div>
+                      <input
+                        type="datetime-local"
+                        v-model="matchmake.datetime[0]"
+                      />
+                    </div>
+                    <div class="bg-yellow-500 text-white text-center">
+                      {{ v.errors[0] }}
+                    </div>
+                  </ValidationProvider>
+                  <div>
+                    <input
+                      type="datetime-local"
+                      v-model="matchmake.datetime[1]"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="datetime-local"
+                      v-model="matchmake.datetime[2]"
+                    />
+                  </div>
+                  <div>{{ matchmake.datetime }}</div>
+
+                  <div>タイトル</div>
+                  <div>
+                    <ValidationProvider
+                      name="タイトル"
+                      rules="required"
+                      v-slot="v"
+                    >
+                      <input
+                        type="text"
+                        v-model="matchmake.title"
+                        placeholder="練習試合...etc"
+                        class="w-full bg-gray-200 mt-3 p-2 rounded-lg"
+                      />
+                      <div class="bg-yellow-500 text-white text-center">
+                        {{ v.errors[0] }}
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
+                  <div>場所</div>
+                  <div>
+                    <ValidationProvider name="場所" rules="required" v-slot="v">
+                      <input
+                        type="text"
+                        v-model="matchmake.place"
+                        placeholder="かもめコート...etc"
+                        class="w-full bg-gray-200 mt-3 p-2 rounded-lg"
+                      />
+                      <div class="bg-yellow-500 text-white text-center">
+                        {{ v.errors[0] }}
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
+                  <div>コメント</div>
+                  <div>
+                    <div class="mt-1">
+                      <textarea
+                        id="about"
+                        v-model="matchmake.comment"
+                        name="selfIntroduction"
+                        rows="10"
+                        class="
+                          shadow-sm
+                          focus:ring-indigo-500
+                          focus:border-indigo-500
+                          mt-2
+                          p-2
+                          block
+                          w-full
+                          sm:text-sm
+                          bg-gray-200
+                          border border-gray-300
+                          rounded-lg
+                        "
+                        placeholder="こんにちは、よろしくお願いします！"
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <!-- matchesコレクションへデータを送信 -->
+                  <button
+                    @click="addMatches"
+                    :disabled="invalid"
+                    class="w-full bg-gray-400 text-white mt-5 p-3 rounded-md"
+                  >
+                    作成する
+                  </button>
+                </div>
+              </div>
+            </ValidationObserver>
+            <!-- チェックボックス検索エリアここまで -->
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -136,8 +290,24 @@ import { auth } from "~/plugins/firebase";
 const db = firebase.firestore();
 const chatsRef = db.collection("chats");
 
+import { ValidationObserver } from "vee-validate";
+import { ValidationProvider } from "vee-validate";
+
+//バリデーションルールをここで定義
+import { extend } from "vee-validate";
+import { required } from "vee-validate/dist/rules";
+
+extend("required", {
+  ...required,
+  message: "必須入力項目です",
+});
+
 export default {
   layout: "chatui",
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+  },
   data() {
     return {
       // チャット保存用オブジェクト
@@ -151,15 +321,28 @@ export default {
       // チャット表示用オブジェクト
       chats: [],
       userProfileImage: "",
-      teamImage: "",
 
       myMessageShape: "myMessageShape",
       othersMessageShape: "othersMessageShape",
       myMessage: "myMessage",
       othersMessage: "othersMessage",
+
+      showContentArea: false,
+
+      inputCount: 0,
+
+      matchmake: {
+        teamId: [],
+        datetime: [],
+        title: "",
+        place: "",
+        comment: "",
+      },
     };
   },
   created: function() {
+    this.$store.dispatch("init");
+    this.$store.dispatch("chat/init");
     this.$store.dispatch("user/userInit");
 
     //サブコレクションからメッセージを取得する
@@ -173,13 +356,6 @@ export default {
             this.chats.push(change.doc.data({ serverTimestamps: "estimate" }));
           }
         });
-      });
-
-    chatsRef
-      .doc(this.$route.params.id)
-      .get()
-      .then((doc) => {
-        this.teamImage = doc.data().team_image;
       });
 
     //メッセージにuidを含める
@@ -204,14 +380,22 @@ export default {
     //チャット相手のユーザー情報を表示する
     users() {
       const talkUser = this.chats
-      .map(el => el["uid"] != this.chatData.uid ? el["uid"] : undefined)
-      .filter(el => el != undefined);
-      
-      const user = new Set(talkUser);
-      return user;
+        .map((el) => (el["uid"] != this.chatData.uid ? el["uid"] : undefined))
+        .filter((el) => el != undefined);
+
+      return new Set(talkUser);
     },
   },
   methods: {
+        // モーダルのチーム一覧を表示するためのidを呼び出す
+    getTeamId() {
+      const ids = this.$store.state.chat.chats
+        .filter((el) => el.id === this.$route.params.id)
+        .map((data) => data.team_id)
+        .flat();
+
+      this.matchmake.teamId = ids;
+    },
     scrollToEnd() {
       this.$nextTick(() => {
         const chatLog = document.getElementById("top");
@@ -222,28 +406,68 @@ export default {
 
     add() {
       this.$store.dispatch("chat/add", this.chatData);
-      this.$store.dispatch("chat/setLatestMessage", { docId: this.chatData.docId, latestMessage: this.chatData.message });
+      this.$store.dispatch("chat/setLatestMessage", {
+        docId: this.chatData.docId,
+        latestMessage: this.chatData.message,
+      });
       this.chatData.message = "";
     },
 
-    getUserImage(uid){
+    getUserImage(uid) {
       return this.$store.state.user.users
-      .filter(el => el.uid === uid)
-      .map(el => el.profileImage);
+        .filter((el) => el.uid === uid)
+        .map((el) => el.profileImage);
     },
 
-    getUserId(uid){
+    getUserId(uid) {
       return this.$store.state.user.users
-      .filter(el => el.uid === uid)
-      .map(el => el.uid);
+        .filter((el) => el.uid === uid)
+        .map((el) => el.uid);
+    },
+
+    //エリアモーダルを開く
+    openModalArea() {
+      this.getTeamId()
+      this.showContentArea = true;
+    },
+
+    //エリアモーダルを閉じる
+    closeModalArea() {
+      this.showContentArea = false;
+    },
+
+    //モーダル上のコンテンツをクリックしても、
+    //closeModalが発火しないようにしている。
+    stopEvent() {
+      event.stopPropagation();
+    },
+
+    // 日程調整モーダルでチーム一覧を表示する
+    getTeamName(id) {
+      return this.$store.state.teams
+        .filter((el) => el.id === id)
+        .map((data) => data.name)[0];
+    },
+
+    countPlus() {
+      this.inputCount++;
+    },
+
+    countMinus() {
+      this.inputCount--;
+    },
+
+    addMatches() {
+      this.$store.dispatch("match/add", this.matchmake);
+      this.closeModalArea();
     },
   },
+
   updated() {
     this.scrollToEnd();
 
     this.chats.forEach((el) => {
       if (el.read === false && el.uid === this.chatData.uid) {
-        console.log(el); //相手が未読のメッセージ
         this.$store.dispatch("chat/setUnreadFlag", {
           docId: this.chatData.docId,
           unReadMessage: el.uid,
@@ -264,8 +488,6 @@ export default {
       .where("read", "==", false)
       .onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          console.log(doc.id);
-
           // console.log("trueに変更する処理");
           if (doc.data().uid != this.chatData.uid) {
             this.$store.dispatch("chat/setReadFlag", {
@@ -295,5 +517,29 @@ export default {
 }
 .othersMessage {
   @apply bg-gray-300 p-3 rounded-r-lg rounded-bl-lg;
+}
+
+/* モーダル */
+.overlay {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: gray;
+}
+.content {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s;
+}
+.v-enter,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

@@ -11,7 +11,6 @@
           overflow-hidden
           bg-white
           rounded-lg
-          shadow-lg
           dark:bg-gray-800
         "
       >
@@ -71,12 +70,12 @@
         </div>
 
         <div v-if="hasAuthority(team.user_id)">
-        <button
-          @click="edit"
-          class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
-        >
-          編集
-        </button>
+          <button
+            @click="edit"
+            class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+          >
+            編集
+          </button>
         </div>
       </div>
     </template>
@@ -160,16 +159,16 @@
               <span>{{ errors[0] }}</span>
             </ValidationProvider>
 
-                <!-- チーム自己紹介 -->
-                <ValidationProvider name="活動場所" rules="required" v-slot="v">
-                  <div>
-                    <div class="mt-1">
-                      <textarea
-                        id="about"
-                        name="selfIntroduction"
-                        v-model.trim="teamInfo.selfIntroduction"
-                        rows="10"
-                        class="
+            <!-- チーム自己紹介 -->
+            <ValidationProvider name="活動場所" rules="required" v-slot="v">
+              <div>
+                <div class="mt-1">
+                  <textarea
+                    id="about"
+                    name="selfIntroduction"
+                    v-model.trim="teamInfo.selfIntroduction"
+                    rows="10"
+                    class="
                           shadow-sm
                           focus:ring-indigo-500
                           focus:border-indigo-500
@@ -182,13 +181,12 @@
                           border border-gray-300
                           rounded-lg
                         "
-                        placeholder="こんにちは、私たちはチームフットボールです！"
-                      ></textarea>
-                    </div>
-                  </div>
-                  <span>{{ v.errors[0] }}</span>
-                </ValidationProvider>
-
+                    placeholder="こんにちは、私たちはチームフットボールです！"
+                  ></textarea>
+                </div>
+              </div>
+              <span>{{ v.errors[0] }}</span>
+            </ValidationProvider>
           </div>
 
           <button
@@ -207,6 +205,92 @@
         </ValidationObserver>
       </div>
     </template>
+    <!-- チーム情報編集画面 -->
+
+    <!-- スケジュール調整中の予定表示 -->
+    <div class="md:w-2/3">
+      <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
+        スケジュール調整中
+      </h1>
+      <div v-for="match in adjustedMatches" :key="match.id">
+        <div
+          class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
+        >
+          <NuxtLink :to="'/match/' + match.id">
+            <h1 class="text-base font-bold text-gray-800 p-2">
+                vs {{ getTeamName(match.teamId) }}
+            </h1>
+            <div class="flex">
+              <div class="w-1/2 px-4 md:p-4">
+                <div class="my-4">
+                    <!-- チーム画像 -->
+                    <div class="flex-shrink-0 h-28 w-28">
+                        <img
+                        class="h-28 w-28 rounded-full"
+                        :src="getTeamImage(match.teamId)"
+                        alt=""
+                        />
+                    </div>
+                </div>
+              </div>
+              <div class="w-1/2 px-4 md:p-4">
+                <div class="my-4">
+                  <div class="font-bold">タイトル</div>
+                  <p class="text-xs">{{ match.title }}</p>
+                <div class="font-bold">場所</div>
+                  <p class="text-xs">{{ match.place }}</p>
+                  <div class="font-bold">候補日</div>
+                  <div v-for="datetime in match.datetime" :key="datetime.id" class="text-xs">{{ datetime }}</div>
+                </div>
+              </div>
+            </div>
+          </NuxtLink>
+        </div>
+      </div>
+      <!-- スケジュール調整中の予定表示 -->
+
+      <!-- 確定スケジュールの予定表示 -->
+      <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
+        確定スケジュール
+      </h1>
+            <div v-for="match in confirmationMatches" :key="match.id">
+        <div
+          class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
+        >
+            <h1 class="text-base font-bold text-gray-800 p-2">
+                vs {{ getTeamName(match.teamId) }}
+                <span class="bg-red-500 text-white mx-1 p-1">確定</span>
+            </h1>
+            <p class="text-sm px-2">日程：{{ getDate(match.confirmDate) }}</p>
+            <p class="text-sm px-2">キックオフ：{{ getTime(match.confirmDate) }}</p>
+            <div class="flex">
+              <div class="w-1/2 px-4 md:p-4">
+                <div class="my-4">
+                    <!-- チーム画像 -->
+                    <div class="flex-shrink-0 h-28 w-28">
+                        <img
+                        class="h-28 w-28 rounded-full"
+                        :src="getTeamImage(match.teamId)"
+                        alt=""
+                        />
+                    </div>
+                </div>
+              </div>
+              <div class="w-1/2 px-4 md:p-4">
+                <div class="my-4">
+                  <div class="font-bold">タイトル</div>
+                  <p class="text-xs">{{ match.title }}</p>
+                  <div class="font-bold">場所</div>
+                  <p class="text-xs">{{ match.place }}</p>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <!-- 確定スケジュールの予定表示 -->
+      
+
+    </div>
   </div>
 </template>
 
@@ -254,7 +338,10 @@ export default {
       isEdited: true,
     };
   },
-  created: function () {
+  created: function() {
+    this.$store.dispatch("init");
+    this.$store.dispatch("match/init");
+
     auth.onAuthStateChanged((user) => {
       if (!user) {
         this.userInfo.loginName = null;
@@ -269,19 +356,17 @@ export default {
           .getDownloadURL()
           .then((url) => {
             this.userProfileImage = url;
-            console.log(user);
-            console.log(this.userProfileImage);
           });
       }
     });
-
-    this.$store.dispatch("init");
   },
   computed: {
     teams() {
-      const teams = this.$store.state.teams.filter(el => el.id === this.$route.params.id);
-      
-      teams.forEach(el => {
+      const teams = this.$store.state.teams.filter(
+        (el) => el.id === this.$route.params.id
+      );
+
+      teams.forEach((el) => {
         this.teamInfo.name = el.name;
         this.teamInfo.level = el.level;
         this.teamInfo.area = el.area;
@@ -289,7 +374,19 @@ export default {
         this.showImage = el.image;
       });
 
-    return teams;
+      return teams;
+    },
+
+    adjustedMatches() {
+      return this.$store.state.match.matches
+      .filter(el => el.teamId.some((data) => data === this.$route.params.id))
+      .filter(teams => teams.flag === 0);
+    },
+
+    confirmationMatches() {
+      return this.$store.state.match.matches
+      .filter(el => el.teamId.some((data) => data === this.$route.params.id))
+      .filter(teams => teams.flag === 1);
     },
   },
   methods: {
@@ -305,20 +402,41 @@ export default {
       this.isEdited = true;
     },
     selectImage(e) {
-      console.log(e.target.files[0]);
       const file = e.target.files[0];
       this.updatedFile = file;
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (e) => {
-        console.log(e.target.result);
         this.profileImage = e.target.result;
       };
     },
-    hasAuthority(id){
-        return this.userInfo.user_id === id;
-    }
+    hasAuthority(id) {
+      return this.userInfo.user_id === id;
+    },
+
+    getTeamName(array){
+        return this.$store.state.teams
+        .filter(el => array.some(data => data === el.id && data != this.$route.params.id))
+        .map(team => team.name)[0];
+    },
+
+    getTeamImage(array){
+        return this.$store.state.teams
+        .filter(el => array.some(data => data === el.id && data != this.$route.params.id))
+        .map(team => team.image)[0];
+    },
+
+    getDate(datetime) {
+      return datetime
+        .replace("-", "/")
+        .replace("-", "/")
+        .slice(0, -6);
+    },
+
+    getTime(datetime) {
+      return datetime.slice(-5);
+    },
   },
 };
 </script>

@@ -17,7 +17,7 @@
             </div>
             <!-- 未読数表示 -->
             
-            <div class="flex-shrink-0 h-16 w-16 mx-auto md:h-28 md:w-28 md:h-full md:w-full">
+            <div class="flex-shrink-0 h-16 w-16 mx-auto md:h-full md:w-full">
               <img class="h-full w-full rounded-lg" :src="team.image" alt="" />
             </div>
             <!-- ユーザー名 -->
