@@ -37,8 +37,7 @@ export const actions = {
   }),
 
   add: firestoreAction(
-    (context, { user_id, name, level, area, selfIntroduction, image, showImage }) => {
-      console.log(user_id, level, area, selfIntroduction, image);
+    (context, { user_id, name, category, level, motibation, area1, area2, area3, selfIntroduction, image, showImage }) => {
 
       // refの中身が保存する場所のpathになる
       if (image === "") {
@@ -46,8 +45,12 @@ export const actions = {
           teamRef.add({
             user_id: user_id,
             name: name,
+            category: category,
             level: level,
-            area: area,
+            motibation: motibation,
+            area1: area1,
+            area2: area2,
+            area3: area3,
             selfIntroduction: selfIntroduction,
             image:
               "https://firebasestorage.googleapis.com/v0/b/nuxt-project-aff05.appspot.com/o/teamProfileImages%2Famoung%20us.webp?alt=media&token=97f9a5f4-9fb4-4ada-95bf-feb098a47fc6",
@@ -73,8 +76,12 @@ export const actions = {
                 teamRef.add({
                   user_id: user_id,
                   name: name,
+                  category: category,
                   level: level,
-                  area: area,
+                  motibation: motibation,
+                  area1: area1,
+                  area2: area2,
+                  area3: area3,
                   selfIntroduction: selfIntroduction,
                   image: url,
                   created: firebase.firestore.FieldValue.serverTimestamp(),

@@ -24,7 +24,7 @@
             <div class="text-sm text-yellow-500">
               <button>
                 <nuxt-link to="profile" class="underline"
-                  >プロフィール</nuxt-link
+                  >プロフィール詳細</nuxt-link
                 >
               </button>
             </div>
@@ -37,15 +37,12 @@
       <button class="w-1/2 bg-yellow-500 text-white m-3 p-3 rounded-lg">
         <NuxtLink to="forms/registration">チーム登録</NuxtLink>
       </button>
-      <button class="w-1/2 bg-yellow-500 text-white m-3 p-3 rounded-lg">
-        <NuxtLink to="chat/chatList">チャット</NuxtLink>
-      </button>
     </div>
   </div>
 
 <div class="md:w-2/3">
       <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-          チーム一覧
+          マイチーム一覧
       </h1>
     <div v-for="team in teams" :key="team.id">
         <div

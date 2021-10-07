@@ -36,6 +36,16 @@
         <button class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md">
           <NuxtLink to="myPage">マイページへ戻る</NuxtLink>
         </button>
+        <a href="/"
+          ><button
+            @click="logout"
+            class="w-11/12 bg-red-400 text-white m-3 p-3 rounded-md"
+            tabindex="-1"
+            id="menu-item-1"
+          >
+            ログアウト
+          </button></a
+        >
       </div>
     </template>
 
@@ -45,9 +55,11 @@
       
        -->
     <template v-else>
-      <div 
-        v-for="user in users"  :key="user.id"
-        class="bg-white divide-y divide-gray-200">
+      <div
+        v-for="user in users"
+        :key="user.id"
+        class="bg-white divide-y divide-gray-200"
+      >
         <ValidationObserver v-slot="{ invalid }">
           <div class="px-6 py-4 whitespace-nowrap">
             <div class="flex items-center">
@@ -125,13 +137,13 @@ import { required } from "vee-validate/dist/rules";
 
 extend("required", {
   ...required,
-  message: "必須入力項目です"
+  message: "必須入力項目です",
 });
 
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
   },
   data() {
     return {
@@ -139,7 +151,7 @@ export default {
         user_id: "",
         loginName: "",
         email: "",
-        image: ""
+        image: "",
       },
 
       profileImage: "",
@@ -148,9 +160,9 @@ export default {
     };
   },
   created: function() {
-     this.$store.dispatch("user/userInit");
+    this.$store.dispatch("user/userInit");
 
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged((user) => {
       if (!user) {
         this.userInfo.loginName = null;
       } else {
@@ -165,7 +177,7 @@ export default {
       storageRef
         .child(this.profileImage)
         .getDownloadURL()
-        .then(url => {
+        .then((url) => {
           this.profileImage = url;
           console.log(user);
           console.log(this.profileImage);
@@ -174,10 +186,17 @@ export default {
   },
   computed: {
     users() {
-      return this.$store.state.user.users.filter(el => el.uid === this.userInfo.user_id);
-    }
+      return this.$store.state.user.users.filter(
+        (el) => el.uid === this.userInfo.user_id
+      );
+    },
   },
   methods: {
+    logout() {
+      auth.signOut().then(() => {
+        console.log("logoutしました");
+      });
+    },
     edit() {
       return (this.isEdited = false);
     },
@@ -189,7 +208,10 @@ export default {
       this.$store.dispatch("updateUser", this.userInfo);
 
       //firestoreのusersコレクションの情報を変更する
-      this.$store.dispatch("user/updateUserImage", { docId: id, profileImage: this.userInfo.image});
+      this.$store.dispatch("user/updateUserImage", {
+        docId: id,
+        profileImage: this.userInfo.image,
+      });
 
       //表示画面に戻す
       this.isEdited = true;
@@ -201,10 +223,10 @@ export default {
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = e => {
+      reader.onload = (e) => {
         this.profileImage = e.target.result;
       };
     },
-  }
+  },
 };
 </script>

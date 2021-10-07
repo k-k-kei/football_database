@@ -2,7 +2,7 @@
   <div>
     <div>
           <form @input="submit">
-            <div class="shadow sm:rounded-md sm:overflow-hidden">
+            <div class="sm:rounded-md sm:overflow-hidden">
               <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                 <!-- アップロードエリア -->
                 <div>
@@ -90,6 +90,43 @@
                   </ValidationProvider>
                 </div>
 
+                <!-- 競技種目 -->
+                <div class="col-span-6 sm:col-span-4">
+                  <ValidationProvider
+                    name="競技種目"
+                    rules="required|blank"
+                    v-slot="v"
+                  >
+                    <label
+                      for="category"
+                      class="block text-sm font-medium text-gray-700"
+                      >競技種目</label
+                    >
+                    <select
+                      v-model="teamInfo.category"
+                      name="category"
+                      class="
+                        bg-gray-200
+                        mt-1
+                        p-2
+                        focus:ring-indigo-500
+                        focus:border-indigo-500
+                        block
+                        w-full
+                        shadow-sm
+                        sm:text-sm
+                        border-gray-300
+                        rounded-md
+                      "
+                    >
+                      <option disabled>競技種目を入力</option>
+                      <option>サッカー</option>
+                      <option>フットサル</option>
+                    </select>
+                    <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
+                  </ValidationProvider>
+                </div>
+
                 <!-- チームレベル -->
                 <div class="col-span-6 sm:col-span-3">
                   <ValidationProvider
@@ -98,9 +135,9 @@
                     v-slot="v"
                   >
                     <label
-                      for="last-name"
+                      for="level"
                       class="block text-sm font-medium text-gray-700"
-                      >チームレベル</label
+                      >競技レベル</label
                     >
                     <select
                       v-model="teamInfo.level"
@@ -131,7 +168,46 @@
                   </ValidationProvider>
                 </div>
 
-                <!-- 主な活動場所 -->
+                <!-- 試合へのモチベーション -->
+                <div class="col-span-6 sm:col-span-4">
+                  <ValidationProvider
+                    name="試合へのモチベーション"
+                    rules="required|blank"
+                    v-slot="v"
+                  >
+                    <label
+                      for="motibation"
+                      class="block text-sm font-medium text-gray-700"
+                      >試合へのモチベーション</label
+                    >
+                    <select
+                      v-model="teamInfo.motibation"
+                      name="motibation"
+                      class="
+                        bg-gray-200
+                        mt-1
+                        p-2
+                        focus:ring-indigo-500
+                        focus:border-indigo-500
+                        block
+                        w-full
+                        shadow-sm
+                        sm:text-sm
+                        border-gray-300
+                        rounded-md
+                      "
+                    >
+                      <option disabled>試合へのモチベーション</option>
+                      <option>勝ち負けにこだわりたい</option>
+                      <option>勝ち負けにこだわりすぎないが真剣にハードに</option>
+                      <option>エンジョイでは物足りない。ハードすぎずしっかりめにやりたい</option>
+                      <option>お互い楽しくエンジョイ志向でやりたい</option>
+                    </select>
+                    <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
+                  </ValidationProvider>
+                </div>
+
+                <!-- 活動している都道府県 -->
                 <div class="col-span-6 sm:col-span-4">
                   <ValidationProvider
                     name="活動場所"
@@ -139,14 +215,51 @@
                     v-slot="v"
                   >
                     <label
-                      for="email-address"
+                      for="area1"
                       class="block text-sm font-medium text-gray-700"
-                      >主な活動場所</label
+                      >都道府県</label
+                    >
+                    <select
+                      v-model="teamInfo.area1"
+                      name="area1"
+                      class="
+                        bg-gray-200
+                        mt-1
+                        p-2
+                        focus:ring-indigo-500
+                        focus:border-indigo-500
+                        block
+                        w-full
+                        shadow-sm
+                        sm:text-sm
+                        border-gray-300
+                        rounded-md
+                      "
+                    >
+                      <option disabled>活動している都道府県を入力</option>
+                      <option>競技志向（ハイレベル）</option>
+                    </select>
+                    <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
+                  </ValidationProvider>
+                </div>
+
+                <!-- 活動している市町村区① -->
+                <div class="col-span-6 sm:col-span-3">
+                  <ValidationProvider
+                    name="チーム名"
+                    rules="required"
+                    v-slot="v"
+                  >
+                    <label
+                      for="area2"
+                      class="block text-sm font-medium text-gray-700"
+                      >よく活動する市町村区①</label
                     >
                     <input
                       type="text"
-                      v-model.trim="teamInfo.area"
-                      name="area"
+                      v-model.trim="teamInfo.area2"
+                      name="area2"
+                      id="area2"
                       class="
                         bg-gray-200
                         mt-1
@@ -165,18 +278,47 @@
                   </ValidationProvider>
                 </div>
 
+                <!-- 活動している市町村区② -->
+                <div class="col-span-6 sm:col-span-3">
+                    <label
+                      for="area3"
+                      class="block text-sm font-medium text-gray-700"
+                      >よく活動する市町村区②</label
+                    >
+                    <input
+                      type="text"
+                      v-model.trim="teamInfo.area3"
+                      name="area3"
+                      id="area3"
+                      class="
+                        bg-gray-200
+                        mt-1
+                        p-2
+                        focus:ring-indigo-500
+                        focus:border-indigo-500
+                        block
+                        w-full
+                        shadow-sm
+                        sm:text-sm
+                        border-gray-300
+                        rounded-md
+                      "
+                    />
+                </div>
+
                 <!-- チーム自己紹介 -->
-                <ValidationProvider name="活動場所" rules="required" v-slot="v">
+              <div class="col-span-6 sm:col-span-3">
+                <ValidationProvider name="チーム自己紹介" rules="required" v-slot="v">
                   <div>
                     <label
-                      for="about"
+                      for="selfIntroduction"
                       class="block text-sm font-medium text-gray-700"
                     >
                       チーム自己紹介
                     </label>
                     <div class="mt-1">
                       <textarea
-                        id="about"
+                        id="selfIntroduction"
                         name="selfIntroduction"
                         v-model.trim="teamInfo.selfIntroduction"
                         rows="10"
@@ -200,6 +342,7 @@
                   </div>
                   <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                 </ValidationProvider>
+              </div>
               </div>
             </div>
           </form>
@@ -240,8 +383,12 @@ export default {
     return {
       teamInfo: {
         name: "",
+        category: "",
         level: "",
-        area: "",
+        motibation: "",
+        area1: "",
+        area2: "",
+        area3: "",
         image: "",
         showImage: "",
         selfIntroduction: "",
@@ -252,8 +399,12 @@ export default {
     submit: function () {
       this.$emit("update", {
         name: this.teamInfo.name,
+        category: this.teamInfo.category,
         level: this.teamInfo.level,
-        area: this.teamInfo.area,
+        motibation: this.teamInfo.motibation,
+        area1: this.teamInfo.area1,
+        area2: this.teamInfo.area2,
+        area3: this.teamInfo.area3,
         image: this.teamInfo.image,
         userProfileImage: this.teamInfo.userProfileImage,
         showImage: this.teamInfo.showImage,

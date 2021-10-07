@@ -7,14 +7,13 @@
         <form-complate v-if="formNumber === 2" />
       </keep-alive>
 
-      <!-- <div class="px-4 bg-gray-50 text-right sm:px-6"> -->
         <button
-          v-if="formNumber === 0"
-          @click="plusNum"
-          :disabled="invalid"
-          class="w-full py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            v-if="formNumber === 0"
+            @click="plusNum"
+            :disabled="invalid"
+            class="w-11/12 m-3 p-3 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-          確認画面へ
+            確認画面へ
         </button>
       <!-- </div> -->
 
@@ -73,8 +72,12 @@ export default {
       formVal: {
         user_id: "",
         name: "",
+        category: "",
         level: "",
-        area: "",
+        motibation: "",
+        area1: "",
+        area2: "",
+        area3: "",
         selfIntroduction: "",
         image: "",
         showImage: ""
@@ -90,7 +93,6 @@ export default {
         this.user_id = null;
       } else {
         this.formVal.user_id = user.uid;
-        console.log("uidをフォームに追加");
       }
     });
   },

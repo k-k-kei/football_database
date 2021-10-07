@@ -19,7 +19,7 @@
                     </nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link to="/chat">
+                    <nuxt-link :to="chatValidation(uid)">
                     <div class="relative">
                     <div
                     class="absolute right-2 h-3 w-3 bg-red-500 rounded-full"
@@ -34,7 +34,7 @@
                     </nuxt-link>
                 </li>
                 <li>
-                    <nuxt-link to="/myPage">
+                    <nuxt-link :to="mepageValidation(uid)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon-size" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
@@ -74,6 +74,15 @@ export default {
     },
   },
   methods: {
+    //ログインしていない場合、チャットではなくログインページを表示する
+    chatValidation(uid){
+        return uid === null ? "/login" : "/chat";
+    },
+
+    //ログインしていない場合、マイページではなくログインページを表示する
+    mepageValidation(uid){
+        return uid === null ? "/login" : "/myPage";
+    },
     getUnreadMessage(obj) {
       return obj.some(
         (el) => el.unReadMessage != false && el.unReadMessage != this.uid

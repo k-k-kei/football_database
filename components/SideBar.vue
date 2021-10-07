@@ -29,28 +29,26 @@
         to="/search"
         class="bg-red-400 hover:bg-red-300 rounded text-white p-2 pl-4 pr-4"
       >
-        <button>
-          <p class="font-semibold text-xs">Search</p>
-        </button>
+        <button class="font-semibold text-xs">Search</button>
       </nuxt-link>
     </div>
 
     <div class="flex">
       <!-- 検索項目① -->
-      <div
+      <button
         class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
         @click="openModalArea"
       >
         <p>活動場所で探す</p>
-      </div>
+      </button>
 
       <!-- 検索項目② -->
-      <div
+      <button
         class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
         @click="openModalLevel"
       >
         <p>チームレベルで探す</p>
-      </div>
+      </button>
     </div>
 
     <div class="flex flex-wrap m-2">

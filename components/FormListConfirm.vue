@@ -28,24 +28,64 @@
                   {{ form.name }}
                 </div>
 
+                <!-- 競技種目 -->
+                <div class="col-span-6 sm:col-span-3">
+                  <label
+                    for="last-name"
+                    class="block text-sm font-medium text-gray-700"
+                    >競技種目</label
+                  >
+                  {{ form.category }}
+                </div>
+
                 <!-- チームレベル -->
                 <div class="col-span-6 sm:col-span-3">
                   <label
                     for="last-name"
                     class="block text-sm font-medium text-gray-700"
-                    >チームレベル</label
+                    >競技レベル</label
                   >
                   {{ form.level }}
                 </div>
 
-                <!-- 主な活動場所 -->
+                <!-- 試合へのモチベーション -->
                 <div class="col-span-6 sm:col-span-4">
                   <label
                     for="email-address"
                     class="block text-sm font-medium text-gray-700"
-                    >主な活動場所</label
+                    >試合へのモチベーション</label
                   >
-                  {{ form.area }}
+                  {{ form.motibation }}
+                </div>
+
+                <!-- 都道府県 -->
+                <div class="col-span-6 sm:col-span-4">
+                  <label
+                    for="email-address"
+                    class="block text-sm font-medium text-gray-700"
+                    >都道府県</label
+                  >
+                  {{ form.area1 }}
+                </div>
+
+                <!-- よく活動する市町村区① -->
+                <div class="col-span-6 sm:col-span-4">
+                  <label
+                    for="email-address"
+                    class="block text-sm font-medium text-gray-700"
+                    >よく活動する市町村区①</label
+                  >
+                  {{ form.area2 }}
+                </div>
+
+                <!-- よく活動する市町村区② -->
+                <div class="col-span-6 sm:col-span-4">
+                  <label
+                    for="email-address"
+                    class="block text-sm font-medium text-gray-700"
+                    >よく活動する市町村区②</label
+                  >
+                  {{ form.area3 }}
                 </div>
 
                 <!-- チーム自己紹介 -->

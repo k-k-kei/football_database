@@ -144,9 +144,6 @@
                   <select v-for="match in matches" v-model="confirmationInfo.datetime" :key="match.id" name="datetime">
                     <option v-for="datetime in match.datetime" :key="datetime.id" :value="datetime">{{ getDate(datetime) + getTime(datetime) }}</option>
                   </select>
-                <input
-                v-model="confirmationInfo.datetime"
-                type="datetime-local" />
               </div>
               <div class="bg-yellow-500 text-white text-center">
                 {{ v.errors[0] }}
@@ -221,7 +218,6 @@
         </div>
       </ValidationObserver>
       <!-- チェックボックス検索エリアここまで -->
-    {{ confirmationInfo }}
     </div>
 
     <!-- 日程ボタン -->
@@ -403,8 +399,8 @@ export default {
         docId: this.$route.params.id,
         confirmationInfo: this.confirmationInfo,
       });
-      //フォームを閉じる
-      this.closeConfirmationForm();
+
+      this.$router.go(-1);
     }
   },
 };

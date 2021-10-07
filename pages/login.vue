@@ -68,8 +68,7 @@ export default {
     login() {
       auth
         .signInWithEmailAndPassword(this.mail, this.pass)
-        .then(user => {
-          console.log(user.user.uid);
+        .then(() => {
           this.$router.push("/myPage");
         })
         .catch(e => console.log(e.message));
