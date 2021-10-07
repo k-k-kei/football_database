@@ -21,6 +21,7 @@
     "vuexfire": "^3.0.1"
   },
   "devDependencies": {
+    "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/tailwindcss": "^4.2.1",
     "autoprefixer": "^10.3.1",
     "postcss": "^8.3.6",

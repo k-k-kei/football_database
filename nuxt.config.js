@@ -29,8 +29,25 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/pwa',
   ],
+
+  manifest: {
+    name: "サイト名",
+    lang: "ja",
+    short_name: "サイト名",
+    title: "サイト名",
+    "og:title": "サイト名",
+    description: "サイトの説明",
+    "og:description": "サイトの説明",
+    theme_color: "#163956",
+    background_color: "#163956",
+  },
+
+  workbox: {
+    dev: false, // Service Workerを開発環境で使用するかどうか
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
