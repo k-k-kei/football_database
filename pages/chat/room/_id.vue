@@ -105,7 +105,7 @@
           <div class="flex w-full">
             <input
               type="text"
-              class="flex items-center h-10 w-10/12 rounded px-3 text-sm"
+              class="flex items-center h-10 w-10/12 rounded px-3"
               placeholder="Type your message…"
               v-model="chatData.message"
             />
@@ -171,7 +171,7 @@
             <!-- バリデーションの監視 -->
             <ValidationObserver v-slot="{ invalid }">
               <!-- チェックボックス検索エリア-->
-              <div class="flex mt-5">
+              <div class="flex mt-5 py-5">
                 <div class="w-11/12 mx-auto">
                   <!-- チーム名 -->
                   <div>候補日</div>
@@ -184,6 +184,7 @@
                       <input
                         type="datetime-local"
                         v-model="matchmake.datetime[0]"
+                        class="my-2 p-1 rounded-lg"
                       />
                     </div>
                     <div class="bg-yellow-500 text-white text-center">
@@ -194,31 +195,35 @@
                     <input
                       type="datetime-local"
                       v-model="matchmake.datetime[1]"
+                      class="my-2 p-1 rounded-lg"
                     />
                   </div>
                   <div>
                     <input
                       type="datetime-local"
                       v-model="matchmake.datetime[2]"
+                      class="my-2 p-1 rounded-lg"
                     />
                   </div>
-                  <div>{{ matchmake.datetime }}</div>
+
 
                   <div>タイトル</div>
-                  <div>
+                  <div class="mb-3">
                     <ValidationProvider
                       name="タイトル"
                       rules="required"
                       v-slot="v"
                     >
+                    <div class="mb-3">
                       <input
                         type="text"
                         v-model="matchmake.title"
                         placeholder="練習試合...etc"
-                        class="w-full bg-gray-200 mt-3 p-2 rounded-lg"
+                        class="w-full bg-gray-200 p-2 rounded-lg"
                       />
                       <div class="bg-yellow-500 text-white text-center">
                         {{ v.errors[0] }}
+                      </div>
                       </div>
                     </ValidationProvider>
                   </div>
@@ -226,20 +231,22 @@
                   <div>場所</div>
                   <div>
                     <ValidationProvider name="場所" rules="required" v-slot="v">
+                      <div class="mb-3">
                       <input
                         type="text"
                         v-model="matchmake.place"
                         placeholder="かもめコート...etc"
-                        class="w-full bg-gray-200 mt-3 p-2 rounded-lg"
+                        class="w-full bg-gray-200 p-2 rounded-lg"
                       />
                       <div class="bg-yellow-500 text-white text-center">
                         {{ v.errors[0] }}
+                      </div>
                       </div>
                     </ValidationProvider>
                   </div>
 
                   <div>コメント</div>
-                  <div>
+                  <div class="mb-3">
                     <div class="mt-1">
                       <textarea
                         id="about"
@@ -250,7 +257,6 @@
                           shadow-sm
                           focus:ring-indigo-500
                           focus:border-indigo-500
-                          mt-2
                           p-2
                           block
                           w-full
@@ -268,9 +274,9 @@
                   <button
                     @click="addMatches"
                     :disabled="invalid"
-                    class="w-full bg-gray-400 text-white mt-5 p-3 rounded-md"
+                    class="w-full bg-blue-400 text-white mt-5 p-3 rounded-md"
                   >
-                    作成する
+                    作成
                   </button>
                 </div>
               </div>

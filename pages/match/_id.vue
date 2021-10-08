@@ -6,49 +6,58 @@
     </h1>
     <div v-for="match in matches" :key="match.id">
       <div class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg">
-        <h1 class="text-base font-bold text-gray-800 p-2">
-          vs {{ getTeamName(match.teamId) }}
-        </h1>
-        <div class="flex">
-          <div class="w-1/2 px-4 md:p-4">
-            <div class="my-4">
-              <!-- チーム画像 -->
-              <div class="flex-shrink-0 h-28 w-28">
-                <img
-                  class="h-28 w-28 rounded-full"
-                  :src="getTeamImage(match.teamId)"
-                  alt=""
-                />
-              </div>
-            </div>
+        <div class="flex p-2">
+          <div class="flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
           </div>
-          <div class="w-1/2 px-4 md:p-4">
-            <div class="my-4">
-              <div class="font-bold">タイトル</div>
-              <p class="text-xs">{{ match.title }}</p>
-              <div class="font-bold">場所</div>
-              <p class="text-xs">{{ match.place }}</p>
-            </div>
+          <h1 class="text-base font-bold text-gray-800 p-2">
+            {{ match.title }}
+          </h1>
+          <p class="text-base font-bold text-gray-800 p-2">
+            vs {{ getTeamName(match.teamId) }}
+          </p>
+          <div class="flex-shrink-0 h-10 w-10 mx-2">
+            <img
+              class="h-10 w-10 rounded-full"
+              :src="getTeamImage(match.teamId)"
+              alt=""
+            />
           </div>
         </div>
 
         <!-- コメント表示エリア -->
-        <div class="font-bold">コメント</div>
+        <div class="p-2">
+        <div class="text-sm font-bold">【コメント】</div>
         <p class="text-xs">{{ match.comment }}</p>
+        </div>
         <!-- コメント表示エリア -->
 
         <!-- 候補日表示エリア -->
-        <div>
+        <div class="my-8 p-2">
+        <div class="text-sm font-bold">【候補日時】</div>
           <table>
-            <tr>
+            <tr class="border-b border-gray-500">
               <td></td>
-              <td v-for="datetime in match.datetime" :key="datetime.id">
+              <td v-for="datetime in match.datetime" :key="datetime.id" class="text-sm p-1">
                 <div>{{ getDate(datetime) }}</div>
                 <div>{{ getTime(datetime) }}</div>
               </td>
             </tr>
-            <tr v-for="teamId in match.teamId" :key="teamId.id" class="text-xs">
-              <td>{{ getName(teamId) }}</td>
+            <tr v-for="teamId in match.teamId" :key="teamId.id">
+              <td class="text-sm p-1">{{ getName(teamId) }}</td>
               <td
                 v-for="answer in getAnswer(teamId)"
                 :key="answer.id"
@@ -59,20 +68,27 @@
             </tr>
           </table>
         </div>
-    </div>
+      </div>
 
-    <!-- 候補日表示エリア -->
+      <!-- 候補日表示エリア -->
 
-    <!-- 日程調整編集エリア -->
+      <!-- 日程調整編集エリア -->
       <!-- 編集画面 -->
       <div v-if="showDatetimeInputForm">
+    <div class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg">
+      <div class="p-2">
+        <div class="text-sm font-bold">【出欠登録】</div>
         <div
           v-for="(datetime, index) in match.datetime"
           :key="datetime.id"
-          class="flex text-xs"
+          class="flex mx-auto text-lg px-2 py-1"
         >
-          <div>{{ datetime }}</div>
-          <div>
+        <div>
+          <ul>
+            <li>{{ getDate(datetime) }} {{ getTime(datetime) }}</li>
+          </ul>
+        </div>
+          <div class="px-2">
             <input
               type="radio"
               v-model="picked[index]"
@@ -99,19 +115,23 @@
             <label for="three">×</label>
           </div>
         </div>
-        
+
+      <div class="flex mt-5">
         <button
           @click="save(team)"
-          class="w-11/12 bg-blue-400 text-white m-3 p-3 rounded-md"
+          class="w-1/2 bg-blue-400 text-white m-2 p-3 rounded-md"
         >
           入力完了
         </button>
         <button
           @click="cancel()"
-          class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+          class="w-1/2 bg-gray-400 text-white m-2 p-3 rounded-md"
         >
           キャンセル
         </button>
+      </div>
+      </div>
+      </div>
       </div>
       <!-- 編集画面 -->
 
@@ -121,7 +141,7 @@
           @click="edit"
           class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
         >
-          編集
+          出欠を入力する
         </button>
       </div>
       <!-- 初期表示-->
@@ -131,19 +151,32 @@
     <!-- 日程確定入力エリア -->
     <!-- 日程確定フォーム -->
     <div v-if="showConfirmationForm">
-        <h1>確定した日程を入力しよう</h1>
+      <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
+          確定した日程を入力する
+      </h1>
       <!-- バリデーションの監視 -->
       <ValidationObserver v-slot="{ invalid }">
         <!-- チェックボックス検索エリア-->
-        <div class="flex mt-5">
+        <div class="flex mt-5 py-5">
           <div class="w-11/12 mx-auto">
-            <!-- チーム名 -->
+            
             <div>確定日</div>
             <ValidationProvider name="候補日時" rules="required" v-slot="v">
-              <div>
-                  <select v-for="match in matches" v-model="confirmationInfo.datetime" :key="match.id" name="datetime">
-                    <option v-for="datetime in match.datetime" :key="datetime.id" :value="datetime">{{ getDate(datetime) + getTime(datetime) }}</option>
-                  </select>
+              <div class="mb-3">
+                <select
+                  v-for="match in matches"
+                  v-model="confirmationInfo.datetime"
+                  :key="match.id"
+                  name="datetime"
+                  class="w-full p-2"
+                >
+                  <option
+                    v-for="datetime in match.datetime"
+                    :key="datetime.id"
+                    :value="datetime"
+                    >{{ getDate(datetime) + getTime(datetime) }}</option
+                  >
+                </select>
               </div>
               <div class="bg-yellow-500 text-white text-center">
                 {{ v.errors[0] }}
@@ -152,31 +185,36 @@
 
             <div>タイトル</div>
             <ValidationProvider name="タイトル" rules="required" v-slot="v">
+              <div class="mb-3">
               <input
                 type="text"
                 v-model="confirmationInfo.title"
                 placeholder="練習試合...etc"
-                class="w-full bg-gray-200 mt-3 p-2 rounded-lg"
+                class="w-full bg-gray-200 p-2 rounded-lg"
               />
               <div class="bg-yellow-500 text-white text-center">
                 {{ v.errors[0] }}
+              </div>
               </div>
             </ValidationProvider>
 
             <div>場所</div>
             <ValidationProvider name="場所" rules="required" v-slot="v">
+              <div class="mb-3">
               <input
                 type="text"
                 v-model="confirmationInfo.place"
                 placeholder="かもめコート...etc"
-                class="w-full bg-gray-200 mt-3 p-2 rounded-lg"
+                class="w-full bg-gray-200 p-2 rounded-lg"
               />
               <div class="bg-yellow-500 text-white text-center">
                 {{ v.errors[0] }}
               </div>
+              </div>
             </ValidationProvider>
 
             <div>コメント</div>
+            <div class="mb-3">
             <div class="mt-1">
               <textarea
                 id="about"
@@ -187,7 +225,6 @@
                           shadow-sm
                           focus:ring-indigo-500
                           focus:border-indigo-500
-                          mt-2
                           p-2
                           block
                           w-full
@@ -199,6 +236,7 @@
                 placeholder="こんにちは、よろしくお願いします！"
               ></textarea>
             </div>
+            </div>
 
             <!-- matchesコレクションへデータを送信 -->
             <button
@@ -209,7 +247,7 @@
               確定する
             </button>
             <button
-            @click="closeConfirmationForm"
+              @click="closeConfirmationForm"
               class="w-full bg-gray-400 text-white mt-5 p-3 rounded-md"
             >
               閉じる
@@ -266,15 +304,15 @@ export default {
 
       picked: [],
       answers: [],
-      
+
       isTeamId: "",
 
       confirmationInfo: {
-          datetime: "",
-          title: "",
-          place: "",
-          comment: "",
-      }
+        datetime: "",
+        title: "",
+        place: "",
+        comment: "",
+      },
     };
   },
   created() {
@@ -394,14 +432,14 @@ export default {
       this.showConfirmationForm = false;
     },
 
-    confirm(){
+    confirm() {
       this.$store.dispatch("match/matchConfirm", {
         docId: this.$route.params.id,
         confirmationInfo: this.confirmationInfo,
       });
 
       this.$router.go(-1);
-    }
+    },
   },
 };
 </script>
