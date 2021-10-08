@@ -1,74 +1,11 @@
 <template>
   <div>
+    <!-- チーム表示エリア -->
     <template v-if="isEdited">
-      <div
-        v-for="team in teams"
-        :key="team.id"
-        class="
-          max-w-sm
-          my-5
-          mx-auto
-          overflow-hidden
-          bg-white
-          rounded-lg
-          dark:bg-gray-800
-        "
-      >
-        <!-- チームプロフィール画像 -->
-        <img class="object-cover object-center w-full h-56" :src="showImage" />
+      <TeamDetailCard :teamDetailed="teams" />
 
-        <div class="px-6 py-4">
-          <h1 class="text-xl font-semibold text-gray-800 dark:text-white">
-            {{ team.name }}
-          </h1>
-
-          <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
-            <svg
-              class="w-6 h-6 fill-current"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M14 11H10V13H14V11Z" />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M7 5V4C7 2.89545 7.89539 2 9 2H15C16.1046 2 17 2.89545 17 4V5H20C21.6569 5 23 6.34314 23 8V18C23 19.6569 21.6569 21 20 21H4C2.34314 21 1 19.6569 1 18V8C1 6.34314 2.34314 5 4 5H7ZM9 4H15V5H9V4ZM4 7C3.44775 7 3 7.44769 3 8V14H21V8C21 7.44769 20.5522 7 20 7H4ZM3 18V16H21V18C21 18.5523 20.5522 19 20 19H4C3.44775 19 3 18.5523 3 18Z"
-              />
-            </svg>
-
-            <h1 class="px-2 text-sm">{{ team.level }}</h1>
-          </div>
-
-          <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
-            <svg
-              class="w-6 h-6 fill-current"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M16.2721 10.2721C16.2721 12.4813 14.4813 14.2721 12.2721 14.2721C10.063 14.2721 8.27214 12.4813 8.27214 10.2721C8.27214 8.063 10.063 6.27214 12.2721 6.27214C14.4813 6.27214 16.2721 8.063 16.2721 10.2721ZM14.2721 10.2721C14.2721 11.3767 13.3767 12.2721 12.2721 12.2721C11.1676 12.2721 10.2721 11.3767 10.2721 10.2721C10.2721 9.16757 11.1676 8.27214 12.2721 8.27214C13.3767 8.27214 14.2721 9.16757 14.2721 10.2721Z"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M5.79417 16.5183C2.19424 13.0909 2.05438 7.3941 5.48178 3.79418C8.90918 0.194258 14.6059 0.0543983 18.2059 3.48179C21.8058 6.90919 21.9457 12.606 18.5183 16.2059L12.3124 22.7241L5.79417 16.5183ZM17.0698 14.8268L12.243 19.8965L7.17324 15.0698C4.3733 12.404 4.26452 7.9732 6.93028 5.17326C9.59603 2.37332 14.0268 2.26454 16.8268 4.93029C19.6267 7.59604 19.7355 12.0269 17.0698 14.8268Z"
-              />
-            </svg>
-
-            <h1 class="px-2 text-sm">{{ team.area }}</h1>
-          </div>
-
-          <div class="flex items-center mt-4 text-gray-700 dark:text-gray-200">
-            <h1 class="px-2 text-sm">
-              {{ team.selfIntroduction }}
-            </h1>
-          </div>
-        </div>
-
+      <!-- 編集ボタン -->
+      <div v-for="team in teams" :key="team.id">
         <div v-if="hasAuthority(team.user_id)">
           <button
             @click="edit"
@@ -79,28 +16,12 @@
         </div>
       </div>
     </template>
+    <!-- チーム表示エリア -->
 
-    <!-- 
-  
-  チーム編集エリア
-
- -->
+    <!-- チーム編集エリア -->
     <template v-else>
-      <div
-        v-for="team in teams"
-        :key="team.id"
-        class="
-          max-w-sm
-          my-5
-          mx-auto
-          overflow-hidden
-          bg-white
-          rounded-lg
-          shadow-lg
-          dark:bg-gray-800
-        "
-      >
-        <!-- チームプロフィール画像 -->
+
+        <!-- チームプロフィール画像編集 -->
         <img
           :src="profileImage === '' ? showImage : profileImage"
           class="object-cover object-center w-full h-56"
@@ -109,102 +30,35 @@
         <div class="w-full flex">
           <input type="file" @change="selectImage" class="mx-auto p-2" />
         </div>
+        <!-- チームプロフィール画像編集 -->
 
-        <ValidationObserver v-slot="{ invalid }">
-          <div class="px-6 py-4">
-            <ValidationProvider
-              name="チーム名"
-              rules="required"
-              v-slot="{ errors }"
-            >
-              <div>
-                <input
-                  type="text"
-                  v-model="teamInfo.name"
-                  class="bg-gray-200 w-full mt-2 p-2 rounded-lg"
-                />
-              </div>
-              <span>{{ errors[0] }}</span>
-            </ValidationProvider>
+      <ValidationObserver v-slot="{ invalid }">
+        <!-- チーム情報編集 -->
+        <TeamDetailCardEdit
+          :teamInfo="teamInfo"
+          :profileImage="profileImage"
+          :showImage="showImage"
+        />
+        <!-- チーム情報編集 -->
 
-            <ValidationProvider name="競技レベル" rules="required" v-slot="v">
-              <select
-                v-model="teamInfo.level"
-                name="競技レベル"
-                class="bg-gray-200 w-full mt-2 p-2 rounded-lg"
-              >
-                <option disabled>競技レベルを選択</option>
-                <option>競技志向（ハイレベル）</option>
-                <option>競技志向（シリアス）</option>
-                <option>競技志向（ジェネラル）</option>
-                <option>エンジョイ（シリアス）</option>
-                <option>エンジョイ（ジェネラル）</option>
-                <option>エンジョイ（ファン）</option>
-              </select>
-              <span>{{ v.errors[0] }}</span>
-            </ValidationProvider>
-
-            <ValidationProvider
-              name="エリア"
-              rules="required"
-              v-slot="{ errors }"
-            >
-              <div>
-                <input
-                  type="text"
-                  v-model="teamInfo.area"
-                  class="bg-gray-200 w-full mt-2 p-2 rounded-lg"
-                />
-              </div>
-              <span>{{ errors[0] }}</span>
-            </ValidationProvider>
-
-            <!-- チーム自己紹介 -->
-            <ValidationProvider name="活動場所" rules="required" v-slot="v">
-              <div>
-                <div class="mt-1">
-                  <textarea
-                    id="about"
-                    name="selfIntroduction"
-                    v-model.trim="teamInfo.selfIntroduction"
-                    rows="10"
-                    class="
-                          shadow-sm
-                          focus:ring-indigo-500
-                          focus:border-indigo-500
-                          mt-2
-                          p-2
-                          block
-                          w-full
-                          sm:text-sm
-                          bg-gray-200
-                          border border-gray-300
-                          rounded-lg
-                        "
-                    placeholder="こんにちは、私たちはチームフットボールです！"
-                  ></textarea>
-                </div>
-              </div>
-              <span>{{ v.errors[0] }}</span>
-            </ValidationProvider>
-          </div>
-
-          <button
-            @click="update"
-            :disabled="invalid"
-            class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
-          >
-            更新
-          </button>
-          <button
-            @click="cancel"
-            class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
-          >
-            キャンセル
-          </button>
-        </ValidationObserver>
-      </div>
+        <!-- 更新・キャンセルボタン -->
+        <button
+          @click="update"
+          :disabled="invalid"
+          class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+        >
+          更新
+        </button>
+        <button
+          @click="cancel"
+          class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+        >
+          キャンセル
+        </button>
+        <!-- 更新・キャンセルボタン -->
+      </ValidationObserver>
     </template>
+
     <!-- チーム情報編集画面 -->
 
     <!-- スケジュール調整中の予定表示 -->
@@ -213,34 +67,38 @@
         スケジュール調整中
       </h1>
       <div v-for="match in adjustedMatches" :key="match.id">
-        <div
-          class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
-        >
+        <div class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg">
           <NuxtLink :to="'/match/' + match.id">
             <h1 class="text-base font-bold text-gray-800 p-2">
-                vs {{ getTeamName(match.teamId) }}
+              vs {{ getTeamName(match.teamId) }}
             </h1>
             <div class="flex">
               <div class="w-1/2 px-4 md:p-4">
                 <div class="my-4">
-                    <!-- チーム画像 -->
-                    <div class="flex-shrink-0 h-28 w-28">
-                        <img
-                        class="h-28 w-28 rounded-full"
-                        :src="getTeamImage(match.teamId)"
-                        alt=""
-                        />
-                    </div>
+                  <!-- チーム画像 -->
+                  <div class="flex-shrink-0 h-28 w-28">
+                    <img
+                      class="h-28 w-28 rounded-full"
+                      :src="getTeamImage(match.teamId)"
+                      alt=""
+                    />
+                  </div>
                 </div>
               </div>
               <div class="w-1/2 px-4 md:p-4">
                 <div class="my-4">
                   <div class="font-bold">タイトル</div>
                   <p class="text-xs">{{ match.title }}</p>
-                <div class="font-bold">場所</div>
+                  <div class="font-bold">場所</div>
                   <p class="text-xs">{{ match.place }}</p>
                   <div class="font-bold">候補日</div>
-                  <div v-for="datetime in match.datetime" :key="datetime.id" class="text-xs">{{ datetime }}</div>
+                  <div
+                    v-for="datetime in match.datetime"
+                    :key="datetime.id"
+                    class="text-xs"
+                  >
+                    {{ getDate(datetime) }} {{ getTime(datetime) }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -253,43 +111,43 @@
       <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
         確定スケジュール
       </h1>
-            <div v-for="match in confirmationMatches" :key="match.id">
+      <div v-for="match in confirmationMatches" :key="match.id">
         <div
           class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
         >
-            <h1 class="text-base font-bold text-gray-800 p-2">
-                vs {{ getTeamName(match.teamId) }}
-                <span class="bg-red-500 text-white mx-1 p-1">確定</span>
-            </h1>
-            <p class="text-sm px-2">日程：{{ getDate(match.confirmDate) }}</p>
-            <p class="text-sm px-2">キックオフ：{{ getTime(match.confirmDate) }}</p>
-            <div class="flex">
-              <div class="w-1/2 px-4 md:p-4">
-                <div class="my-4">
-                    <!-- チーム画像 -->
-                    <div class="flex-shrink-0 h-28 w-28">
-                        <img
-                        class="h-28 w-28 rounded-full"
-                        :src="getTeamImage(match.teamId)"
-                        alt=""
-                        />
-                    </div>
-                </div>
-              </div>
-              <div class="w-1/2 px-4 md:p-4">
-                <div class="my-4">
-                  <div class="font-bold">タイトル</div>
-                  <p class="text-xs">{{ match.title }}</p>
-                  <div class="font-bold">場所</div>
-                  <p class="text-xs">{{ match.place }}</p>
+          <h1 class="text-base font-bold text-gray-800 p-2">
+            vs {{ getTeamName(match.teamId) }}
+            <span class="bg-red-500 text-white mx-1 p-1">確定</span>
+          </h1>
+          <p class="text-sm px-2">日程：{{ getDate(match.confirmDate) }}</p>
+          <p class="text-sm px-2">
+            キックオフ：{{ getTime(match.confirmDate) }}
+          </p>
+          <div class="flex">
+            <div class="w-1/2 px-4 md:p-4">
+              <div class="my-4">
+                <!-- チーム画像 -->
+                <div class="flex-shrink-0 h-28 w-28">
+                  <img
+                    class="h-28 w-28 rounded-full"
+                    :src="getTeamImage(match.teamId)"
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
+            <div class="w-1/2 px-4 md:p-4">
+              <div class="my-4">
+                <div class="font-bold">タイトル</div>
+                <p class="text-xs">{{ match.title }}</p>
+                <div class="font-bold">場所</div>
+                <p class="text-xs">{{ match.place }}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- 確定スケジュールの予定表示 -->
-      
-
     </div>
   </div>
 </template>
@@ -299,21 +157,10 @@ import { auth } from "~/plugins/firebase";
 import firebase from "~/plugins/firebase";
 
 import { ValidationObserver } from "vee-validate";
-import { ValidationProvider } from "vee-validate";
-
-//バリデーションルールをここで定義
-import { extend } from "vee-validate";
-import { required } from "vee-validate/dist/rules";
-
-extend("required", {
-  ...required,
-  message: "必須入力項目です",
-});
 
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider,
   },
   data() {
     return {
@@ -325,16 +172,20 @@ export default {
       teamInfo: {
         selectedTeamId: this.$route.params.id,
         name: "",
+        category: "",
         level: "",
-        area: "",
-        selfIntroduction: "",
+        motibation: "",
+        area1: "",
+        area2: "",
+        area3: "",
         image: "",
+        showImage: "",
+        selfIntroduction: "",
       },
 
       userProfileImage: "",
       profileImage: "",
       updatedFile: "",
-      showImage: "",
       isEdited: true,
     };
   },
@@ -368,8 +219,12 @@ export default {
 
       teams.forEach((el) => {
         this.teamInfo.name = el.name;
+        this.teamInfo.category = el.category;
         this.teamInfo.level = el.level;
-        this.teamInfo.area = el.area;
+        this.teamInfo.motibation = el.motibation;
+        this.teamInfo.area1 = el.area1;
+        this.teamInfo.area2 = el.area2;
+        this.teamInfo.area3 = el.area3;
         this.teamInfo.selfIntroduction = el.selfIntroduction;
         this.showImage = el.image;
       });
@@ -379,14 +234,18 @@ export default {
 
     adjustedMatches() {
       return this.$store.state.match.matches
-      .filter(el => el.teamId.some((data) => data === this.$route.params.id))
-      .filter(teams => teams.flag === 0);
+        .filter((el) =>
+          el.teamId.some((data) => data === this.$route.params.id)
+        )
+        .filter((teams) => teams.flag === 0);
     },
 
     confirmationMatches() {
       return this.$store.state.match.matches
-      .filter(el => el.teamId.some((data) => data === this.$route.params.id))
-      .filter(teams => teams.flag === 1);
+        .filter((el) =>
+          el.teamId.some((data) => data === this.$route.params.id)
+        )
+        .filter((teams) => teams.flag === 1);
     },
   },
   methods: {
@@ -397,34 +256,30 @@ export default {
       return (this.isEdited = true);
     },
     update() {
+      console.log("aaa")
       this.updatedFile === "" ? this.teamInfo.image : this.updatedFile;
       this.$store.dispatch("update", this.teamInfo);
       this.isEdited = true;
     },
-    selectImage(e) {
-      const file = e.target.files[0];
-      this.updatedFile = file;
 
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (e) => {
-        this.profileImage = e.target.result;
-      };
-    },
     hasAuthority(id) {
       return this.userInfo.user_id === id;
     },
 
-    getTeamName(array){
-        return this.$store.state.teams
-        .filter(el => array.some(data => data === el.id && data != this.$route.params.id))
-        .map(team => team.name)[0];
+    getTeamName(array) {
+      return this.$store.state.teams
+        .filter((el) =>
+          array.some((data) => data === el.id && data != this.$route.params.id)
+        )
+        .map((team) => team.name)[0];
     },
 
-    getTeamImage(array){
-        return this.$store.state.teams
-        .filter(el => array.some(data => data === el.id && data != this.$route.params.id))
-        .map(team => team.image)[0];
+    getTeamImage(array) {
+      return this.$store.state.teams
+        .filter((el) =>
+          array.some((data) => data === el.id && data != this.$route.params.id)
+        )
+        .map((team) => team.image)[0];
     },
 
     getDate(datetime) {
@@ -436,6 +291,17 @@ export default {
 
     getTime(datetime) {
       return datetime.slice(-5);
+    },
+
+    selectImage(e) {
+      const file = e.target.files[0];
+      this.teamInfo.image = file;
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        this.profileImage = e.target.result;
+      };
     },
   },
 };

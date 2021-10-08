@@ -1,5 +1,6 @@
 <template>
   <div class="md:w-3/4 md:mx-auto md:flex">
+  
   <div class="my-2 md:w-1/3">
 
     <div class="bg-white divide-y divide-gray-200">

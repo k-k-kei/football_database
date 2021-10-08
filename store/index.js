@@ -95,18 +95,22 @@ export const actions = {
   ),
 
   update: firestoreAction(
-    (context, { selectedTeamId, name, level, area, selfIntroduction, image }) => {
-      console.log(selectedTeamId, name, level, area, selfIntroduction, image);
+    (context, { selectedTeamId, name, category, level, motibation, area1, area2, area3, selfIntroduction, image }) => {
+      console.log(selectedTeamId, name, category, level, motibation, area1, area2, area3, selfIntroduction, image);
 
       if (image === "") {
         if (name.trim()) {
-          teamRef.doc(selectedTeamId).update({
+          teamRef.doc(selectedTeamId).set({
             name: name,
+            category: category,
             level: level,
-            area: area,
+            motibation: motibation,
+            area1: area1,
+            area2: area2,
+            area3: area3 === undefined ? "" : area3,
             selfIntroduction: selfIntroduction,
             updated: firebase.firestore.FieldValue.serverTimestamp(),
-          });
+          }, {merge: true});
         }
       } else {
         // refの中身が保存する場所のpathになる
@@ -125,14 +129,18 @@ export const actions = {
             storageRef.getDownloadURL().then((url) => {
               console.log(url);
               if (name.trim()) {
-                teamRef.doc(selectedTeamId).update({
+                teamRef.doc(selectedTeamId).set({
                   name: name,
+                  category: category,
                   level: level,
-                  area: area,
+                  motibation: motibation,
+                  area1: area1,
+                  area2: area2,
+                  area3: area3,
                   selfIntroduction: selfIntroduction,
                   image: url,
                   updated: firebase.firestore.FieldValue.serverTimestamp(),
-                });
+                }, {merge: true});
               }
             });
           }
@@ -184,23 +192,20 @@ export const actions = {
 };
 
 export const getters = {
+
   //@param: teamInfo（検索フォームへの入力値）
   //@return: 部分一致した検索結果
   filterdTeams: (state) => () => {
     
-    //レベル選択肢を格納する配列
+    //レベル・エリア・フリーキーワード選択肢を格納する配列
     let searchLevel = [];
-    //エリア選択肢を格納する配列
     let searchArea = [];
-    //フリーキーワードを格納する配列
     let searchFreeWords = [];
 
     //フリーキーワードの検索項目を配列にpush
     //初期値で""が入るため除外（searchFreeWordsのlengthの初期値を0にしたいため）
     state.teamInfo.split("　").forEach((el) => { if(state.teamInfo != "") return searchFreeWords.push(el)});
-    //選択肢を配列にpush
     state.teamLevel.split("　").forEach((el) => { if(state.teamLevel != "") return searchLevel.push(el)});
-    //選択肢を配列にpush
     state.teamArea.split("　").forEach((el) => { if(state.teamArea != "") return searchArea.push(el)});
 
     //AND条件の時の検索ロジック
@@ -210,7 +215,11 @@ export const getters = {
           return (
             team.name.indexOf(el) > -1 ||
             team.level.indexOf(el) > -1 ||
-            team.area.indexOf(el) > -1
+            team.area1.indexOf(el) > -1||
+            team.area2.indexOf(el) > -1 ||
+            team.area3.indexOf(el) > -1 ||
+            team.category.indexOf(el) > -1 ||
+            team.motibation.indexOf(el) > -1
           );
         });
       });
@@ -224,7 +233,11 @@ export const getters = {
           return (
             team.name.indexOf(el) > -1 ||
             team.level.indexOf(el) > -1 ||
-            team.area.indexOf(el) > -1
+            team.area1.indexOf(el) > -1||
+            team.area2.indexOf(el) > -1 ||
+            team.area3.indexOf(el) > -1 ||
+            team.category.indexOf(el) > -1 ||
+            team.motibation.indexOf(el) > -1
           );
         });
       });

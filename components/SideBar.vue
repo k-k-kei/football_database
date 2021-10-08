@@ -2,75 +2,107 @@
   <div>
     <!-- フリーキーワード -->
     <div class="md:w-3/4 md:mx-auto">
-    <div class="bg-gray-100 m-2 p-2 flex rounded-lg">
-      <span class="w-auto flex justify-end items-center text-gray-500 p-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+      <div class="bg-gray-100 m-2 p-2 flex rounded-lg">
+        <span class="w-auto flex justify-end items-center text-gray-500 p-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </span>
+        <input
+          class="bg-gray-100 w-full rounded p-2"
+          @input="sorted"
+          type="text"
+          placeholder="試合相手を見つけよう！"
+        />
+        <nuxt-link
+          to="/search"
+          class="bg-red-400 hover:bg-red-300 rounded text-white p-2 pl-4 pr-4"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-      </span>
-      <input
-        class="bg-gray-100 w-full rounded p-2"
-        @input="sorted"
-        type="text"
-        placeholder="試合相手を見つけよう！"
-      />
-      <nuxt-link
-        to="/search"
-        class="bg-red-400 hover:bg-red-300 rounded text-white p-2 pl-4 pr-4"
-      >
-        <button class="font-semibold text-xs">Search</button>
-      </nuxt-link>
-    </div>
+          <button class="font-semibold text-xs">Search</button>
+        </nuxt-link>
+      </div>
 
-    <div class="flex">
-      <!-- 検索項目① -->
-      <button
-        class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
-        @click="openModalArea"
-      >
-        <p>活動場所で探す</p>
-      </button>
+      <div class="flex">
+        <!-- 検索項目① -->
+        <button
+          class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
+          @click="openModalArea"
+        >
+          <p>活動場所で探す</p>
+        </button>
 
-      <!-- 検索項目② -->
-      <button
-        class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
-        @click="openModalLevel"
-      >
-        <p>チームレベルで探す</p>
-      </button>
-    </div>
+        <!-- 検索項目② -->
+        <button
+          class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
+          @click="openModalLevel"
+        >
+          <p>チームレベルで探す</p>
+        </button>
+      </div>
 
-    <div class="flex flex-wrap m-2">
-    <!-- 選択肢たレベルタグ一覧を表示 -->
-      <div v-for="selectedItem in selectedItemLevel" :key="selectedItem.id" @click="deleteLevelTag(selectedItem.id)" class="flex bg-blue-200 text-blue-900 m-1 p-1 rounded-lg">
-        <p>{{ selectedItem }}</p>
-        <div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
+      <div class="flex flex-wrap m-2">
+        <!-- 選択したレベルタグ一覧を表示 -->
+        <div
+          v-for="selectedItem in selectedItemLevel"
+          :key="selectedItem.id"
+          @click="deleteLevelTag(selectedItem.id)"
+          class="flex bg-blue-200 text-blue-900 m-1 p-1 rounded-lg"
+        >
+          <p>{{ selectedItem }}</p>
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </div>
+        </div>
+        <!-- 選択したエリアタグ一覧を表示 -->
+        <div
+          v-for="selectedItem in selectedItemArea"
+          :key="selectedItem.id"
+          @click="deleteAreaTag(selectedItem.id)"
+          class="flex bg-yellow-200 text-yellow-900 m-1 p-1 rounded-lg"
+        >
+          <p>{{ selectedItem }}</p>
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </div>
         </div>
       </div>
-    <!-- 選択肢たエリアタグ一覧を表示 -->
-      <div v-for="selectedItem in selectedItemArea" :key="selectedItem.id" @click="deleteAreaTag(selectedItem.id)" class="flex bg-yellow-200 text-yellow-900 m-1 p-1 rounded-lg">
-        <p>{{ selectedItem }}</p>
-        <div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-        </div>
-      </div>
-    </div>
     </div>
 
     <!-- 
@@ -96,7 +128,7 @@
             >
               <!-- 検索ヘッダー -->
               <div class="w-full">
-                <h1 class="text-center p-1">活動場所で探す</h1>
+                <h1 class="text-center p-1">競技・場所で探す</h1>
               </div>
               <!-- クローズボタン -->
               <div>
@@ -118,9 +150,40 @@
                 </button>
               </div>
             </div>
+
             <!-- チェックボックス検索エリア-->
             <div class="flex mt-5">
               <div class="w-11/12 mx-auto">
+                <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
+                  競技カテゴリー
+                </h1>
+
+                <!-- 競技カテゴリー -->
+                <div class="block">
+                  <div class="mt-2">
+                    <div
+                      v-for="category in teamCategory"
+                      :key="category.id"
+                      class="flex flex-wrap"
+                    >
+                      <label class="w-1/2 inline-flex items-center mb-3">
+                        <input
+                          type="checkbox"
+                          class="form-checkbox h-7 w-7 rounded-lg"
+                          :value="category"
+                          v-model="selectedItemArea"
+                        />
+                        <span class="ml-2">{{ category }}</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
+                  都道府県
+                </h1>
+
+                <!-- 都道府県 -->
                 <div class="block">
                   <div class="mt-2">
                     <div
@@ -179,7 +242,7 @@
             >
               <!-- 検索ヘッダー -->
               <div class="w-full">
-                <h1 class="text-center p-1">チームレベルで検索</h1>
+                <h1 class="text-center p-1">多様な条件で検索</h1>
               </div>
               <!-- クローズボタン -->
               <div>
@@ -204,25 +267,47 @@
             <!-- チェックボックス検索エリア-->
             <div class="flex mt-5">
               <div class="w-11/12 mx-auto">
+                <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
+                  競技レベル
+                </h1>
+
+                <!-- チームレベル -->
                 <div class="block">
-                  <div class="mt-2">
-                    <div
-                      v-for="level in teamLevels"
-                      :key="level.id"
-                      class="flex flex-wrap"
-                    >
-                      <label class="w-1/2 inline-flex items-center mb-3">
-                        <input
-                          type="checkbox"
-                          class="form-checkbox h-7 w-7 rounded-lg"
-                          :value="level"
-                          v-model="selectedItemLevel"
-                        />
-                        <span class="ml-2 text-xs">{{ level }}</span>
-                      </label>
-                    </div>
+                  <div v-for="level in teamLevels" :key="level.id">
+                    <label class="w-full inline-flex items-center mb-3">
+                      <input
+                        type="checkbox"
+                        class="form-checkbox h-7 w-7 rounded-lg"
+                        :value="level"
+                        v-model="selectedItemLevel"
+                      />
+                      <span class="ml-2">{{ level }}</span>
+                    </label>
                   </div>
                 </div>
+
+                <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
+                  モチベーション
+                </h1>
+
+                <!-- モチベーション -->
+                <div class="block">
+                  <div
+                    v-for="motibation in teamMotibation"
+                    :key="motibation.id"
+                  >
+                    <label class="w-full inline-flex items-center mb-3">
+                      <input
+                        type="checkbox"
+                        class="form-checkbox h-7 w-7 rounded-lg"
+                        :value="motibation"
+                        v-model="selectedItemLevel"
+                      />
+                      <span class="ml-2">{{ motibation }}</span>
+                    </label>
+                  </div>
+                </div>
+
                 <nuxt-link to="/search">
                   <button
                     class="w-full bg-gray-400 text-white mt-5 p-3 rounded-md"
@@ -274,14 +359,29 @@ export default {
     teamAreas() {
       const areas = this.$store.state.teams
         .filter((el) => el.user_id != this.user_id)
-        .map((data) => data.area);
+        .map((data) => data.area1);
       return new Set(areas);
     },
+
     teamLevels() {
       const levels = this.$store.state.teams
         .filter((el) => el.user_id != this.user_id)
         .map((data) => data.level);
       return new Set(levels);
+    },
+
+    teamCategory() {
+      const category = this.$store.state.teams
+        .filter((el) => el.user_id != this.user_id)
+        .map((data) => data.category);
+      return new Set(category);
+    },
+
+    teamMotibation() {
+      const motibation = this.$store.state.teams
+        .filter((el) => el.user_id != this.user_id)
+        .map((data) => data.motibation);
+      return new Set(motibation);
     },
   },
   methods: {
@@ -338,12 +438,12 @@ export default {
       event.stopPropagation();
     },
 
-    deleteLevelTag(id){
+    deleteLevelTag(id) {
       this.selectedItemLevel.splice(id, 1);
       this.selectedLevel();
     },
-    
-    deleteAreaTag(id){
+
+    deleteAreaTag(id) {
       this.selectedItemArea.splice(id, 1);
       this.selectedArea();
     },
