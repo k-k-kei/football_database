@@ -22,11 +22,11 @@
         <div class="flex">
           <button
             @click="openModalArea"
-            class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
+            class="bg-yellow-400 text-gray-600 rounded w-1/2 m-2 p-2 text-center"
           >
             <p>日程調整</p>
           </button>
-          <button class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center">
+          <button class="bg-yellow-400 text-gray-600 rounded w-1/2 m-2 p-2 text-center">
             <p>マッチレポート</p>
           </button>
         </div>

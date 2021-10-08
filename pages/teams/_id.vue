@@ -1,8 +1,6 @@
 <template>
   <div>
-      <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-        チーム詳細
-      </h1>
+      <LayoutTitleHeader :title="'チーム詳細'" />
       <!-- チーム詳細情報 -->
       <TeamDetailCard :teamDetailed="teamDetailed" />
 
@@ -11,9 +9,7 @@
 
       <!-- チャット申請するチームを選ぶ -->
       <div class="h-screen/3">
-      <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-        チームを選択してチャット申請
-      </h1>
+      <LayoutTitleHeader :title="'チームを選択してチャット申請'" />
       <div v-if="uid === null">
         <h1>チャット申請を送るにはログインが必要です。</h1>
       </div>

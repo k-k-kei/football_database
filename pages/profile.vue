@@ -33,7 +33,7 @@
         >
           プロフィールを編集
         </button>
-        <button class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md">
+        <button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-md">
           <NuxtLink to="myPage">マイページへ戻る</NuxtLink>
         </button>
         <a href="/"

@@ -23,11 +23,11 @@
           class="bg-gray-100 w-full rounded p-2"
           @input="sorted"
           type="text"
-          placeholder="試合相手を見つけよう！"
+          placeholder="地域・チーム名などで検索！"
         />
         <nuxt-link
           to="/search"
-          class="bg-red-400 hover:bg-red-300 rounded text-white p-2 pl-4 pr-4"
+          class="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:bg-red-300 rounded text-gray-600 p-2 pl-4 pr-4"
         >
           <button class="font-semibold text-xs">Search</button>
         </nuxt-link>
@@ -36,18 +36,18 @@
       <div class="flex">
         <!-- 検索項目① -->
         <button
-          class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
+          class="bg-gradient-to-r from-yellow-400 to-yellow-500 rounded w-1/2 m-2 p-2 text-gray-600 text-center"
           @click="openModalArea"
         >
-          <p>活動場所で探す</p>
+          <p>競技・場所で探す</p>
         </button>
 
         <!-- 検索項目② -->
         <button
-          class="bg-gray-100 rounded w-1/2 m-2 p-2 text-center"
+          class="bg-gradient-to-r from-yellow-400 to-yellow-500 rounded w-1/2 m-2 p-2 text-gray-600 text-center"
           @click="openModalLevel"
         >
-          <p>チームレベルで探す</p>
+          <p>多様な条件で探す</p>
         </button>
       </div>
 
@@ -154,9 +154,7 @@
             <!-- チェックボックス検索エリア-->
             <div class="flex mt-5">
               <div class="w-11/12 mx-auto">
-                <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-                  競技カテゴリー
-                </h1>
+                <LayoutTitleHeader :title="'競技カテゴリー'" />
 
                 <!-- 競技カテゴリー -->
                 <div class="block">
@@ -179,9 +177,8 @@
                   </div>
                 </div>
 
-                <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-                  都道府県
-                </h1>
+
+                <LayoutTitleHeader :title="'都道府県'" />
 
                 <!-- 都道府県 -->
                 <div class="block">
@@ -205,7 +202,7 @@
                 </div>
                 <nuxt-link to="/search">
                   <button
-                    class="w-full bg-gray-400 text-white mt-5 p-3 rounded-md"
+                    class="w-full bg-blue-400 text-white mt-5 p-3 rounded-md"
                     @click="selectedArea"
                   >
                     探す
@@ -267,9 +264,7 @@
             <!-- チェックボックス検索エリア-->
             <div class="flex mt-5">
               <div class="w-11/12 mx-auto">
-                <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-                  競技レベル
-                </h1>
+                <LayoutTitleHeader :title="'競技レベル'" />
 
                 <!-- チームレベル -->
                 <div class="block">
@@ -286,9 +281,7 @@
                   </div>
                 </div>
 
-                <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-                  モチベーション
-                </h1>
+                <LayoutTitleHeader :title="'モチベーション'" />
 
                 <!-- モチベーション -->
                 <div class="block">
@@ -310,7 +303,7 @@
 
                 <nuxt-link to="/search">
                   <button
-                    class="w-full bg-gray-400 text-white mt-5 p-3 rounded-md"
+                    class="w-full bg-blue-400 text-white mt-5 p-3 rounded-md"
                     @click="selectedLevel"
                   >
                     探す

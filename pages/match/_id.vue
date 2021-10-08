@@ -1,9 +1,7 @@
 <template>
   <!-- スケジュール調整中の予定表示 -->
   <div class="md:w-2/3">
-    <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-      調整中スケジュール詳細
-    </h1>
+    <LayoutTitleHeader :title="'調整中スケジュール詳細'" />
     <div v-for="match in matches" :key="match.id">
       <div class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg">
         <div class="flex p-2">
@@ -151,9 +149,7 @@
     <!-- 日程確定入力エリア -->
     <!-- 日程確定フォーム -->
     <div v-if="showConfirmationForm">
-      <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-          確定した日程を入力する
-      </h1>
+      <LayoutTitleHeader :title="'確定した日程を入力する'" />
       <!-- バリデーションの監視 -->
       <ValidationObserver v-slot="{ invalid }">
         <!-- チェックボックス検索エリア-->

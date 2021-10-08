@@ -42,9 +42,7 @@
   </div>
 
 <div class="md:w-2/3">
-      <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-          マイチーム一覧
-      </h1>
+      <LayoutTitleHeader :title="'マイチーム一覧'" />
 
       <div v-if="checkContents()">
 

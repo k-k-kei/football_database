@@ -27,9 +27,7 @@
 
       <!-- 所属チーム一覧 -->
       <div class="md:w-2/3">
-      <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-          チーム一覧
-      </h1>
+      <LayoutTitleHeader :title="'チーム一覧'" />
       <div
         v-for="team in teams"
         :key="team.id"

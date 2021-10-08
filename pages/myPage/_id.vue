@@ -44,13 +44,13 @@
         <button
           @click="update"
           :disabled="invalid"
-          class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+          class="w-11/12 bg-blue-400 text-white m-3 p-3 rounded-md"
         >
           更新
         </button>
         <button
           @click="cancel"
-          class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+          class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-md"
         >
           キャンセル
         </button>
@@ -62,9 +62,7 @@
 
     <!-- スケジュール調整中の予定表示 -->
     <div class="md:w-2/3">
-      <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-        スケジュール調整中
-      </h1>
+      <LayoutTitleHeader :title="'スケジュール調整中'" />
 
       <div v-if="checkContentsForAdjust()">
         <div v-for="match in adjustedMatches" :key="match.id">
@@ -130,9 +128,7 @@
       
 
       <!-- 確定スケジュールの予定表示 -->
-      <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
-        確定スケジュール
-      </h1>
+      <LayoutTitleHeader :title="'確定スケジュール'" />
       <div v-if="checkContentsForConfirmation()">
 
         <!-- 確定スケジュールカードの内容 -->
