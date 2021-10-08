@@ -5,7 +5,12 @@
       チャット一覧
     </h1>
     <div class="bg-white divide-y divide-gray-200">
+
+      <!-- チャットの有無で表示を切り替え -->
+      <div v-if="checkContents()">
+
       <div class="flex flex-wrap px-6 py-4 whitespace-nowrap">
+
         <div v-for="team in teams" :key="team.id" class="relative w-1/5 m-2 items-center">
           <NuxtLink :to="'/chat/' + team.id">
             
@@ -26,6 +31,13 @@
             </div>
           </NuxtLink>
         </div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="text-center p-5">
+          <div>現在作成されたチャットはありません</div>
+          <div>チームを登録してチャットをはじめましょう！</div>
+      </div>
       </div>
     </div>
   </div>
@@ -62,6 +74,10 @@ export default {
         return this.$store.state.chat.chats
         .filter(el => el.team_id.some(data => data === status))
         .filter(team => team.unReadMessage != false && team.unReadMessage != this.uid).length;
+      },
+
+      checkContents(){
+        return this.teams.length != 0 ? true : false;
       }
   },
 };

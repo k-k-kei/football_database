@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="flex flex-col w-full">
+      <div v-if="checkContents()">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div
@@ -14,9 +15,7 @@
                   <!-- 左から1番目の要素 -->
                   <td>
                     <nuxt-link :to="'/chat/room/' + chat.id">
-                      <div
-                        class="flex items-center mx-4 my-2"
-                      >
+                      <div class="flex items-center mx-4 my-2">
                         <!-- ユーザー画像 -->
                         <div class=" flex-shrink-0 h-10 w-10">
                           <img
@@ -29,9 +28,14 @@
                         <!-- ユーザー名 -->
                         <div class="ml-4">
                           <div class="text-sm font-medium text-gray-900">
-                            <span>{{ getUserName(chat.uid, chat.other_id) }}</span>
+                            <span>{{
+                              getUserName(chat.uid, chat.other_id)
+                            }}</span>
                             <span>/</span>
-                            <span class="text-xs text-gray-600 overflow-hidden">{{ getTeamName(chat.team_id) }}</span>
+                            <span
+                              class="text-xs text-gray-600 overflow-hidden"
+                              >{{ getTeamName(chat.team_id) }}</span
+                            >
                           </div>
                           <div class="text-xs">
                             {{ chat.latestMessage }}
@@ -73,7 +77,10 @@
                             .padStart(2, "0")
                       }}
                     </div>
-                    <div v-if="checkUnReadMessage(chat.unReadMessage)" class="text-right text-red-800 p-1">
+                    <div
+                      v-if="checkUnReadMessage(chat.unReadMessage)"
+                      class="text-right text-red-800 p-1"
+                    >
                       未読
                     </div>
                     <!-- <div
@@ -86,6 +93,13 @@
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+      </div>
+      <div v-else>
+        <div class="text-center p-5">
+          <div>現在進行中のチャットはありません。</div>
+          <div>たくさんのチームと交流してここをいっぱいにしましょう！</div>
         </div>
       </div>
     </div>
@@ -130,39 +144,50 @@ export default {
   computed: {
     chats() {
       return this.$store.state.chat.chats
-      .filter(el => el.uid === this.loginUserId || el.other_id === this.loginUserId)
-      .filter(data => [...data.team_id].some(el => el === this.$route.params.list) === true)
-      .sort((a, b) => b.timestamp - a.timestamp);
+        .filter(
+          (el) =>
+            el.uid === this.loginUserId || el.other_id === this.loginUserId
+        )
+        .filter(
+          (data) =>
+            [...data.team_id].some((el) => el === this.$route.params.list) ===
+            true
+        )
+        .sort((a, b) => b.timestamp - a.timestamp);
     },
   },
   methods: {
-    getUserImage(uid, other_id){
+    getUserImage(uid, other_id) {
       const id = uid === this.loginUserId ? other_id : uid;
 
       return this.$store.state.user.users
-      .filter(el => el.uid === id)
-      .map(el => el.profileImage);
+        .filter((el) => el.uid === id)
+        .map((el) => el.profileImage);
     },
-    getUserName(uid, other_id){
+    getUserName(uid, other_id) {
       const id = uid === this.loginUserId ? other_id : uid;
 
       return this.$store.state.user.users
-      .filter(el => el.uid === id)
-      .map(el => el.displayName)[0];
+        .filter((el) => el.uid === id)
+        .map((el) => el.displayName)[0];
     },
 
-    checkUnReadMessage(status){
-      if(status != this.loginUserId && status != false) return true
+    checkUnReadMessage(status) {
+      if (status != this.loginUserId && status != false) return true;
       return false;
     },
 
-    getTeamName(array){
+    getTeamName(array) {
       return this.$store.state.teams
-      .filter(el => array.some(data => data === el.id))
-      .filter(teams => teams.user_id != this.loginUserId)
-      .map(team => team.name)[0];
+        .filter((el) => array.some((data) => data === el.id))
+        .filter((teams) => teams.user_id != this.loginUserId)
+        .map((team) => team.name)[0];
+    },
+
+    checkContents(){
+        return this.chats.length != 0 ? true : false;
     }
-  }
+  },
 };
 </script>
 

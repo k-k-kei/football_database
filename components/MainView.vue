@@ -1,9 +1,12 @@
 <template>
   <div>
+    <div v-if="checkContents()">
+
     <!-- 検索されたアイテムを表示 -->
     <div v-for="team in filterdTeams(getName)" :key="team.id" class="md:w-3/4 md:mx-auto">
       <!-- 自分の作成したチームは非表示にする。 -->
       <div v-if="team.user_id != userInfo.user_id">
+
         <div
           class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow"
         >
@@ -30,6 +33,13 @@
           </NuxtLink>
         </div>
       </div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="text-center p-5">
+        <div>ヒットするチームがありませんでした・・・！</div>
+        <div>お望みのチームが現れる日を待ちましょう！</div>
+      </div>
     </div>
   </div>
 </template>
@@ -42,7 +52,7 @@ export default {
     return {
       userInfo: {
         user_id: ""
-      }
+      },
     };
   },
   created: function() {
@@ -58,7 +68,7 @@ export default {
     //storeから検索フォームで入力された値を取得。
     getName() {
       return this.$store.state.teamInfo;
-    }
+    },
   },
   mounted() {
     //画面上部にローディングバーを表示
@@ -66,6 +76,13 @@ export default {
       this.$nuxt.$loading.start();
       setTimeout(() => this.$nuxt.$loading.finish(), 300);
     });
+  },
+
+  methods: {
+    checkContents(){
+      //検索コンテンツが0の時にテキスト表示を切り替える
+      return this.filterdTeams(this.getName).length != 0 ? true : false;
+    }
   }
 };
 </script>

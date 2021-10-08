@@ -66,6 +66,9 @@
       <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
         スケジュール調整中
       </h1>
+
+      <div v-if="checkContentsForAdjust()">
+
       <div v-for="match in adjustedMatches" :key="match.id">
         <div class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg">
           <NuxtLink :to="'/match/' + match.id">
@@ -104,13 +107,24 @@
             </div>
           </NuxtLink>
         </div>
+        </div>
       </div>
+              <div v-else>
+          <div class="text-center p-5">
+            <div>現在調整中のスケジュールはありません</div>
+            <div>気になるチームと日程調整してみましょう！</div>
+          </div>
+        </div>
       <!-- スケジュール調整中の予定表示 -->
 
       <!-- 確定スケジュールの予定表示 -->
       <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
         確定スケジュール
       </h1>
+
+      <div v-if="checkContentsForConfirmation()">
+
+
       <div v-for="match in confirmationMatches" :key="match.id">
         <div
           class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
@@ -147,6 +161,13 @@
           </div>
         </div>
       </div>
+      </div>
+        <div v-else>
+          <div class="text-center p-5">
+           <div>現在確定されたスケジュールはありません</div>
+            <div>スケジュールを確定して活動しましょう！</div>
+          </div>
+        </div>
       <!-- 確定スケジュールの予定表示 -->
     </div>
   </div>
@@ -303,6 +324,14 @@ export default {
         this.profileImage = e.target.result;
       };
     },
+
+    checkContentsForAdjust(){
+        return this.adjustedMatches.length != 0 ? true : false;
+      },
+
+    checkContentsForConfirmation(){
+        return this.confirmationMatches.length != 0 ? true : false;
+      }
   },
 };
 </script>

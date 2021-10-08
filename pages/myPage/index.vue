@@ -45,6 +45,9 @@
       <h1 class="text-xl text-white bg-black my-2 px-3 py-4">
           マイチーム一覧
       </h1>
+
+      <div v-if="checkContents()">
+
     <div v-for="team in teams" :key="team.id">
         <div
           class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
@@ -72,6 +75,13 @@
           </NuxtLink>
         </div>
        </div>
+      </div>
+        <div v-else>
+          <div class="text-center p-5">
+            <div>現在登録されたチームはありません</div>
+            <div>チームを登録して活動を始めよう！</div>
+          </div>
+        </div>
       </div>
     </div>
     </template>
@@ -124,5 +134,11 @@ export default {
       );
     },
   },
+
+  methods: {
+    checkContents(){
+        return this.teams.length != 0 ? true : false;
+      }
+  }
 };
 </script>
