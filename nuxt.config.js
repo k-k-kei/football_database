@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt_app',
+    title: 'Whistle サッカー/フットサルチーム検索サービス',
     htmlAttrs: {
       lang: 'en'
     },
@@ -34,15 +34,22 @@ export default {
   ],
 
   manifest: {
-    name: "サイト名",
+    name: "Whistle",
     lang: "ja",
-    short_name: "サイト名",
-    title: "サイト名",
-    "og:title": "サイト名",
-    description: "サイトの説明",
-    "og:description": "サイトの説明",
+    short_name: "Whistle",
+    title: "Whistle",
+    "og:title": "Whistle",
+    description: "Whistleはアマチュアサッカー/フットサルチームを登録・検索できるプラットフォームです。週末の練習試合の相手を、ともに高めあえる地元の仲間を探しにいきましょう。",
+    "og:description": "Whistleはアマチュアサッカー/フットサルチームを登録・検索できるプラットフォームです。週末の練習試合の相手を、ともに高めあえる地元の仲間を探しにいきましょう。",
     theme_color: "#163956",
     background_color: "#163956",
+    "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+    ]
   },
 
   workbox: {

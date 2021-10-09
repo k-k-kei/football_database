@@ -129,6 +129,7 @@
 
     <!-- モーダルウィンドウ -->
     <div>
+      <transition>
       <div class="overlay overflow-scroll md:w-3/4 md:mx-auto" v-show="showContentArea">
         <div class="content" @click="stopEvent">
           <div class="bg-white">
@@ -184,7 +185,7 @@
                       <input
                         type="datetime-local"
                         v-model="matchmake.datetime[0]"
-                        class="appearance-none my-2 p-1 rounded-lg"
+                        class="my-2 p-1 rounded-lg"
                       />
                     </div>
                     <div class="bg-yellow-500 text-white text-center">
@@ -195,14 +196,14 @@
                     <input
                       type="datetime-local"
                       v-model="matchmake.datetime[1]"
-                      class="appearance-none my-2 p-1 rounded-lg"
+                      class="my-2 p-1 rounded-lg"
                     />
                   </div>
                   <div>
                     <input
                       type="datetime-local"
                       v-model="matchmake.datetime[2]"
-                      class="appearance-none my-2 p-1 rounded-lg"
+                      class="my-2 p-1 rounded-lg"
                     />
                   </div>
 
@@ -285,6 +286,7 @@
           </div>
         </div>
       </div>
+      </transition>
     </div>
   </div>
 </template>

@@ -73,6 +73,9 @@
             </ValidationObserver>
           </div>
         </div>
+        <div class="text-center p-5">
+          <button class="underline hover:text-red-400"><NuxtLink to="/login">すでにアカウントをお持ちの方</NuxtLink></button>
+        </div>
       </div>
     </div>
   </div>

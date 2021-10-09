@@ -107,16 +107,17 @@
 
     <!-- 
       
-      エリアモーダル
+      競技・場所モーダル
       
        -->
     <div>
-      <div class="overlay md:w-3/4 md:mx-auto" v-show="showContentArea">
-        <div class="content" @click="stopEvent">
-          <!-- モーダルウィンドウのコンテンツ -->
-          <div class="bg-white">
-            <div
-              class="
+      <transition>
+        <div class="overlay md:w-3/4 md:mx-auto" v-show="showContentArea">
+          <div class="content" @click="stopEvent">
+            <!-- モーダルウィンドウのコンテンツ -->
+            <div class="bg-white">
+              <div
+                class="
                 text-center
                 align-middle
                 flex
@@ -125,103 +126,104 @@
                 md:mx-8
                 py-2
               "
-            >
-              <!-- 検索ヘッダー -->
-              <div class="w-full">
-                <h1 class="text-center p-1">競技・場所で探す</h1>
-              </div>
-              <!-- クローズボタン -->
-              <div>
-                <button @click="closeModalArea">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- チェックボックス検索エリア-->
-            <div class="flex mt-5">
-              <div class="w-11/12 mx-auto">
-                <LayoutTitleHeader :title="'競技カテゴリー'" />
-
-                <!-- 競技カテゴリー -->
-                <div class="block">
-                  <div class="mt-2">
-                    <div
-                      v-for="category in teamCategory"
-                      :key="category.id"
-                      class="flex flex-wrap"
-                    >
-                      <label class="w-1/2 inline-flex items-center mb-3">
-                        <input
-                          type="checkbox"
-                          class="checkboxStyle form-checkbox"
-                          :value="category"
-                          v-model="selectedItemArea"
-                        />
-                        <span class="ml-2">{{ category }}</span>
-                      </label>
-                    </div>
-                  </div>
+              >
+                <!-- 検索ヘッダー -->
+                <div class="w-full">
+                  <h1 class="text-center p-1">競技・場所で探す</h1>
                 </div>
-
-
-                <LayoutTitleHeader :title="'都道府県'" />
-
-                <!-- 都道府県 -->
-                <div class="block">
-                  <div class="mt-2">
-                    <div
-                      v-for="area in teamAreas"
-                      :key="area.id"
-                      class="flex flex-wrap"
+                <!-- クローズボタン -->
+                <div>
+                  <button @click="closeModalArea">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
                     >
-                      <label class="w-1/2 inline-flex items-center mb-3">
-                        <input
-                          type="checkbox"
-                          class="checkboxStyle form-checkbox"
-                          :value="area"
-                          v-model="selectedItemArea"
-                        />
-                        <span class="ml-2">{{ area }}</span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <nuxt-link to="/search">
-                  <button
-                    class="w-full bg-blue-400 text-white mt-5 p-3 rounded-md"
-                    @click="selectedArea"
-                  >
-                    探す
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
                   </button>
-                </nuxt-link>
+                </div>
               </div>
+
+              <!-- チェックボックス検索エリア-->
+              <div class="flex mt-5">
+                <div class="w-11/12 mx-auto">
+                  <LayoutTitleHeader :title="'競技カテゴリー'" />
+
+                  <!-- 競技カテゴリー -->
+                  <div class="block">
+                    <div class="mt-2">
+                      <div
+                        v-for="category in teamCategory"
+                        :key="category.id"
+                        class="flex flex-wrap"
+                      >
+                        <label class="w-1/2 inline-flex items-center mb-3">
+                          <input
+                            type="checkbox"
+                            class="checkboxStyle form-checkbox"
+                            :value="category"
+                            v-model="selectedItemArea"
+                          />
+                          <span class="ml-2">{{ category }}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <LayoutTitleHeader :title="'都道府県'" />
+
+                  <!-- 都道府県 -->
+                  <div class="block">
+                    <div class="mt-2">
+                      <div
+                        v-for="area in teamAreas"
+                        :key="area.id"
+                        class="flex flex-wrap"
+                      >
+                        <label class="w-1/2 inline-flex items-center mb-3">
+                          <input
+                            type="checkbox"
+                            class="checkboxStyle form-checkbox"
+                            :value="area"
+                            v-model="selectedItemArea"
+                          />
+                          <span class="ml-2">{{ area }}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <nuxt-link to="/search">
+                    <button
+                      class="w-full bg-blue-400 text-white mt-5 p-3 rounded-md"
+                      @click="selectedArea"
+                    >
+                      探す
+                    </button>
+                  </nuxt-link>
+                </div>
+              </div>
+              <!-- チェックボックス検索エリアここまで -->
             </div>
-            <!-- チェックボックス検索エリアここまで -->
           </div>
         </div>
-      </div>
+      </transition>
     </div>
 
     <!-- 
       
-      レベルモーダル
+      多様な条件モーダル
       
        -->
     <div>
+      <transition>
       <div class="overlay md:w-3/4 md:mx-auto" v-show="showContentLevel">
         <div class="content" @click="stopEvent">
           <!-- モーダルウィンドウのコンテンツ -->
@@ -315,6 +317,7 @@
           </div>
         </div>
       </div>
+    </transition>
     </div>
   </div>
 </template>
@@ -445,9 +448,8 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-
 .checkboxStyle {
-  @apply appearance-none h-7 w-7 rounded-lg;
+  @apply h-7 w-7 rounded-lg;
 }
 
 .overlay {

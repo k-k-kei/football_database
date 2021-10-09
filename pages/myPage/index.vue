@@ -35,9 +35,13 @@
     </div>
 
     <div class="w-full flex items-center">
-      <button class="w-1/2 bg-yellow-500 text-white m-3 p-3 rounded-lg">
-        <NuxtLink to="forms/registration">チーム登録</NuxtLink>
-      </button>
+      <div class="w-1/2">
+        <NuxtLink to="forms/registration">
+          <button class="bg-yellow-500 text-white text-center mx-8 p-2 rounded-lg">
+            チーム登録
+          </button>
+        </NuxtLink>
+      </div>
     </div>
   </div>
 

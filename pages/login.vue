@@ -50,6 +50,9 @@
             </button>
           </div>
         </div>
+        <div class="text-center p-5">
+          <button class="underline hover:text-red-400"><NuxtLink to="/signup">アカウント新規登録</NuxtLink></button>
+        </div>
       </div>
     </div>
   </div>

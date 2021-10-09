@@ -1,7 +1,7 @@
 <template>
-    <div class="fixed bottom-0 h-14 w-full bg-white rounded-full">
-        <div class="m-2">
-            <ul class="flex justify-evenly">
+    <div class="fixed bottom-0 h-20 w-full bg-white">
+        <div class="pt-2">
+            <ul class="flex justify-evenly pb-4">
                 <li>
                     <nuxt-link to="/">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon-size" fill="none" viewBox="0 0 24 24" stroke="currentColor">
