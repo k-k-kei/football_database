@@ -16,7 +16,7 @@
                   <input
                     type="text"
                     id="name"
-                    class="peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
+                    class="appearance-none peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
                     placeholder="フットボール太郎"
                     autocomplete="off"
                     v-model.trim="name"
@@ -34,7 +34,7 @@
               <button
                 @click="update(user.id)"
                 :disabled="invalid"
-                class="w-full bg-indigo-600 text-white p-3 rounded-md"
+                class="buttonClickable"
               >
                 登録
               </button>
@@ -110,3 +110,15 @@ export default {
   }
 };
 </script>
+
+<style lang="postcss" scoped>
+
+.buttonClickable {
+  @apply w-full bg-indigo-600 text-white p-3 rounded-md;
+}
+
+:disabled {
+  @apply w-full bg-gray-400 text-white p-3 rounded-md;
+}
+
+</style>

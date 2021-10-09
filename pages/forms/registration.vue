@@ -7,14 +7,16 @@
         <form-complate v-if="formNumber === 2" />
       </keep-alive>
 
+        <div class="flex w-11/12 mx-auto">
         <button
             v-if="formNumber === 0"
             @click="plusNum"
             :disabled="invalid"
-            class="w-11/12 m-3 p-3 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="buttonClickable"
         >
             確認画面へ
         </button>
+        </div>
       <!-- </div> -->
 
       <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -123,3 +125,15 @@ export default {
   }
 };
 </script>
+
+<style lang="postcss" scoped>
+
+.buttonClickable {
+  @apply w-full bg-indigo-600 text-white p-3 rounded-md;
+}
+
+:disabled {
+  @apply w-full bg-gray-400 text-white p-3 rounded-md;
+}
+
+</style>

@@ -4,12 +4,14 @@
     <!-- チーム詳細情報 -->
     <TeamDetailCard :teamDetailed="teamDetailed" />
 
+
     <!-- 登録したユーザー情報 -->
+    <LayoutTitleHeader :title="'チームオーナー'" />
     <TeamDetailOwner :users="users" />
 
     <!-- チャット申請するチームを選ぶ -->
-    <div class="h-screen/3">
-      <LayoutTitleHeader :title="'チームを選択してチャット申請'" />
+    <div class="h-screen/2">
+      <LayoutTitleHeader :title="'チャット申請'" />
 
       <!-- ログインしていない場合の表示 -->
       <div v-if="uid === null">
@@ -24,11 +26,12 @@
       <!-- ログインした場合の表示 -->
       <div v-else>
         <div class="w-full text-center">
+          <h1 class="text-center p-5">チャットを送るマイチームを選択しましょう！</h1>
           <select
             v-model="selectedTeamId"
             id="select"
             name="teams"
-            class="bg-gray-200 w-11/12 p-2 rounded-lg"
+            class="appearance-none bg-gray-200 w-11/12 p-2 rounded-lg"
           >
             <option disabled value="">チームを選択してください</option>
             <option v-for="team in teams" :value="team.id" :key="team.id">

@@ -26,8 +26,8 @@
           >
             <p>日程調整</p>
           </button>
-          <button class="bg-yellow-400 text-gray-600 rounded w-1/2 m-2 p-2 text-center">
-            <p>マッチレポート</p>
+          <button class="bg-gray-400 text-gray-600 rounded w-1/2 m-2 p-2 text-center">
+            <p>追加機能実装中...</p>
           </button>
         </div>
         <!-- チャットで使う便利ツール -->
@@ -184,7 +184,7 @@
                       <input
                         type="datetime-local"
                         v-model="matchmake.datetime[0]"
-                        class="my-2 p-1 rounded-lg"
+                        class="appearance-none my-2 p-1 rounded-lg"
                       />
                     </div>
                     <div class="bg-yellow-500 text-white text-center">
@@ -195,14 +195,14 @@
                     <input
                       type="datetime-local"
                       v-model="matchmake.datetime[1]"
-                      class="my-2 p-1 rounded-lg"
+                      class="appearance-none my-2 p-1 rounded-lg"
                     />
                   </div>
                   <div>
                     <input
                       type="datetime-local"
                       v-model="matchmake.datetime[2]"
-                      class="my-2 p-1 rounded-lg"
+                      class="appearance-none my-2 p-1 rounded-lg"
                     />
                   </div>
 

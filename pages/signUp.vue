@@ -22,7 +22,7 @@
                   <input
                     type="email"
                     id="email"
-                    class="peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
+                    class="appearance-none peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
                     placeholder="name@example.com"
                     autocomplete="off"
                     v-model.trim="mail"
@@ -37,7 +37,7 @@
               </div>
 
                 <!-- パスワード入力フォーム -->
-              <span>※パスワードは8文字以上必須</span>
+              <span>パスワードは8文字以上必須です</span>
               <div class="mb-5 relative">
                 <ValidationProvider
                   name="パスワード"
@@ -47,7 +47,7 @@
                   <input
                     type="password"
                     id="password"
-                    class="peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
+                    class="appearance-none peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
                     placeholder="password"
                     v-model.trim="pass"
                   />
@@ -60,11 +60,12 @@
                 </ValidationProvider>
               </div>
 
+              <div class="text-red-500">{{ errorMessage }}</div>
               <!-- 新規登録ボタン -->
                 <button
                   @click="signup"
                   :disabled="invalid"
-                  class="w-full bg-indigo-600 text-white p-3 rounded-md"
+                  class="buttonClickable"
                 >
                   登録する
                 </button>
@@ -120,7 +121,9 @@ export default {
     return {
       //   name: "",
       mail: "",
-      pass: ""
+      pass: "",
+
+      errorMessage: "",
     };
   },
   methods: {
@@ -136,8 +139,20 @@ export default {
           });
           this.$router.push("/signUpComplateMessage");
         })
-        .catch(e => console.log(e.message));
+        .catch(e => this.errorMessage = e.message);
     }
   }
 };
 </script>
+
+<style lang="postcss" scoped>
+
+.buttonClickable {
+  @apply w-full bg-indigo-600 text-white p-3 rounded-md;
+}
+
+:disabled {
+  @apply w-full bg-gray-400 text-white p-3 rounded-md;
+}
+
+</style>

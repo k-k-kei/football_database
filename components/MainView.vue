@@ -3,7 +3,7 @@
     <div v-if="checkContents()">
 
     <!-- 検索されたアイテムを表示 -->
-    <TeamShowCard :teams="filterdTeams(getName)" :userInfo="userInfo"/>
+    <TeamShowCard :teams="teams(filterdTeams(getName))" :userInfo="userInfo"/>
     </div>
 
     <!-- 検索結果がなかった場合に表示 -->
@@ -51,6 +51,9 @@ export default {
   },
 
   methods: {
+    teams(teams){
+      return teams.filter(el => el.user_id != this.userInfo.user_id);
+    },
     checkContents(){
       //検索コンテンツが0の時にテキスト表示を切り替える
       return this.filterdTeams(this.getName).length != 0 ? true : false;

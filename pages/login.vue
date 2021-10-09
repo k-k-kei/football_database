@@ -12,7 +12,7 @@
               <input
                 type="email"
                 id="email"
-                class="peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
+                class="appearance-none peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
                 placeholder="name@example.com"
                 autocomplete="off"
                 v-model="mail"
@@ -29,7 +29,7 @@
               <input
                 type="password"
                 id="password"
-                class="peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
+                class="appearance-none peer pt-8 border border-gray-200 focus:outline-none rounded-md focus:border-gray-500 focus:shadow-sm w-full p-3 h-16 placeholder-transparent"
                 placeholder="password"
                 v-model="pass"
               />
@@ -40,10 +40,11 @@
               >
             </div>
 
+            <div class="text-red-500">{{ errorMessage }}</div>
             <!-- ボタン -->
             <button
               @click="login"
-              class="w-full bg-indigo-600 text-white p-3 rounded-md"
+              class="buttonClickable"
             >
               ログイン
             </button>
@@ -61,7 +62,9 @@ export default {
   data() {
     return {
       mail: "",
-      pass: ""
+      pass: "",
+
+      errorMessage: "",
     };
   },
   methods: {
@@ -71,8 +74,16 @@ export default {
         .then(() => {
           this.$router.push("/myPage");
         })
-        .catch(e => console.log(e.message));
+        .catch(e => this.errorMessage = e.message);
     }
   }
 };
 </script>
+
+<style lang="postcss" scoped>
+
+.buttonClickable {
+  @apply w-full bg-indigo-600 text-white p-3 rounded-md;
+}
+
+</style>

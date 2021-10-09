@@ -167,7 +167,7 @@
                       <label class="w-1/2 inline-flex items-center mb-3">
                         <input
                           type="checkbox"
-                          class="form-checkbox h-7 w-7 rounded-lg"
+                          class="checkboxStyle form-checkbox"
                           :value="category"
                           v-model="selectedItemArea"
                         />
@@ -191,7 +191,7 @@
                       <label class="w-1/2 inline-flex items-center mb-3">
                         <input
                           type="checkbox"
-                          class="form-checkbox h-7 w-7 rounded-lg"
+                          class="checkboxStyle form-checkbox"
                           :value="area"
                           v-model="selectedItemArea"
                         />
@@ -272,7 +272,7 @@
                     <label class="w-full inline-flex items-center mb-3">
                       <input
                         type="checkbox"
-                        class="form-checkbox h-7 w-7 rounded-lg"
+                        class="checkboxStyle form-checkbox"
                         :value="level"
                         v-model="selectedItemLevel"
                       />
@@ -292,7 +292,7 @@
                     <label class="w-full inline-flex items-center mb-3">
                       <input
                         type="checkbox"
-                        class="form-checkbox h-7 w-7 rounded-lg"
+                        class="checkboxStyle form-checkbox"
                         :value="motibation"
                         v-model="selectedItemLevel"
                       />
@@ -444,7 +444,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
+
+.checkboxStyle {
+  @apply appearance-none h-7 w-7 rounded-lg;
+}
+
 .overlay {
   z-index: 1;
   position: fixed;

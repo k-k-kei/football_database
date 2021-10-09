@@ -5,7 +5,6 @@
       :key="team.id"
       class="h-44 md:h-56 m-2 mx-auto overflow-hidden bg-white shadow md:w-1/2"
     >
-    <div v-if="team.user_id != userInfo.user_id">
       <NuxtLink :to="'/teams/' + team.id">
       <div class="flex items-center px-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -36,7 +35,6 @@
           </div>
         </div>
       </NuxtLink>
-    </div>
     </div>
   </div>
 </template>

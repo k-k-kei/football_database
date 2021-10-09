@@ -78,7 +78,8 @@ export default {
   computed: {
     // カテゴリー別表示
     teams() {
-      return this.$store.state.teams;  
+      return this.$store.state.teams
+      .filter(el => el.user_id != this.userInfo.user_id);
     },
   },
 };

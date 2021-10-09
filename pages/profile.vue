@@ -108,7 +108,7 @@
           <button
             @click="update(user.id)"
             :disabled="invalid"
-            class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+            class="w-11/12 bg-blue-400 text-white m-3 p-3 rounded-md"
           >
             更新
           </button>
@@ -230,3 +230,11 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" scoped>
+
+:disabled {
+  @apply bg-gray-400 text-white p-3 rounded-md;
+}
+
+</style>

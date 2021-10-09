@@ -48,7 +48,7 @@
                           name="file-upload"
                           type="file"
                           @change="selectImage"
-                          class="sr-only"
+                          class="appearance-none sr-only"
                         />
                       </form>
                     </label>
@@ -73,6 +73,7 @@
                       name="name"
                       id="name"
                       class="
+                       appearance-none
                         bg-gray-200
                         mt-1
                         p-2
@@ -106,6 +107,7 @@
                       v-model="teamInfo.category"
                       name="category"
                       class="
+                       appearance-none
                         bg-gray-200
                         mt-1
                         p-2
@@ -119,7 +121,7 @@
                         rounded-md
                       "
                     >
-                      <option disabled>競技種目を入力</option>
+                      <option disabled value="">競技種目を入力</option>
                       <option>サッカー</option>
                       <option>フットサル</option>
                     </select>
@@ -143,6 +145,7 @@
                       v-model="teamInfo.level"
                       name="level"
                       class="
+                       appearance-none
                         bg-gray-200
                         mt-1
                         p-2
@@ -156,7 +159,7 @@
                         rounded-md
                       "
                     >
-                      <option disabled>競技レベルを選択</option>
+                      <option disabled value="">競技レベルを選択</option>
                       <option>競技志向（ハイレベル）</option>
                       <option>競技志向（シリアス）</option>
                       <option>競技志向（ジェネラル）</option>
@@ -184,6 +187,7 @@
                       v-model="teamInfo.motibation"
                       name="motibation"
                       class="
+                       appearance-none
                         bg-gray-200
                         mt-1
                         p-2
@@ -197,7 +201,7 @@
                         rounded-md
                       "
                     >
-                      <option disabled>試合へのモチベーション</option>
+                      <option disabled value="">試合へのモチベーション</option>
                       <option>勝ち負けにこだわりたい</option>
                       <option>勝ち負けにこだわりすぎないが真剣にハードに</option>
                       <option>エンジョイでは物足りない。ハードすぎずしっかりめにやりたい</option>
@@ -223,6 +227,7 @@
                       v-model="teamInfo.area1"
                       name="area1"
                       class="
+                       appearance-none
                         bg-gray-200
                         mt-1
                         p-2
@@ -236,7 +241,7 @@
                         rounded-md
                       "
                     >
-                      <option disabled>活動している都道府県を入力</option>
+                      <option disabled value="">活動している都道府県を入力</option>
                       <option v-for="prefecture in prefectures" :key="prefecture.id">{{ prefecture }}</option>
                     </select>
                     <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
@@ -259,8 +264,10 @@
                       type="text"
                       v-model.trim="teamInfo.area2"
                       name="area2"
+                      placeholder="（例）枚方市"
                       id="area2"
                       class="
+                       appearance-none
                         bg-gray-200
                         mt-1
                         p-2
@@ -289,8 +296,10 @@
                       type="text"
                       v-model.trim="teamInfo.area3"
                       name="area3"
+                      placeholder="（例）横浜市"
                       id="area3"
                       class="
+                       appearance-none
                         bg-gray-200
                         mt-1
                         p-2
@@ -323,6 +332,7 @@
                         v-model.trim="teamInfo.selfIntroduction"
                         rows="10"
                         class="
+                         appearance-none
                           shadow-sm
                           focus:ring-indigo-500
                           focus:border-indigo-500
