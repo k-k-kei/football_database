@@ -17,7 +17,7 @@ module.exports = {
         "screen/5": "calc(100vh / 5)",
       }),
       backgroundImage: theme => ({
-        'top-image': "url('/topview.png')",
+        'top-image': "url('/studium.png')",
       }),
     },
   },

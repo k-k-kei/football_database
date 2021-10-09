@@ -13,10 +13,12 @@
         "
       >
         <!-- トップビュー -->
-        <div class="hidden md:block inset-12 text-2xl md:text-4xl">
-          <span>探してみよう</span><br />
-          <span class="bg-black text-white">あなたに合ったチームが見つかる</span><br />
-          <span class="text-xs md:text-sm">we need football more.</span>
+        <div class="hidden md:block inset-12 text-xl md:text-4xl">
+          <span>サッカー/フットサルをもっと身近に。</span><br />
+          <span class="text-xs md:text-sm">
+              Whistleはアマチュアサッカー/フットサルチームを登録・検索できるプラットフォームです。
+              週末の練習試合の相手を、ともに高めあえる地元の仲間を探しにいきましょう。
+          </span>
         </div>
       </div>
     </div>
@@ -30,10 +32,12 @@
         md:w-full
       "
     >
-      <div class="md:hidden block inset-12 text-2xl p-10">
-        <span class="text-white">探してみよう</span><br />
-        <span class="bg-black text-white">あなたに合ったチームが見つかる</span><br />
-        <span class="text-xs text-white">we need football more.</span>
+      <div class="md:hidden block inset-12 text-xl p-8">
+        <span class="text-white font-bold">サッカー/フットサルをもっと身近に。</span><br />
+        <span class="text-sm text-white">
+          Whistleはアマチュアサッカー/フットサルチームを登録・検索できるプラットフォームです。
+          週末の練習試合の相手を、ともに高めあえる地元の仲間を探しにいきましょう。
+        </span>
       </div>
     </div>
 
