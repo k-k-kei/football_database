@@ -14,8 +14,8 @@
       >
         <!-- トップビュー -->
         <div class="hidden md:block inset-12 text-xl md:text-4xl">
-          <span>サッカー/フットサルをもっと身近に。</span><br />
-          <span class="text-xs md:text-sm">
+          <span class="text-white font-bold">サッカー/フットサルをもっと身近に。</span><br />
+          <span class="text-sm md:text-sm">
               Whistleはアマチュアサッカー/フットサルチームを登録・検索できるプラットフォームです。
               週末の練習試合の相手を、ともに高めあえる地元の仲間を探しにいきましょう。
           </span>
@@ -32,7 +32,7 @@
         md:w-full
       "
     >
-      <div class="md:hidden block inset-12 text-xl p-8">
+      <div class="md:hidden block inset-12 text-xl p-6">
         <span class="text-white font-bold">サッカー/フットサルをもっと身近に。</span><br />
         <span class="text-sm text-white">
           Whistleはアマチュアサッカー/フットサルチームを登録・検索できるプラットフォームです。
@@ -46,36 +46,11 @@
       <div class="md:w-3/4 mx-auto">
         <!-- カテゴリー別表示 -->
         <LayoutTitleHeader :title="'登録済みチーム一覧'" />
-        <div class="md:flex md:flex-wrap">
-        <div
-          v-for="team in teams"
-          :key="team.id"
-          class="h-44 md:h-56 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow md:w-1/2"
-        >
-          <NuxtLink :to="'/teams/' + team.id">
-            <h1 class="text-base font-bold text-gray-800 p-2 overflow-hidden">
-              {{ team.name }}
-            </h1>
-            <div class="flex">
-              <div class="w-1/2">
-                <img :src="team.image" :alt="team.image" class="h-full w-full"/>
-              </div>
 
-              <div class="w-1/2 px-4 md:p-4">
-                <div class="mt-2">
-                  <div class="font-bold">チームレベル</div>
-                  <p class="text-xs">{{ team.level }}</p>
-                </div>
-                <div class="my-4">
-                  <div class="font-bold">エリア</div>
-                  <p class="text-xs">{{ team.area }}</p>
-                </div>
-              </div>
-            </div>
-          </NuxtLink>
+        <!-- チーム一覧表示 -->
+        <div class="md:flex md:flex-wrap">
+          <TeamShowCard :teams="teams" :userInfo="userInfo" />
         </div>
-        </div>
-        <!-- ここまでカテゴリー別表示 -->
       </div>
     </div>
 

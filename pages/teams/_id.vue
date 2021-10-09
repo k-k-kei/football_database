@@ -1,47 +1,58 @@
 <template>
   <div>
-      <LayoutTitleHeader :title="'チーム詳細'" />
-      <!-- チーム詳細情報 -->
-      <TeamDetailCard :teamDetailed="teamDetailed" />
+    <LayoutTitleHeader :title="'チーム詳細'" />
+    <!-- チーム詳細情報 -->
+    <TeamDetailCard :teamDetailed="teamDetailed" />
 
-      <!-- 登録したユーザー情報 -->
-      <TeamDetailOwner :users="users" />
+    <!-- 登録したユーザー情報 -->
+    <TeamDetailOwner :users="users" />
 
-      <!-- チャット申請するチームを選ぶ -->
-      <div class="h-screen/3">
+    <!-- チャット申請するチームを選ぶ -->
+    <div class="h-screen/3">
       <LayoutTitleHeader :title="'チームを選択してチャット申請'" />
+
+      <!-- ログインしていない場合の表示 -->
       <div v-if="uid === null">
-        <h1>チャット申請を送るにはログインが必要です。</h1>
+        <h1 class="text-center p-5">チャット申請を送るにはログインが必要です。</h1>
+        <Nuxt-link to="/login">
+        <button class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md">
+          ログイン
+        </button>
+        </Nuxt-link>
       </div>
-      <div class="w-full text-center">
-        <select
-          v-model="selectedTeamId"
-          id="select"
-          name="teams"
-          class="bg-gray-200 w-11/12 p-2 rounded-lg"
-        >
-          <option disabled value="">チームを選択してください</option>
-          <option v-for="team in teams" :value="team.id" :key="team.id">
-            <div>{{ team.name }}</div>
-          </option>
-        </select>
-        <!-- チャット申請するチームを選ぶ -->
-      </div>
-      <div v-if="selectedTeamId != ''">
-        <div v-if="chatLog(selectedTeamId)">
-          <button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-lg">
-            チャット申請済み
-          </button>
-        </div>
-        <div v-else>
-          <button
-            @click="add(teamInfo.user_id, teamInfo.id)"
-            class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-lg"
+
+      <!-- ログインした場合の表示 -->
+      <div v-else>
+        <div class="w-full text-center">
+          <select
+            v-model="selectedTeamId"
+            id="select"
+            name="teams"
+            class="bg-gray-200 w-11/12 p-2 rounded-lg"
           >
-            チャット申請
-          </button>
+            <option disabled value="">チームを選択してください</option>
+            <option v-for="team in teams" :value="team.id" :key="team.id">
+              <div>{{ team.name }}</div>
+            </option>
+          </select>
+          <!-- チャット申請するチームを選ぶ -->
         </div>
-    </div>
+        <div v-if="selectedTeamId != ''">
+          <div v-if="chatLog(selectedTeamId)">
+            <button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-lg">
+              チャット申請済み
+            </button>
+          </div>
+          <div v-else>
+            <button
+              @click="add(teamInfo.user_id, teamInfo.id)"
+              class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-lg"
+            >
+              チャット申請
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -107,11 +118,14 @@ export default {
 
     //以前チャットしたことがあるかを判定
     chatLog(teamId) {
-        return this.$store.state.chat.chats
+      return (
+        this.$store.state.chat.chats
           .filter((el) => el.uid === this.uid || el.other_id === this.uid)
           .filter((data) => data.team_id.some((id) => id === teamId))
-          .filter((team) => team.team_id.some((id) => id === this.$route.params.id))
-          .length != 0;
+          .filter((team) =>
+            team.team_id.some((id) => id === this.$route.params.id)
+          ).length != 0
+      );
     },
   },
 };

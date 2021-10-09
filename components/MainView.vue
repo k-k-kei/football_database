@@ -3,38 +3,10 @@
     <div v-if="checkContents()">
 
     <!-- 検索されたアイテムを表示 -->
-    <div v-for="team in filterdTeams(getName)" :key="team.id" class="md:w-3/4 md:mx-auto">
-      <!-- 自分の作成したチームは非表示にする。 -->
-      <div v-if="team.user_id != userInfo.user_id">
-
-        <div
-          class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg shadow"
-        >
-          <NuxtLink :to="'/teams/' + team.id">
-            <h1 class="text-base font-bold text-gray-800 p-2">
-              {{ team.name }}
-            </h1>
-            <div class="flex">
-              <div class="w-1/2">
-                <img :src="team.image" :alt="team.image" />
-              </div>
-
-              <div class="w-1/2 px-4 md:p-4">
-                <div class="mt-2">
-                  <div class="font-bold">チームレベル</div>
-                  <p class="text-xs">{{ team.level }}</p>
-                </div>
-                <div class="my-4">
-                  <div class="font-bold">エリア</div>
-                  <p class="text-xs">{{ team.area }}</p>
-                </div>
-              </div>
-            </div>
-          </NuxtLink>
-        </div>
-      </div>
-      </div>
+    <TeamShowCard :teams="filterdTeams(getName)" :userInfo="userInfo"/>
     </div>
+
+    <!-- 検索結果がなかった場合に表示 -->
     <div v-else>
       <div class="text-center p-5">
         <div>ヒットするチームがありませんでした・・・！</div>

@@ -237,7 +237,7 @@
                       "
                     >
                       <option disabled>活動している都道府県を入力</option>
-                      <option>競技志向（ハイレベル）</option>
+                      <option v-for="prefecture in prefectures" :key="prefecture.id">{{ prefecture }}</option>
                     </select>
                     <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                   </ValidationProvider>
@@ -393,6 +393,12 @@ export default {
         showImage: "",
         selfIntroduction: "",
       },
+
+      prefectures: [
+        "東京都", "神奈川", "埼玉", "千葉", " 群馬", " 栃木", " 茨城", " 山梨",
+        "愛知県", "岐阜県", "三重県", "静岡県",
+        "大阪府", "京都府", "兵庫県", "奈良県", " 滋賀県", " 和歌山県",
+      ]
     };
   },
   methods: {

@@ -2,6 +2,7 @@
   <div class="md:w-3/4 md:mx-auto md:flex">
   <div class="my-2 md:w-1/3">
 
+  <LayoutTitleHeader :title="'ユーザー情報'" />
     <div class="bg-white divide-y divide-gray-200">
       <div class="px-6 py-4 whitespace-nowrap">
         <div v-for="user in users" :key="user.id" class="flex items-center">
@@ -27,42 +28,8 @@
 
       <!-- 所属チーム一覧 -->
       <div class="md:w-2/3">
-      <LayoutTitleHeader :title="'チーム一覧'" />
-      <div
-        v-for="team in teams"
-        :key="team.id"
-        class="
-          w-11/12
-          m-2
-          mx-auto
-          overflow-hidden
-          bg-white
-          rounded-lg
-          shadow-lg
-        "
-      >
-        <NuxtLink :to="'/teams/' + team.id">
-          <h1 class="text-base font-bold text-gray-800 p-2">
-            {{ team.name }}
-          </h1>
-          <div class="flex">
-            <div class="w-1/2">
-              <img :src="team.image" :alt="team.image" />
-            </div>
-
-            <div class="w-1/2 px-4 md:p-4">
-              <div class="mt-2">
-                <div class="font-bold">チームレベル</div>
-                <p class="text-xs">{{ team.level }}</p>
-              </div>
-              <div class="my-4">
-                <div class="font-bold">エリア</div>
-                <p class="text-xs">{{ team.area }}</p>
-              </div>
-            </div>
-          </div>
-        </NuxtLink>
-      </div>
+      <LayoutTitleHeader :title="'登録チーム一覧'" />
+      <TeamShowCard :teams="teams" :userInfo="userInfo" />
     </div>
   </div>
 </template>
@@ -72,6 +39,7 @@ export default {
   data() {
     return {
       userId: this.$route.params.id,
+      userInfo: {},
     };
   },
   created: function () {
