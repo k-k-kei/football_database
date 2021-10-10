@@ -60,7 +60,7 @@
               </div>
               <div v-else>
                 <button
-                  @click="add(teamInfo.user_id, teamInfo.id)"
+                  @click="add(makeUserId, teamId)"
                   class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-lg"
                 >
                   チャット申請
@@ -130,6 +130,11 @@ export default {
           other_id: other_id,
           team_id: [team_id, this.selectedTeamId],
         });
+
+      this.$toast.success("チャット申請完了！", {
+        position: "top-center",
+        timeout: 2000,
+          });
       }
     },
 
