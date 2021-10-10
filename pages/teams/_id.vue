@@ -52,6 +52,7 @@
             <div v-if="selectedTeamId != ''">
               <div v-if="chatLog(selectedTeamId)">
                 <button
+                  @click="alreadyMadedMessage()"
                   class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-lg"
                 >
                   チャット申請済み
@@ -143,6 +144,13 @@ export default {
           ).length != 0
       );
     },
+
+    alreadyMadedMessage(){
+      this.$toast("チャット申請済みです", {
+        position: "top-center",
+        timeout: 2000,
+          });
+    }
   },
 };
 </script>

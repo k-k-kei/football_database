@@ -7,6 +7,7 @@
         <div class="relative p-8 bg-white shadow-sm rounded-lg">
           <!-- フォーム -->
           <div class="w-full">
+            <div class="text-center underline my-5 md:text-2xl">ログイン</div>
             <!-- メールアドレス -->
             <div class="mb-5 relative">
               <input
@@ -60,8 +61,12 @@
 
 <script>
 import { auth } from "~/plugins/firebase";
+import Toast from "vue-toastification";
 
 export default {
+  components: {
+    Toast,
+  },
   data() {
     return {
       mail: "",
@@ -75,6 +80,10 @@ export default {
       auth
         .signInWithEmailAndPassword(this.mail, this.pass)
         .then(() => {
+          this.$toast.success("ログイン成功！", {
+            position: "top-center",
+            timeout: 2000,
+          });
           this.$router.push("/myPage");
         })
         .catch(e => this.errorMessage = e.message);

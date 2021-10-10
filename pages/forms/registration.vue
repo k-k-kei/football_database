@@ -121,6 +121,11 @@ export default {
       .map(data => data.id)[0];
 
       this.$store.dispatch("user/addTeamInfo", { docId: userDocId, teams: teams })
+      
+      this.$toast.success("チーム登録完了！", {
+            position: "top-center",
+            timeout: 2000,
+          });
     }
   }
 };
@@ -133,7 +138,7 @@ export default {
 }
 
 :disabled {
-  @apply w-full bg-gray-400 text-white p-3 rounded-md;
+  @apply w-full bg-gray-200 text-white p-3 rounded-md;
 }
 
 </style>

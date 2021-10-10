@@ -19,7 +19,7 @@
                     </a>
                 </li>
                 <li>
-                    <nuxt-link :to="chatValidation(uid)">
+                    <button @click="chatValidation(uid)">
                     <div class="relative">
                     <div
                     class="absolute right-2 h-3 w-3 bg-red-500 rounded-full"
@@ -31,15 +31,15 @@
                     </svg>
                     </div>
                     <p class="sub-text">チャット</p>
-                    </nuxt-link>
+                    </button>
                 </li>
                 <li>
-                    <nuxt-link :to="mepageValidation(uid)">
+                    <button @click="mepageValidation(uid)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon-size" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                     <p class="sub-text">マイページ</p>
-                    </nuxt-link>
+                    </button>
                 </li>
             </ul>
         </div>
@@ -76,12 +76,28 @@ export default {
   methods: {
     //ログインしていない場合、チャットではなくログインページを表示する
     chatValidation(uid){
-        return uid === null ? "/login" : "/chat";
+        if(uid === null){
+          this.$toast("ログインが必要です", {
+            position: "top-center",
+            timeout: 2000,
+          });
+          this.$router.push("/login");
+        }else{
+          this.$router.push("/chat");
+        }
     },
 
     //ログインしていない場合、マイページではなくログインページを表示する
     mepageValidation(uid){
-        return uid === null ? "/login" : "/myPage";
+        if(uid === null){
+          this.$toast("ログインが必要です", {
+            position: "top-center",
+            timeout: 2000,
+          });
+          this.$router.push("/login");
+        }else{
+          this.$router.push("/myPage");
+        }
     },
     getUnreadMessage(obj) {
       return obj.some(

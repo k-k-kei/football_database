@@ -275,7 +275,7 @@
                   <button
                     @click="addMatches"
                     :disabled="invalid"
-                    class="w-full bg-blue-400 text-white mt-5 p-3 rounded-md"
+                    class="buttonClickable"
                   >
                     作成
                   </button>
@@ -468,6 +468,11 @@ export default {
     addMatches() {
       this.$store.dispatch("match/add", this.matchmake);
       this.closeModalArea();
+
+      this.$toast.success("お互いのマイページに日程調整を作成しました！", {
+        position: "top-center",
+        timeout: 2000,
+      });
     },
   },
 
@@ -526,6 +531,19 @@ export default {
 .othersMessage {
   @apply bg-gray-300 p-3 rounded-r-lg rounded-bl-lg;
 }
+
+
+
+/* 作成ボタンのバリデーション結果で出し分ける */
+.buttonClickable {
+  @apply w-full bg-indigo-600 text-white p-3 rounded-md;
+}
+
+:disabled {
+  @apply w-full bg-gray-200 text-white p-3 rounded-md;
+}
+
+
 
 /* モーダル */
 .overlay {

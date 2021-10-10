@@ -61,7 +61,9 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
 
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+
+    "vue-toastification/nuxt",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

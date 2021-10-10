@@ -17,6 +17,7 @@
     "nuxt": "^2.15.7",
     "portal-vue": "^2.1.7",
     "vee-validate": "^3.4.12",
+    "vue-toastification": "^1.7.11",
     "vuejs-datepicker": "^1.6.2",
     "vuexfire": "^3.0.1"
   },

@@ -8,6 +8,7 @@
 
           <!-- フォーム -->
           <div class="w-full">
+            <div class="text-center underline my-5 md:text-2xl">新規登録</div>
 
             <!-- バリデーションの監視 -->
             <ValidationObserver v-slot="{ invalid }">
@@ -30,7 +31,7 @@
                   <label
                     for="email"
                     class="peer-placeholder-shown:opacity-100   opacity-75 peer-focus:opacity-75 peer-placeholder-shown:scale-100 scale-75 peer-focus:scale-75 peer-placeholder-shown:translate-y-0 -translate-y-3 peer-focus:-translate-y-3 peer-placeholder-shown:translate-x-0 translate-x-1 peer-focus:translate-x-1 absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out"
-                    >Email address</label
+                    >メールアドレス</label
                   >
                   <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                 </ValidationProvider>
@@ -54,7 +55,7 @@
                   <label
                     for="password"
                     class="peer-placeholder-shown:opacity-100   opacity-75 peer-focus:opacity-75 peer-placeholder-shown:scale-100 scale-75 peer-focus:scale-75 peer-placeholder-shown:translate-y-0 -translate-y-3 peer-focus:-translate-y-3 peer-placeholder-shown:translate-x-0 translate-x-1 peer-focus:translate-x-1 absolute top-0 left-0 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out"
-                    >Password</label
+                    >パスワード</label
                   >
                   <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                 </ValidationProvider>
@@ -118,7 +119,7 @@ extend("alpha_num", {
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
   },
   data() {
     return {
@@ -140,6 +141,10 @@ export default {
               displayName: "デフォルトネーム"
             });
           });
+          this.$toast.success("登録完了！", {
+            position: "top-center",
+            timeout: 2000,
+          });
           this.$router.push("/signUpComplateMessage");
         })
         .catch(e => this.errorMessage = e.message);
@@ -155,7 +160,7 @@ export default {
 }
 
 :disabled {
-  @apply w-full bg-gray-400 text-white p-3 rounded-md;
+  @apply w-full bg-gray-200 text-white p-3 rounded-md;
 }
 
 </style>

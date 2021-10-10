@@ -65,7 +65,7 @@
                     <label
                       for="first-name"
                       class="block text-sm font-medium text-gray-700"
-                      >チーム名</label
+                      >チーム名 <span class="text-red-400">※必須</span></label
                     >
                     <input
                       type="text"
@@ -101,7 +101,7 @@
                     <label
                       for="category"
                       class="block text-sm font-medium text-gray-700"
-                      >競技種目</label
+                      >競技種目 <span class="text-red-400">※必須</span></label
                     >
                     <select
                       v-model="teamInfo.category"
@@ -139,7 +139,7 @@
                     <label
                       for="level"
                       class="block text-sm font-medium text-gray-700"
-                      >競技レベル</label
+                      >競技レベル <span class="text-red-400">※必須</span></label
                     >
                     <select
                       v-model="teamInfo.level"
@@ -181,7 +181,7 @@
                     <label
                       for="motibation"
                       class="block text-sm font-medium text-gray-700"
-                      >試合へのモチベーション</label
+                      >試合へのモチベーション <span class="text-red-400">※必須</span></label
                     >
                     <select
                       v-model="teamInfo.motibation"
@@ -221,7 +221,7 @@
                     <label
                       for="area1"
                       class="block text-sm font-medium text-gray-700"
-                      >都道府県</label
+                      >都道府県 <span class="text-red-400">※必須</span></label
                     >
                     <select
                       v-model="teamInfo.area1"
@@ -258,7 +258,7 @@
                     <label
                       for="area2"
                       class="block text-sm font-medium text-gray-700"
-                      >よく活動する市町村区①</label
+                      >よく活動する市町村区① <span class="text-red-400">※必須</span></label
                     >
                     <input
                       type="text"
@@ -323,7 +323,7 @@
                       for="selfIntroduction"
                       class="block text-sm font-medium text-gray-700"
                     >
-                      チーム自己紹介
+                      チーム自己紹介 <span class="text-red-400">※必須</span>
                     </label>
                     <div class="mt-1">
                       <textarea

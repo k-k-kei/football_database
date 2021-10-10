@@ -105,6 +105,11 @@ export default {
           console.log(error);
         });
 
+        this.$toast.success("登録完了！", {
+            position: "top-center",
+            timeout: 2000,
+          });
+
       this.$router.push("/");
     }
   }
@@ -118,7 +123,7 @@ export default {
 }
 
 :disabled {
-  @apply w-full bg-gray-400 text-white p-3 rounded-md;
+  @apply w-full bg-gray-200 text-white p-3 rounded-md;
 }
 
 </style>

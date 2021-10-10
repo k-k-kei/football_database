@@ -1,6 +1,6 @@
 <template>
   <!-- スケジュール調整中の予定表示 -->
-  <div class="md:w-2/3">
+  <div class="md:w-2/5 md:mx-auto">
     <LayoutTitleHeader :title="'調整中スケジュール詳細'" />
     <div v-for="match in matches" :key="match.id">
       <div class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg">
@@ -164,7 +164,7 @@
                   v-model="confirmationInfo.datetime"
                   :key="match.id"
                   name="datetime"
-                  class="w-full p-2"
+                  class="w-full bg-gray-200 p-2 rounded-lg"
                 >
                   <option
                     v-for="datetime in match.datetime"
@@ -392,6 +392,11 @@ export default {
         teamId: teamId,
         answers: this.picked,
       });
+
+      this.$toast.success("登録完了！", {
+        position: "top-center",
+        timeout: 2000,
+      });
     },
 
     getAnswer(id) {
@@ -432,6 +437,11 @@ export default {
       this.$store.dispatch("match/matchConfirm", {
         docId: this.$route.params.id,
         confirmationInfo: this.confirmationInfo,
+      });
+
+      this.$toast.success("確定しました", {
+        position: "top-center",
+        timeout: 2000,
       });
 
       this.$router.go(-1);

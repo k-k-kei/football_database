@@ -194,7 +194,10 @@ export default {
   methods: {
     logout() {
       auth.signOut().then(() => {
-        console.log("logoutしました");
+      this.$toast.success("ログアウトしました", {
+            position: "top-center",
+            timeout: 2000,
+          });
       });
     },
     edit() {
@@ -211,6 +214,11 @@ export default {
       this.$store.dispatch("user/updateUserImage", {
         docId: id,
         profileImage: this.userInfo.image,
+      });
+
+      this.$toast.success("更新成功！", {
+            position: "top-center",
+            timeout: 2000,
       });
 
       //表示画面に戻す
@@ -234,7 +242,7 @@ export default {
 <style lang="postcss" scoped>
 
 :disabled {
-  @apply bg-gray-400 text-white p-3 rounded-md;
+  @apply bg-gray-200 text-white p-3 rounded-md;
 }
 
 </style>
