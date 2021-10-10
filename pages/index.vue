@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- 検索エリア -->
-    <div>
-      <div
+    <!-- <div> -->
+      <!-- <div
         class="
           md:absolute
           w-full
@@ -11,9 +11,9 @@
           md:p-5
           rounded-lg
         "
-      >
+      > -->
         <!-- トップビュー -->
-        <div class="hidden md:block inset-12 text-xl md:text-4xl">
+        <!-- <div class="hidden md:block inset-12 text-xl md:text-4xl">
           <span class="text-white font-bold">サッカー/フットサルをもっと身近に。</span><br />
           <span class="text-sm md:text-sm">
               Whistleはアマチュアサッカー/フットサルチームを登録・検索できるプラットフォームです。
@@ -21,23 +21,33 @@
           </span>
         </div>
       </div>
-    </div>
+    </div> -->
 
+    <!-- モバイルサイズの時のみヘッダー下に検索コンポーネントを設置 -->
+    <div class="md:hidden">
+      <SideBar />
+    </div>
+    
     <!-- トップビューを表示 -->
     <div
       class="
         bg-top-image bg-cover bg-center
         h-screen/3
         md:h-screen/1.25
-        md:w-full
       "
     >
-      <div class="md:hidden block inset-12 text-xl p-6">
-        <span class="text-white font-bold">サッカー/フットサルをもっと身近に。</span><br />
-        <span class="text-sm text-white">
+
+      <div class="text-xl p-6 md:mx-36 md:pt-20">
+        <span class="text-white font-bold md:block md:text-6xl bg-gray-400 bg-opacity-40">サッカー/フットサルをもっと身近に。</span><br />
+        <span class="text-sm text-white md:text-4xl md:font-bold md:leading-relaxed bg-gray-400 bg-opacity-40">
           Whistleはアマチュアサッカー/フットサルチームを登録・検索できるプラットフォームです。
           週末の練習試合の相手を、ともに高めあえる地元の仲間を探しにいきましょう。
         </span>
+      </div>
+
+      <!-- デスクトップサイズの時のみ検索コンポーネントをトップビュー上に表示 -->
+      <div class="hidden md:block md:w-1/2 md:mx-auto">
+        <SideBar />
       </div>
     </div>
 
@@ -46,11 +56,8 @@
       <div class="md:w-3/4 mx-auto">
         <!-- カテゴリー別表示 -->
         <LayoutTitleHeader :title="'登録済みチーム一覧'" />
-
         <!-- チーム一覧表示 -->
-        <div class="md:flex md:flex-wrap">
-          <TeamShowCard :teams="teams" :userInfo="userInfo" />
-        </div>
+        <TeamShowCard :teams="teams" :userInfo="userInfo" />
       </div>
     </div>
 
@@ -61,7 +68,7 @@
 import { auth } from "~/plugins/firebase";
 
 export default {
-  layout: "search",
+  layout: "default",
   data() {
     return {
       userInfo: {

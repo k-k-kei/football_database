@@ -1,5 +1,5 @@
 <template>
-  <div class="text-gray-700 shadow font-sans text-base md:text-lg">
+  <div class="text-gray-700 font-sans text-base md:text-lg">
       <div v-if="isLogin">
         <HeaderWithLogin />
       </div>
@@ -8,7 +8,9 @@
       </div>
       <Nuxt />
       <Footer />
-      <AppBar />
+      <div class="md:hidden">
+      <AppBarForMobile />
+      </div>
     </div>
 </template>
 

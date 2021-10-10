@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="md:flex md:flex-wrap">
     <div
       v-for="team in teams"
       :key="team.id"
-      class="h-44 md:h-56 m-2 mx-auto overflow-hidden bg-white shadow md:w-1/2"
+      class="h-44 m-2 mx-auto overflow-hidden bg-white shadow md:h-56 md:w-1/2"
     >
       <NuxtLink :to="'/teams/' + team.id">
       <div class="flex items-center px-2">

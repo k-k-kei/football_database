@@ -1,15 +1,16 @@
 <template>
   <div class="md:w-3/4 md:mx-auto md:flex">
   
-  <div class="my-2 md:w-1/3">
+  <div class="md:w-1/3 md:border md:pb-3">
+    <LayoutTitleHeader :title="'ユーザー情報'" />
 
     <div class="bg-white divide-y divide-gray-200">
       <div class="px-6 py-4 whitespace-nowrap">
         <div class="flex items-center">
           <!-- ユーザー画像 -->
-          <div class="flex-shrink-0 h-10 w-10">
+          <div class="flex-shrink-0 h-10 w-10 md:h-16 md:w-16">
             <img
-              class="h-10 w-10 rounded-full"
+              class="h-full w-full rounded-full"
               :src="userProfileImage"
               alt=""
             />
@@ -17,12 +18,12 @@
 
           <div class="ml-4">
             <!-- ユーザー名 -->
-            <div class="text-sm font-medium text-gray-900">
+            <div class="text-sm font-medium text-gray-900 md:text-xl">
               {{ userInfo.loginName }}
             </div>
 
             <!-- ユーザーアドレス -->
-            <div class="text-sm text-yellow-500">
+            <div class="text-sm text-yellow-500 md:text-xl">
               <button>
                 <nuxt-link to="profile" class="underline"
                   >プロフィール詳細</nuxt-link
@@ -45,7 +46,7 @@
     </div>
   </div>
 
-<div class="md:w-2/3">
+<div class="md:w-2/3 md:border">
       <LayoutTitleHeader :title="'マイチーム一覧'" />
 
       <div v-if="checkContents()">

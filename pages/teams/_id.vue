@@ -1,58 +1,71 @@
 <template>
-  <div>
-    <LayoutTitleHeader :title="'チーム詳細'" />
-    <!-- チーム詳細情報 -->
-    <TeamDetailCard :teamDetailed="teamDetailed" />
-
-
-    <!-- 登録したユーザー情報 -->
-    <LayoutTitleHeader :title="'チームオーナー'" />
-    <TeamDetailOwner :users="users" />
-
-    <!-- チャット申請するチームを選ぶ -->
-    <div class="h-screen/2">
-      <LayoutTitleHeader :title="'チャット申請'" />
-
-      <!-- ログインしていない場合の表示 -->
-      <div v-if="uid === null">
-        <h1 class="text-center p-5">チャット申請を送るにはログインが必要です。</h1>
-        <Nuxt-link to="/login">
-        <button class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md">
-          ログイン
-        </button>
-        </Nuxt-link>
+  <div class="md:w-3/4 md:mx-auto">
+    <div class="md:flex">
+      <div class="md:w-1/2 md:mx-5">
+        <LayoutTitleHeader :title="'チーム詳細'" />
+        <!-- チーム詳細情報 -->
+        <TeamDetailCard :teamDetailed="teamDetailed" />
       </div>
 
-      <!-- ログインした場合の表示 -->
-      <div v-else>
-        <div class="w-full text-center">
-          <h1 class="text-center p-5">チャットを送るマイチームを選択しましょう！</h1>
-          <select
-            v-model="selectedTeamId"
-            id="select"
-            name="teams"
-            class="appearance-none bg-gray-200 w-11/12 p-2 rounded-lg"
-          >
-            <option disabled value="">チームを選択してください</option>
-            <option v-for="team in teams" :value="team.id" :key="team.id">
-              <div>{{ team.name }}</div>
-            </option>
-          </select>
-          <!-- チャット申請するチームを選ぶ -->
-        </div>
-        <div v-if="selectedTeamId != ''">
-          <div v-if="chatLog(selectedTeamId)">
-            <button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-lg">
-              チャット申請済み
-            </button>
+      <div class="md:w-1/2">
+        <!-- 登録したユーザー情報 -->
+        <LayoutTitleHeader :title="'チームオーナー'" />
+        <TeamDetailOwner :users="users" />
+
+        <!-- チャット申請するチームを選ぶ -->
+        <div class="h-screen/2">
+          <LayoutTitleHeader :title="'チャット申請'" />
+
+          <!-- ログインしていない場合の表示 -->
+          <div v-if="uid === null">
+            <h1 class="text-center p-5">
+              チャット申請を送るにはログインが必要です。
+            </h1>
+            <Nuxt-link to="/login">
+              <button
+                class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-md"
+              >
+                ログイン
+              </button>
+            </Nuxt-link>
           </div>
+
+          <!-- ログインした場合の表示 -->
           <div v-else>
-            <button
-              @click="add(teamInfo.user_id, teamInfo.id)"
-              class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-lg"
-            >
-              チャット申請
-            </button>
+            <div class="w-full text-center">
+              <h1 class="text-center p-5">
+                チャットを送るマイチームを選択しましょう！
+              </h1>
+              <select
+                v-model="selectedTeamId"
+                id="select"
+                name="teams"
+                class="appearance-none bg-gray-200 w-11/12 p-2 rounded-lg"
+              >
+                <option disabled value="">チームを選択してください</option>
+                <option v-for="team in teams" :value="team.id" :key="team.id">
+                  <div>{{ team.name }}</div>
+                </option>
+              </select>
+              <!-- チャット申請するチームを選ぶ -->
+            </div>
+            <div v-if="selectedTeamId != ''">
+              <div v-if="chatLog(selectedTeamId)">
+                <button
+                  class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-lg"
+                >
+                  チャット申請済み
+                </button>
+              </div>
+              <div v-else>
+                <button
+                  @click="add(teamInfo.user_id, teamInfo.id)"
+                  class="w-11/12 bg-yellow-400 text-white m-3 p-3 rounded-lg"
+                >
+                  チャット申請
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

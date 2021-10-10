@@ -1,7 +1,7 @@
 <template>
   <div class="md:flex md:mx-96">
     <div
-      class="fixed w-screen text-gray-700 shadow font-sans text-base md:text-lg md:w-2/5"
+      class="fixed w-screen text-gray-700 font-sans text-base md:text-lg md:w-2/5"
     >
       <div class="bg-white shadow">
         <div class="text-center flex justify-between mx-3 md:mx-8 py-2">

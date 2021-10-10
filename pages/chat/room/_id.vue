@@ -130,7 +130,7 @@
     <!-- モーダルウィンドウ -->
     <div>
       <transition>
-      <div class="overlay overflow-scroll md:w-3/4 md:mx-auto" v-show="showContentArea">
+      <div class="overlay overflow-scroll md:w-1/2 md:mx-auto" v-show="showContentArea">
         <div class="content" @click="stopEvent">
           <div class="bg-white">
             <div

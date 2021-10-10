@@ -42,7 +42,7 @@ export default {
     description: "Whistleはアマチュアサッカー/フットサルチームを登録・検索できるプラットフォームです。週末の練習試合の相手を、ともに高めあえる地元の仲間を探しにいきましょう。",
     "og:description": "Whistleはアマチュアサッカー/フットサルチームを登録・検索できるプラットフォームです。週末の練習試合の相手を、ともに高めあえる地元の仲間を探しにいきましょう。",
     theme_color: "#163956",
-    background_color: "#163956",
+    background_color: "#ffffff",
     "icons": [
     {
       "src": "/icon.png",

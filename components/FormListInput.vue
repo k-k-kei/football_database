@@ -3,7 +3,7 @@
     <div>
           <form @input="submit">
             <div class="sm:rounded-md sm:overflow-hidden">
-              <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+              <div class="px-4 py-5 bg-white space-y-6 sm:p-6 md:mt-5">
                 <!-- アップロードエリア -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700">

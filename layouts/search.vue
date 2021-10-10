@@ -1,15 +1,19 @@
 <template>
-  <div class="text-gray-700 shadow font-sans text-base md:text-lg">
+  <div class="text-gray-700 font-sans text-base md:text-lg">
       <div v-if="isLogin">
         <HeaderWithLogin />
       </div>
       <div v-else>
         <Header />
       </div>
+      <div class="md:w-3/4 mx-auto">
       <SideBar />
       <Nuxt />
       <Footer />
-      <AppBar />
+      <div class="md:hidden">
+      <AppBarForMobile />
+      </div>
+      </div>
     </div>
 </template>
 

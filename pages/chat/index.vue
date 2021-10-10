@@ -1,5 +1,5 @@
 <template>
-  <div class="md:w-3/4 md:mx-auto">
+  <div class="md:w-1/2 md:mx-auto">
     <!-- チーム一覧 -->
     <LayoutTitleHeader :title="'チャット一覧'" />
     <div class="bg-white divide-y divide-gray-200">
