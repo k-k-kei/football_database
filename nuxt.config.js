@@ -12,7 +12,6 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ]
   },
 
@@ -36,7 +35,13 @@ export default {
   buildModules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/pwa',
+    '@aceforth/nuxt-optimized-images',
   ],
+
+  optimizedImages: {
+    optimizeImages: true,
+    optimizeImagesInDev: true,
+  },
 
   manifest: {
     name: "Whistle",

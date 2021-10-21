@@ -22,9 +22,13 @@
     "vuexfire": "^3.0.1"
   },
   "devDependencies": {
+    "@aceforth/nuxt-optimized-images": "^1.4.0",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/tailwindcss": "^4.2.1",
     "autoprefixer": "^10.3.1",
+    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "imagemin-svgo": "^10.0.0",
     "postcss": "^8.3.6",
     "tailwindcss": "^2.2.7",
     "webpack-cli": "^4.8.0"
