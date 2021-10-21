@@ -3,7 +3,7 @@
     <div v-if="checkContents()">
 
     <!-- 検索されたアイテムを表示 -->
-    <TeamShowCard :teams="teams(filterdTeams(getName))" :userInfo="userInfo"/>
+    <TeamShowCard :teams="teams(filterdTeams(getName))" :userInfo="userInfo" :link="/teams/" />
     </div>
 
     <!-- 検索結果がなかった場合に表示 -->
@@ -19,7 +19,12 @@
 <script>
 import { auth } from "~/plugins/firebase";
 
+import TeamShowCard from "~/components/pages/TeamShowCard"
+
 export default {
+  components: {
+    TeamShowCard
+  },
   data() {
     return {
       userInfo: {

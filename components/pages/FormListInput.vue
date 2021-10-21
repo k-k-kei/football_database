@@ -62,31 +62,16 @@
                     rules="required"
                     v-slot="v"
                   >
-                    <label
-                      for="first-name"
-                      class="block text-sm font-medium text-gray-700"
-                      >チーム名 <span class="text-red-400">※必須</span></label
-                    >
-                    <input
-                      type="text"
-                      v-model.trim="teamInfo.name"
-                      name="name"
-                      id="name"
-                      class="
-                       appearance-none
-                        bg-gray-200
-                        mt-1
-                        p-2
-                        focus:ring-indigo-500
-                        focus:border-indigo-500
-                        block
-                        w-full
-                        shadow-sm
-                        sm:text-sm
-                        border-gray-300
-                        rounded-md
-                      "
-                    />
+
+                  <BaseInputForm 
+                    :name="'teamName'"
+                    :value="teamInfo.name"
+                    :label="'チーム名'"
+                    :required="true"
+                    :placeholder="'チーム名'"
+                    @inputValue="inputTeamName"
+                  />
+
                     <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                   </ValidationProvider>
                 </div>
@@ -98,33 +83,17 @@
                     rules="required|blank"
                     v-slot="v"
                   >
-                    <label
-                      for="category"
-                      class="block text-sm font-medium text-gray-700"
-                      >競技種目 <span class="text-red-400">※必須</span></label
-                    >
-                    <select
-                      v-model="teamInfo.category"
-                      name="category"
-                      class="
-                       appearance-none
-                        bg-gray-200
-                        mt-1
-                        p-2
-                        focus:ring-indigo-500
-                        focus:border-indigo-500
-                        block
-                        w-full
-                        shadow-sm
-                        sm:text-sm
-                        border-gray-300
-                        rounded-md
-                      "
-                    >
-                      <option disabled value="">競技種目を入力</option>
-                      <option>サッカー</option>
-                      <option>フットサル</option>
-                    </select>
+
+                   <!-- 競技種目を選ぶセレクトボックス -->
+                    <BaseSelectBox
+                      :options="category"
+                      :name="'category'"
+                      :label="'競技種目'"
+                      :required="true"
+                      :value="'競技種目を入力'" 
+                      @selected="selectedCategory" 
+                    />
+
                     <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                   </ValidationProvider>
                 </div>
@@ -136,37 +105,16 @@
                     rules="required"
                     v-slot="v"
                   >
-                    <label
-                      for="level"
-                      class="block text-sm font-medium text-gray-700"
-                      >競技レベル <span class="text-red-400">※必須</span></label
-                    >
-                    <select
-                      v-model="teamInfo.level"
-                      name="level"
-                      class="
-                       appearance-none
-                        bg-gray-200
-                        mt-1
-                        p-2
-                        focus:ring-indigo-500
-                        focus:border-indigo-500
-                        block
-                        w-full
-                        shadow-sm
-                        sm:text-sm
-                        border-gray-300
-                        rounded-md
-                      "
-                    >
-                      <option disabled value="">競技レベルを選択</option>
-                      <option>競技志向（ハイレベル）</option>
-                      <option>競技志向（シリアス）</option>
-                      <option>競技志向（ジェネラル）</option>
-                      <option>エンジョイ（シリアス）</option>
-                      <option>エンジョイ（ジェネラル）</option>
-                      <option>エンジョイ（ファン）</option>
-                    </select>
+                    <!-- 競技レベルを選ぶセレクトボックス -->
+                    <BaseSelectBox
+                      :options="level"
+                      :name="'level'"
+                      :label="'競技レベル'"
+                      :required="true"
+                      :value="'競技レベルを入力'" 
+                      @selected="selectedLevel" 
+                    />
+
                     <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                   </ValidationProvider>
                 </div>
@@ -178,35 +126,17 @@
                     rules="required|blank"
                     v-slot="v"
                   >
-                    <label
-                      for="motibation"
-                      class="block text-sm font-medium text-gray-700"
-                      >試合へのモチベーション <span class="text-red-400">※必須</span></label
-                    >
-                    <select
-                      v-model="teamInfo.motibation"
-                      name="motibation"
-                      class="
-                       appearance-none
-                        bg-gray-200
-                        mt-1
-                        p-2
-                        focus:ring-indigo-500
-                        focus:border-indigo-500
-                        block
-                        w-full
-                        shadow-sm
-                        sm:text-sm
-                        border-gray-300
-                        rounded-md
-                      "
-                    >
-                      <option disabled value="">試合へのモチベーション</option>
-                      <option>勝ち負けにこだわりたい</option>
-                      <option>勝ち負けにこだわりすぎないが真剣にハードに</option>
-                      <option>エンジョイでは物足りない。ハードすぎずしっかりめにやりたい</option>
-                      <option>お互い楽しくエンジョイ志向でやりたい</option>
-                    </select>
+
+                    <!-- 試合へのモチベーションを選ぶセレクトボックス -->
+                    <BaseSelectBox
+                      :options="motibation"
+                      :name="'motibation'"
+                      :label="'試合へのモチベーション'"
+                      :required="true"
+                      :value="'試合へのモチベーションを入力'" 
+                      @selected="selectedMotibation" 
+                    />
+
                     <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                   </ValidationProvider>
                 </div>
@@ -218,32 +148,17 @@
                     rules="required|blank"
                     v-slot="v"
                   >
-                    <label
-                      for="area1"
-                      class="block text-sm font-medium text-gray-700"
-                      >都道府県 <span class="text-red-400">※必須</span></label
-                    >
-                    <select
-                      v-model="teamInfo.area1"
-                      name="area1"
-                      class="
-                       appearance-none
-                        bg-gray-200
-                        mt-1
-                        p-2
-                        focus:ring-indigo-500
-                        focus:border-indigo-500
-                        block
-                        w-full
-                        shadow-sm
-                        sm:text-sm
-                        border-gray-300
-                        rounded-md
-                      "
-                    >
-                      <option disabled value="">活動している都道府県を入力</option>
-                      <option v-for="prefecture in prefectures" :key="prefecture.id">{{ prefecture }}</option>
-                    </select>
+
+                    <!-- 試合へのモチベーションを選ぶセレクトボックス -->
+                    <BaseSelectBox
+                      :options="prefectures"
+                      :name="'area1'"
+                      :label="'都道府県'"
+                      :required="true"
+                      :value="'都道府県'" 
+                      @selected="selectedArea1" 
+                    />
+   
                     <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                   </ValidationProvider>
                 </div>
@@ -255,64 +170,32 @@
                     rules="required"
                     v-slot="v"
                   >
-                    <label
-                      for="area2"
-                      class="block text-sm font-medium text-gray-700"
-                      >よく活動する市町村区① <span class="text-red-400">※必須</span></label
-                    >
-                    <input
-                      type="text"
-                      v-model.trim="teamInfo.area2"
-                      name="area2"
-                      placeholder="（例）枚方市"
-                      id="area2"
-                      class="
-                       appearance-none
-                        bg-gray-200
-                        mt-1
-                        p-2
-                        focus:ring-indigo-500
-                        focus:border-indigo-500
-                        block
-                        w-full
-                        shadow-sm
-                        sm:text-sm
-                        border-gray-300
-                        rounded-md
-                      "
-                    />
+
+                  <BaseInputForm 
+                    :name="'area2'"
+                    :value="teamInfo.area2"
+                    :label="'よく活動する市町村区①'"
+                    :required="true"
+                    :placeholder="'（例）枚方市'"
+                    @inputValue="inputArea2" 
+                  />
+
                     <div class="bg-yellow-500 text-white text-center">{{ v.errors[0] }}</div>
                   </ValidationProvider>
                 </div>
 
                 <!-- 活動している市町村区② -->
                 <div class="col-span-6 sm:col-span-3">
-                    <label
-                      for="area3"
-                      class="block text-sm font-medium text-gray-700"
-                      >よく活動する市町村区②</label
-                    >
-                    <input
-                      type="text"
-                      v-model.trim="teamInfo.area3"
-                      name="area3"
-                      placeholder="（例）横浜市"
-                      id="area3"
-                      class="
-                       appearance-none
-                        bg-gray-200
-                        mt-1
-                        p-2
-                        focus:ring-indigo-500
-                        focus:border-indigo-500
-                        block
-                        w-full
-                        shadow-sm
-                        sm:text-sm
-                        border-gray-300
-                        rounded-md
-                      "
-                    />
+
+                  <BaseInputForm 
+                    :name="'area3'"
+                    :value="teamInfo.area3"
+                    :label="'よく活動する市町村区②'"
+                    :required="false"
+                    :placeholder="'（例）横浜市'"
+                    @inputValue="inputArea3" 
+                  />
+
                 </div>
 
                 <!-- チーム自己紹介 -->
@@ -404,6 +287,20 @@ export default {
         selfIntroduction: "",
       },
 
+      category: [
+        "サッカー", "フットサル"
+      ],
+
+      level: [
+        "競技志向（ハイレベル）", "競技志向（シリアス）", "競技志向（ジェネラル）", 
+        "エンジョイ（シリアス）", "エンジョイ（ジェネラル）", "エンジョイ（ファン）", 
+      ],
+
+      motibation: [
+        "勝ち負けにこだわりたい", "勝ち負けにこだわりすぎないが真剣にハードに", "ハードすぎずしっかりめにやりたい",
+        "お互い楽しくエンジョイ志向でやりたい",
+      ],
+
       prefectures: [
         "東京都", "神奈川", "埼玉", "千葉", " 群馬", " 栃木", " 茨城", " 山梨",
         "愛知県", "岐阜県", "三重県", "静岡県",
@@ -427,8 +324,8 @@ export default {
         selfIntroduction: this.teamInfo.selfIntroduction,
       });
     },
+
     selectImage(e) {
-      console.log(e.target.files[0]);
       const file = e.target.files[0];
       this.teamInfo.image = file;
 
@@ -437,6 +334,34 @@ export default {
       reader.onload = (e) => {
         this.teamInfo.showImage = e.target.result;
       };
+    },
+
+    inputTeamName(value){
+      this.teamInfo.name = value;
+    },
+
+    selectedCategory(value){
+      this.teamInfo.category = value;
+    },
+
+    selectedLevel(value){
+      this.teamInfo.level = value;
+    },
+
+    selectedMotibation(value){
+      this.teamInfo.motibation = value;
+    },
+
+    selectedArea1(value){
+      this.teamInfo.area1 = value;
+    },
+
+    inputArea2(value){
+      this.teamInfo.area2 = value;
+    },
+
+    inputArea3(value){
+      this.teamInfo.area3 = value;
     },
   },
 };

@@ -34,7 +34,7 @@
           プロフィールを編集
         </button>
         <button class="w-11/12 bg-gray-400 text-white m-3 p-3 rounded-md">
-          <NuxtLink to="myPage">マイページへ戻る</NuxtLink>
+          <NuxtLink to="/myPage">マイページへ戻る</NuxtLink>
         </button>
         <a href="/"
           ><button
@@ -80,11 +80,16 @@
                 v-slot="{ errors }"
               >
                 <div>
-                  <input
-                    type="text"
-                    v-model="userInfo.loginName"
-                    class="w-full bg-gray-200 text-center mt-3 p-2 rounded-lg"
+
+                  <BaseInputForm 
+                    :name="'profileName'"
+                    :value="userInfo.loginName"
+                    :label="'ユーザー名'"
+                    :required="false"
+                    :placeholder="'ユーザー名'"
+                    @inputValue="inputloginName"
                   />
+
                 </div>
                 <span>{{ errors[0] }}</span>
               </ValidationProvider>
@@ -95,11 +100,16 @@
                 v-slot="{ errors }"
               >
                 <div>
-                  <input
-                    type="text"
-                    v-model="userInfo.email"
-                    class="w-full bg-gray-200 text-center mt-3 p-2 rounded-lg"
+
+                  <BaseInputForm 
+                    :name="'email'"
+                    :value="userInfo.email"
+                    :label="'メールアドレス'"
+                    :required="false"
+                    :placeholder="'メールアドレス'"
+                    @inputValue="inputEmail"
                   />
+                  
                 </div>
                 <span>{{ errors[0] }}</span>
               </ValidationProvider>
@@ -213,6 +223,7 @@ export default {
       //firestoreのusersコレクションの情報を変更する
       this.$store.dispatch("user/updateUserImage", {
         docId: id,
+        displayName: this.userInfo.loginName,
         profileImage: this.userInfo.image,
       });
 
@@ -235,6 +246,14 @@ export default {
         this.profileImage = e.target.result;
       };
     },
+
+    inputloginName(value){
+      this.userInfo.loginName = value;
+    },
+
+    inputEmail(value){
+      this.userInfo.email = value;
+    }
   },
 };
 </script>

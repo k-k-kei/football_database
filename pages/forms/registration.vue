@@ -2,9 +2,9 @@
   <div class="md:w-2/5 md:mx-auto">
     <ValidationObserver v-slot="{ invalid }">
       <keep-alive>
-        <form-list-input v-if="formNumber === 0" @update="updateForm" />
-        <form-list-confirm v-if="formNumber === 1" :form="formVal" />
-        <form-complate v-if="formNumber === 2" />
+        <FormListInput v-if="formNumber === 0" @update="updateForm" />
+        <FormListConfirm v-if="formNumber === 1" :form="formVal" />
+        <FormComplate v-if="formNumber === 2" />
       </keep-alive>
 
         <div class="flex w-11/12 mx-auto">
@@ -44,9 +44,9 @@
 </template>
 
 <script>
-import FormListInput from "../../components/FormListInput.vue";
-import FormListConfirm from "../../components/FormListConfirm.vue";
-import FormComplate from "../../components/FormComplate.vue";
+import FormListInput from "../../components/pages/FormListInput.vue";
+import FormListConfirm from "../../components/pages/FormListConfirm.vue";
+import FormComplate from "../../components/pages/FormComplate.vue";
 
 import { auth } from "~/plugins/firebase";
 
@@ -101,6 +101,7 @@ export default {
   methods: {
     updateForm: function(formData) {
       Object.assign(this.formVal, formData);
+      console.log(this.formVal, formData)
     },
     plusNum() {
       this.formNumber++;

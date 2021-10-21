@@ -81,7 +81,7 @@ export default {
             position: "top-center",
             timeout: 2000,
           });
-          this.$router.push("/login");
+          this.$router.push("/auth/login");
         }else{
           this.$router.push("/chat");
         }
@@ -94,7 +94,7 @@ export default {
             position: "top-center",
             timeout: 2000,
           });
-          this.$router.push("/login");
+          this.$router.push("/auth/login");
         }else{
           this.$router.push("/myPage");
         }

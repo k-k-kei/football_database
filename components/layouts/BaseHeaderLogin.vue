@@ -8,9 +8,19 @@
           </a>
         </div>
         <div class="hidden md:block">
-        <AppBarForDesktop />
+        <AppBarDesktop />
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import AppBarDesktop from "~/components/layouts/AppBarDesktop"
+
+export default {
+  components: {
+    AppBarDesktop
+  }
+}
+</script>

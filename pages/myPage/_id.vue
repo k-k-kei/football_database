@@ -1,8 +1,13 @@
 <template>
   <div class="md:w-3/4 md:mx-auto">
     <div class="md:flex">
+        
+      <!-- 
+          
+        チーム詳細表示
+          
+      -->
       <div class="md:w-1/2 md:mx-5">
-        <!-- チーム表示エリア -->
         <template v-if="isEdited">
           <TeamDetailCard :teamDetailed="teams" />
 
@@ -66,7 +71,7 @@
 
         <!-- スケジュール調整中の予定表示 -->
         <div class="md:w-2/3">
-          <LayoutTitleHeader :title="'スケジュール調整中'" />
+          <BaseTitleHeader :title="'スケジュール調整中'" />
 
           <div v-if="checkContentsForAdjust()">
             <div v-for="match in adjustedMatches" :key="match.id">
@@ -143,7 +148,7 @@
           <!-- スケジュール調整中の予定表示 -->
 
           <!-- 確定スケジュールの予定表示 -->
-          <LayoutTitleHeader :title="'確定スケジュール'" />
+          <BaseTitleHeader :title="'確定スケジュール'" />
           <div v-if="checkContentsForConfirmation()">
             <!-- 確定スケジュールカードの内容 -->
             <div v-for="match in confirmationMatches" :key="match.id">
@@ -222,9 +227,14 @@ import firebase from "~/plugins/firebase";
 
 import { ValidationObserver } from "vee-validate";
 
+import TeamDetailCard from "~/components/pages/TeamDetailCard"
+import TeamDetailCardEdit from "~/components/pages/TeamDetailCardEdit"
+
 export default {
   components: {
     ValidationObserver,
+    TeamDetailCard,
+    TeamDetailCardEdit
   },
   data() {
     return {

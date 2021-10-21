@@ -1,7 +1,7 @@
 <template>
   <div class="my-2 md:w-3/4 md:mx-auto md:flex">
     <div class="md:w-1/3 md:mx-3">
-      <LayoutTitleHeader :title="'ユーザー情報'" />
+      <BaseTitleHeader :title="'ユーザー情報'" />
       <div class="bg-white divide-y divide-gray-200">
         <div class="px-6 py-4 whitespace-nowrap">
           <div v-for="user in users" :key="user.id" class="flex items-center">
@@ -26,17 +26,23 @@
 
     <!-- 所属チーム一覧 -->
     <div class="md:w-2/3 md:mx-3">
-      <LayoutTitleHeader :title="'登録チーム一覧'" />
-      <TeamShowCard :teams="teams" :userInfo="userInfo" />
+      <BaseTitleHeader :title="'登録チーム一覧'" />
+      <TeamShowCard :teams="teams" :userInfo="userInfo" :link="/teams/" />
     </div>
   </div>
 </template>
 
 <script>
+import TeamShowCard from "~/components/pages/TeamShowCard"
+
 export default {
+  components: {
+    TeamShowCard
+  },
   data() {
     return {
       userId: this.$route.params.id,
+      // チーム一覧を表示するコンポーネントのために空のuserInfoを定義
       userInfo: {},
     };
   },

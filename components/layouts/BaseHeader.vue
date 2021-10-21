@@ -9,12 +9,22 @@
                 </div>
                 <ul class="flex justify-between items-center text-sm mt-1 md:text-base">
                     <div class="hidden md:block">
-                        <AppBarForDesktop />
+                        <AppBarDesktop />
                     </div>
-                    <li class="ml-4 md:ml-8 p-2"><NuxtLink to="/login">ログイン</NuxtLink></li>
-                    <li class="ml-4 md:ml-8 p-2 bg-red-400 text-white rounded-lg"><NuxtLink to="/signUp">新規登録</NuxtLink></li>
+                    <li class="ml-4 md:ml-8 p-2"><NuxtLink to="/auth/login">ログイン</NuxtLink></li>
+                    <li class="ml-4 md:ml-8 p-2 bg-red-400 text-white rounded-lg"><NuxtLink to="/auth/signUp">新規登録</NuxtLink></li>
                 </ul>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import AppBarDesktop from "~/components/layouts/AppBarDesktop"
+
+export default {
+  components: {
+    AppBarDesktop
+  }
+}
+</script>

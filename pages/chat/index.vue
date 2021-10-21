@@ -1,7 +1,7 @@
 <template>
   <div class="md:w-1/2 md:mx-auto">
     <!-- チーム一覧 -->
-    <LayoutTitleHeader :title="'チャット一覧'" />
+    <BaseTitleHeader :title="'チャット一覧'" />
     <div class="bg-white divide-y divide-gray-200">
 
       <!-- チャットの有無で表示を切り替え -->

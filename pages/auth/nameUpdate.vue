@@ -99,7 +99,7 @@ export default {
               displayName: user.displayName
             });
           });
-          this.$router.push("/nameUpdateComplate");
+          this.$router.push("/auth/nameUpdateComplate");
         })
         .catch(error => {
           console.log(error);

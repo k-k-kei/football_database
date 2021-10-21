@@ -26,7 +26,9 @@
           >
             <p>日程調整</p>
           </button>
-          <button class="bg-gray-400 text-gray-600 rounded w-1/2 m-2 p-2 text-center">
+          <button
+            class="bg-gray-400 text-gray-600 rounded w-1/2 m-2 p-2 text-center"
+          >
             <p>追加機能実装中...</p>
           </button>
         </div>
@@ -130,11 +132,14 @@
     <!-- モーダルウィンドウ -->
     <div>
       <transition>
-      <div class="overlay overflow-scroll md:w-1/2 md:mx-auto" v-show="showContentArea">
-        <div class="content" @click="stopEvent">
-          <div class="bg-white">
-            <div
-              class="
+        <div
+          class="overlay overflow-scroll md:w-1/2 md:mx-auto"
+          v-show="showContentArea"
+        >
+          <div class="content" @click="stopEvent">
+            <div class="bg-white">
+              <div
+                class="
                 text-center
                 align-middle
                 flex
@@ -143,112 +148,111 @@
                 md:mx-8
                 py-2
               "
-            >
-              <!-- 検索ヘッダー -->
-              <div class="w-full">
-                <h1 class="text-center p-1">日程調整作成フォーム</h1>
-              </div>
-              <!-- クローズボタン -->
-              <div>
-                <button @click="closeModalArea">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- バリデーションの監視 -->
-            <ValidationObserver v-slot="{ invalid }">
-              <!-- チェックボックス検索エリア-->
-              <div class="flex mt-5 py-5">
-                <div class="w-11/12 mx-auto">
-                  <!-- チーム名 -->
-                  <div>候補日</div>
-                  <ValidationProvider
-                    name="候補日時"
-                    rules="required"
-                    v-slot="v"
-                  >
-                    <div>
-                      <input
-                        type="datetime-local"
-                        v-model="matchmake.datetime[0]"
-                        class="my-2 p-1 rounded-lg"
+              >
+                <!-- 検索ヘッダー -->
+                <div class="w-full">
+                  <h1 class="text-center p-1">日程調整作成フォーム</h1>
+                </div>
+                <!-- クローズボタン -->
+                <div>
+                  <button @click="closeModalArea">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"
                       />
-                    </div>
-                    <div class="bg-yellow-500 text-white text-center">
-                      {{ v.errors[0] }}
-                    </div>
-                  </ValidationProvider>
-                  <div>
-                    <input
-                      type="datetime-local"
-                      v-model="matchmake.datetime[1]"
-                      class="my-2 p-1 rounded-lg"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="datetime-local"
-                      v-model="matchmake.datetime[2]"
-                      class="my-2 p-1 rounded-lg"
-                    />
-                  </div>
+                    </svg>
+                  </button>
+                </div>
+              </div>
 
-
-                  <div>タイトル</div>
-                  <div class="mb-3">
+              <!-- バリデーションの監視 -->
+              <ValidationObserver v-slot="{ invalid }">
+                <!-- チェックボックス検索エリア-->
+                <div class="flex mt-5 py-5">
+                  <div class="w-11/12 mx-auto">
+                    <!-- チーム名 -->
+                    <div>候補日</div>
                     <ValidationProvider
-                      name="タイトル"
+                      name="候補日時"
                       rules="required"
                       v-slot="v"
                     >
+                      <div>
+                        <BaseInputDatetime
+                          @inputValue="inputDatetime0"
+                          class="my-2 p-1 rounded-lg"
+                        />
+                      </div>
+                      <div class="bg-yellow-500 text-white text-center">
+                        {{ v.errors[0] }}
+                      </div>
+                    </ValidationProvider>
+                    <div>
+                      <BaseInputDatetime
+                        @inputValue="inputDatetime1"
+                        class="my-2 p-1 rounded-lg"
+                      />
+                    </div>
+                    <div>
+                      <BaseInputDatetime
+                        @inputValue="inputDatetime2"
+                        class="my-2 p-1 rounded-lg"
+                      />
+                    </div>
+
                     <div class="mb-3">
-                      <input
-                        type="text"
-                        v-model="matchmake.title"
-                        placeholder="練習試合...etc"
-                        class="w-full bg-gray-200 p-2 rounded-lg"
-                      />
-                      <div class="bg-yellow-500 text-white text-center">
-                        {{ v.errors[0] }}
-                      </div>
-                      </div>
-                    </ValidationProvider>
-                  </div>
+                      <ValidationProvider
+                        name="タイトル"
+                        rules="required"
+                        v-slot="v"
+                      >
+                        <BaseInputForm
+                          :name="'title'"
+                          :value="matchmake.title"
+                          :label="'タイトル'"
+                          :required="false"
+                          :placeholder="'練習試合...etc'"
+                          @inputValue="inputMatchTitle"
+                        />
 
-                  <div>場所</div>
-                  <div>
-                    <ValidationProvider name="場所" rules="required" v-slot="v">
-                      <div class="mb-3">
-                      <input
-                        type="text"
-                        v-model="matchmake.place"
-                        placeholder="かもめコート...etc"
-                        class="w-full bg-gray-200 p-2 rounded-lg"
-                      />
-                      <div class="bg-yellow-500 text-white text-center">
-                        {{ v.errors[0] }}
-                      </div>
-                      </div>
-                    </ValidationProvider>
-                  </div>
+                        <div class="bg-yellow-500 text-white text-center">
+                          {{ v.errors[0] }}
+                        </div>
+                      </ValidationProvider>
+                    </div>
 
-                  <div>コメント</div>
-                  <div class="mb-3">
-                    <div class="mt-1">
+                    <div class="mb-3">
+                      <ValidationProvider
+                        name="場所"
+                        rules="required"
+                        v-slot="v"
+                      >
+                        <BaseInputForm
+                          :name="'place'"
+                          :value="matchmake.place"
+                          :label="'場所'"
+                          :required="false"
+                          :placeholder="'かもめコート...etc'"
+                          @inputValue="inputMatchPlace"
+                        />
+
+                        <div class="bg-yellow-500 text-white text-center">
+                          {{ v.errors[0] }}
+                        </div>
+                      </ValidationProvider>
+                    </div>
+
+                    <div class="sm:text-sm">コメント</div>
+                    <div class="mb-3">
                       <textarea
                         id="about"
                         v-model="matchmake.comment"
@@ -269,23 +273,22 @@
                         placeholder="こんにちは、よろしくお願いします！"
                       ></textarea>
                     </div>
-                  </div>
 
-                  <!-- matchesコレクションへデータを送信 -->
-                  <button
-                    @click="addMatches"
-                    :disabled="invalid"
-                    class="buttonClickable"
-                  >
-                    作成
-                  </button>
+                    <!-- matchesコレクションへデータを送信 -->
+                    <button
+                      @click="addMatches"
+                      :disabled="invalid"
+                      class="buttonClickable"
+                    >
+                      作成
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </ValidationObserver>
-            <!-- チェックボックス検索エリアここまで -->
+              </ValidationObserver>
+              <!-- チェックボックス検索エリアここまで -->
+            </div>
           </div>
         </div>
-      </div>
       </transition>
     </div>
   </div>
@@ -395,7 +398,7 @@ export default {
     },
   },
   methods: {
-        // モーダルのチーム一覧を表示するためのidを呼び出す
+    // モーダルのチーム一覧を表示するためのidを呼び出す
     getTeamId() {
       const ids = this.$store.state.chat.chats
         .filter((el) => el.id === this.$route.params.id)
@@ -435,7 +438,7 @@ export default {
 
     //エリアモーダルを開く
     openModalArea() {
-      this.getTeamId()
+      this.getTeamId();
       this.showContentArea = true;
     },
 
@@ -473,6 +476,26 @@ export default {
         position: "top-center",
         timeout: 2000,
       });
+    },
+
+    inputMatchTitle(value) {
+      this.matchmake.title = value;
+    },
+
+    inputMatchPlace(value) {
+      this.matchmake.place = value;
+    },
+
+    inputDatetime0(value) {
+      this.matchmake.datetime[0] = value;
+    },
+
+    inputDatetime1(value) {
+      this.matchmake.datetime[1] = value;
+    },
+
+    inputDatetime2(value) {
+      this.matchmake.datetime[2] = value;
     },
   },
 
@@ -532,8 +555,6 @@ export default {
   @apply bg-gray-300 p-3 rounded-r-lg rounded-bl-lg;
 }
 
-
-
 /* 作成ボタンのバリデーション結果で出し分ける */
 .buttonClickable {
   @apply w-full bg-indigo-600 text-white p-3 rounded-md;
@@ -542,8 +563,6 @@ export default {
 :disabled {
   @apply w-full bg-gray-200 text-white p-3 rounded-md;
 }
-
-
 
 /* モーダル */
 .overlay {

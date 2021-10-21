@@ -25,14 +25,19 @@
           </div>
         </div>
         <Nuxt />
-        <Footer />
+        <BaseFooter />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import BaseFooter from "~/components/layouts/BaseFooter"
+
 export default {
+  components: {
+    BaseFooter
+  },
   methods: {
     back() {
       this.$router.go(-1);

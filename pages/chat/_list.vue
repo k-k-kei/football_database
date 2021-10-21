@@ -1,6 +1,6 @@
 <template>
   <div class="md:w-1/2 md:mx-auto md:m-5 md:border">
-  <LayoutTitleHeader :title="'チームチャットリスト'" />
+  <BaseTitleHeader :title="'チームチャットリスト'" />
     <div class="flex flex-col w-full">
       <div v-if="checkContents()">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
