@@ -2,36 +2,9 @@
   <div>
     <!-- フリーキーワード -->
     <div class="md:w-3/4 md:mx-auto">
-      <div class="bg-gray-100 m-2 p-2 flex rounded-lg">
-        <span class="w-auto flex justify-end items-center text-gray-500 p-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </span>
-        <input
-          class="bg-gray-100 w-full rounded p-2"
-          @input="sorted"
-          type="text"
-          placeholder="地域・チーム名などで検索！"
-        />
-        <nuxt-link
-          to="/search"
-          class="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:bg-red-300 rounded text-gray-600 p-2 pl-4 pr-4"
-        >
-          <button class="font-semibold text-xs">Search</button>
-        </nuxt-link>
-      </div>
+      
+      <!-- 検索入力フォーム -->
+      <BaseSearchBox @search="getSearchWords" :placeholder="'地域・チーム名などで検索！'" :link="'/search'" />
 
       <div class="flex">
         <!-- 検索項目① -->
@@ -39,7 +12,7 @@
           class="bg-gradient-to-r from-yellow-400 to-yellow-500 rounded w-1/2 m-2 p-2 text-gray-600 text-center"
           @click="openModalArea"
         >
-          <p>競技・場所で探す</p>
+          <p>場所で探す</p>
         </button>
 
         <!-- 検索項目② -->
@@ -52,7 +25,12 @@
       </div>
 
       <div class="flex flex-wrap m-2">
-        <!-- 選択したレベルタグ一覧を表示 -->
+        
+        <!-- 
+          
+          選択したレベルタグ一覧を表示
+          
+           -->
         <div
           v-for="selectedItem in selectedItemLevel"
           :key="selectedItem.id"
@@ -77,7 +55,12 @@
             </svg>
           </div>
         </div>
-        <!-- 選択したエリアタグ一覧を表示 -->
+        
+        <!-- 
+          
+          選択したエリアタグ一覧を表示
+          
+           -->
         <div
           v-for="selectedItem in selectedItemArea"
           :key="selectedItem.id"
@@ -112,7 +95,7 @@
        -->
     <div>
       <transition>
-        <div class="overlay md:w-3/4 md:mx-auto" v-show="showContentArea">
+        <div class="overlay overflow-scroll md:w-3/4 md:mx-auto" v-show="showContentArea">
           <div class="content" @click="stopEvent">
             <!-- モーダルウィンドウのコンテンツ -->
             <div class="bg-white">
@@ -129,7 +112,7 @@
               >
                 <!-- 検索ヘッダー -->
                 <div class="w-full">
-                  <h1 class="text-center p-1">競技・場所で探す</h1>
+                  <h1 class="text-center p-1">場所で探す</h1>
                 </div>
                 <!-- クローズボタン -->
                 <div>
@@ -155,32 +138,9 @@
               <!-- チェックボックス検索エリア-->
               <div class="flex mt-5">
                 <div class="w-11/12 mx-auto">
-                  <LayoutTitleHeader :title="'競技カテゴリー'" />
-
-                  <!-- 競技カテゴリー -->
-                  <div class="block">
-                    <div class="mt-2">
-                      <div
-                        v-for="category in teamCategory"
-                        :key="category.id"
-                        class="flex flex-wrap"
-                      >
-                        <label class="w-1/2 inline-flex items-center mb-3">
-                          <input
-                            type="checkbox"
-                            class="checkboxStyle form-checkbox"
-                            :value="category"
-                            v-model="selectedItemArea"
-                          />
-                          <span class="ml-2">{{ category }}</span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <LayoutTitleHeader :title="'都道府県'" />
 
                   <!-- 都道府県 -->
+                  <BaseTitleHeader :title="'都道府県'" />
                   <div class="block">
                     <div class="mt-2">
                       <div
@@ -202,7 +162,7 @@
                   </div>
                   <nuxt-link to="/search">
                     <button
-                      class="w-full bg-blue-400 text-white mt-5 p-3 rounded-md"
+                      class="w-full bg-blue-400 text-white my-8 p-3 rounded-md"
                       @click="selectedArea"
                     >
                       探す
@@ -224,7 +184,7 @@
        -->
     <div>
       <transition>
-      <div class="overlay md:w-3/4 md:mx-auto" v-show="showContentLevel">
+      <div class="overlay overflow-scroll md:w-3/4 md:mx-auto" v-show="showContentLevel">
         <div class="content" @click="stopEvent">
           <!-- モーダルウィンドウのコンテンツ -->
           <div class="bg-white">
@@ -236,7 +196,7 @@
                 justify-between
                 mx-5
                 md:mx-8
-                py-2
+                py-5
               "
             >
               <!-- 検索ヘッダー -->
@@ -264,11 +224,34 @@
               </div>
             </div>
             <!-- チェックボックス検索エリア-->
-            <div class="flex mt-5">
-              <div class="w-11/12 mx-auto">
-                <LayoutTitleHeader :title="'競技レベル'" />
+            <div>
+              <div class="h-5/6 overflow-y-auto w-11/12 mx-auto">
+
+                  <!-- 競技カテゴリー -->
+                <BaseTitleHeader :title="'競技カテゴリー'" />
+                  <div class="block">
+                    <div class="mt-2">
+                      <div
+                        v-for="category in teamCategory"
+                        :key="category.id"
+                        class="flex flex-wrap"
+                      >
+                        <label class="w-1/2 inline-flex items-center mb-3">
+                          <input
+                            type="checkbox"
+                            class="checkboxStyle form-checkbox"
+                            :value="category"
+                            v-model="selectedItemArea"
+                          />
+                          <span class="ml-2">{{ category }}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
 
                 <!-- チームレベル -->
+                <BaseTitleHeader :title="'競技レベル'" />
                 <div class="block">
                   <div v-for="level in teamLevels" :key="level.id">
                     <label class="w-full inline-flex items-center mb-3">
@@ -283,9 +266,8 @@
                   </div>
                 </div>
 
-                <LayoutTitleHeader :title="'モチベーション'" />
-
                 <!-- モチベーション -->
+                <BaseTitleHeader :title="'モチベーション'" />
                 <div class="block">
                   <div
                     v-for="motibation in teamMotibation"
@@ -305,7 +287,7 @@
 
                 <nuxt-link to="/search">
                   <button
-                    class="w-full bg-blue-400 text-white mt-5 p-3 rounded-md"
+                    class="w-full bg-blue-400 text-white my-8 p-3 rounded-md"
                     @click="selectedLevel"
                   >
                     探す
@@ -386,8 +368,8 @@ export default {
     ...mapMutations(["selectArea"]),
 
     //検索フォームに入力された値をstoreに送る関数。
-    sorted(e) {
-      this.selectName(e.target.value);
+    getSearchWords(value) {
+      this.selectName(value);
     },
 
     //セレクトフォームで選択された値をstoreに送る関数。

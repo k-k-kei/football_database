@@ -1,7 +1,6 @@
 <template>
-  <div class="md:w-3/4 md:mx-auto">
+  <div class="mb-10 md:w-3/4 md:mx-auto">
     <div class="md:flex">
-        
       <!-- 
           
         チーム詳細表示
@@ -64,103 +63,26 @@
             <!-- 更新・キャンセルボタン -->
           </ValidationObserver>
         </template>
-        </div>
-        <!-- チーム情報編集画面 -->
+      </div>
+      <!-- チーム情報編集画面 -->
 
+      <!-- スケジュール調整中の予定表示 -->
+      <div class="md:w-2/3">
+        <BaseTitleHeader :title="'スケジュール調整中'" />
 
-
-        <!-- スケジュール調整中の予定表示 -->
-        <div class="md:w-2/3">
-          <BaseTitleHeader :title="'スケジュール調整中'" />
-
-          <div v-if="checkContentsForAdjust()">
-            <div v-for="match in adjustedMatches" :key="match.id">
-              <!-- 調整中スケジュール一覧 -->
-              <div
-                class="m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
-              >
-                <NuxtLink :to="'/match/' + match.id">
-                  <div class="flex p-2">
-                    <!-- 調整中スケジュールカードのヘッダー -->
-                    <div class="flex items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                    </div>
-                    <h1 class="text-base font-bold text-gray-800 p-2">
-                      {{ match.title }}
-                    </h1>
-                    <p class="text-base font-bold text-gray-800 p-2">
-                      vs {{ getTeamName(match.teamId) }}
-                    </p>
-                    <div class="flex-shrink-0 h-10 w-10 mx-2">
-                      <img
-                        class="h-10 w-10 rounded-full"
-                        :src="getTeamImage(match.teamId)"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-
-                  <!-- 調整中スケジュールカードの内容 -->
-                  <div class="flex">
-                    <div class="w-1/2 px-4 md:p-4">
-                      <div class="my-4">
-                        <!-- チーム画像 -->
-                        <div class="text-sm font-bold">場所</div>
-                        <p class="text-xs">{{ match.place }}</p>
-                      </div>
-                    </div>
-                    <div class="w-1/2 px-4 md:p-4">
-                      <div class="my-4">
-                        <div class="text-sm font-bold">候補日</div>
-                        <div
-                          v-for="datetime in match.datetime"
-                          :key="datetime.id"
-                          class="text-xs"
-                        >
-                          {{ getDate(datetime) }} {{ getTime(datetime) }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </NuxtLink>
-              </div>
-            </div>
-          </div>
-          <div v-else>
-            <div class="text-center p-5">
-              <div>現在調整中のスケジュールはありません</div>
-              <div>気になるチームと日程調整してみましょう！</div>
-            </div>
-          </div>
-          <!-- スケジュール調整中の予定表示 -->
-
-          <!-- 確定スケジュールの予定表示 -->
-          <BaseTitleHeader :title="'確定スケジュール'" />
-          <div v-if="checkContentsForConfirmation()">
-            <!-- 確定スケジュールカードの内容 -->
-            <div v-for="match in confirmationMatches" :key="match.id">
-              <div
-                class="m-2 mx-auto overflow-hidden bg-white rounded-lg shadow-lg"
-              >
-                <!-- 確定スケジュールカードのヘッダー -->
+        <div v-if="checkContentsForAdjust()">
+          <div v-for="match in adjustedMatches" :key="match.id">
+            <!-- 調整中スケジュール一覧 -->
+            <div
+              class="mx-auto overflow-hidden"
+            >
+              <NuxtLink :to="'/match/' + match.id">
                 <div class="flex p-2">
+                  <!-- 調整中スケジュールカードのヘッダー -->
                   <div class="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6 bg-yellow-200 text-yellow-300 rounded-full"
+                      class="h-6 w-6"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -169,7 +91,7 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                       />
                     </svg>
                   </div>
@@ -181,43 +103,111 @@
                   </p>
                 </div>
 
-                <p class="text-sm px-2">
-                  日程：{{ getDate(match.confirmDate) }}
-                </p>
-                <p class="text-sm px-2">
-                  キックオフ：{{ getTime(match.confirmDate) }}
-                </p>
-                <p class="text-xs px-2">場所：{{ match.place }}</p>
+                <!-- 調整中スケジュールカードの内容 -->
                 <div class="flex">
-                  <div class="w-1/2 px-4 md:p-4">
-                    <div class="my-4">
-                      <!-- チーム画像 -->
-                      <div class="flex-shrink-0 h-28 w-28">
+                  <div class="w-1/2 px-2 md:p-4">
+                    <div>
                         <img
-                          class="h-28 w-28 rounded-full"
+                          class=""
                           :src="getTeamImage(match.teamId)"
                           alt=""
                         />
+                    </div>
+                  </div>
+                  <div class="w-1/2 px-4 md:p-4">
+                    <div>
+                      <div class="text-sm font-bold">場所</div>
+                      <p class="text-xs mb-2">{{ match.place }}</p>
+                      <div class="text-sm font-bold">候補日</div>
+                      <div
+                        v-for="datetime in match.datetime"
+                        :key="datetime.id"
+                        class="text-xs"
+                      >
+                        {{ getDate(datetime) }} {{ getTime(datetime) }}
                       </div>
                     </div>
                   </div>
-
-                  <div class="w-1/2 px-4 md:p-4">
-                    <div class="my-4"></div>
-                  </div>
                 </div>
-              </div>
+              </NuxtLink>
             </div>
           </div>
-          <div v-else>
-            <div class="text-center p-5">
-              <div>現在確定されたスケジュールはありません</div>
-              <div>スケジュールを確定して活動しましょう！</div>
-            </div>
-          </div>
-          <!-- 確定スケジュールの予定表示 -->
         </div>
+        <div v-else>
+          <div class="text-center p-5">
+            <div>現在調整中のスケジュールはありません</div>
+            <div>気になるチームと日程調整してみましょう！</div>
+          </div>
+        </div>
+        <!-- スケジュール調整中の予定表示 -->
+
+        <!-- 確定スケジュールの予定表示 -->
+        <BaseTitleHeader :title="'確定スケジュール'" />
+        <div v-if="checkContentsForConfirmation()">
+          <!-- 確定スケジュールカードの内容 -->
+          <div v-for="match in confirmationMatches" :key="match.id">
+            <div
+              class="mx-auto overflow-hidden"
+            >
+              <!-- 確定スケジュールカードのヘッダー -->
+              <div class="flex p-2">
+                <div class="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 bg-yellow-200 text-white rounded-full"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+                <h1 class="text-base font-bold text-gray-800 p-2">
+                  {{ match.title }}
+                </h1>
+                <p class="text-base font-bold text-gray-800 p-2">
+                  vs {{ getTeamName(match.teamId) }}
+                </p>
+              </div>
+
+               <div class="flex">
+                  <div class="w-1/2 px-2 md:p-4">
+                    <div>
+                        <img
+                          class=""
+                          :src="getTeamImage(match.teamId)"
+                          alt=""
+                        />
+                    </div>
+                  </div>
+                  <div class="w-1/2 px-4 md:p-4">
+                    <div>
+                      <div class="text-sm font-bold">日程</div>
+                      <p class="text-xs mb-2">{{ getDate(match.confirmDate) }}</p>
+                      <div class="text-sm font-bold">キックオフ</div>
+                        <p class="text-xs mb-2">{{ getTime(match.confirmDate) }}</p>
+                        <div class="text-sm font-bold">場所</div>
+                        <p class="text-xs mb-2">{{ match.place }}</p>
+                    </div>
+                  </div>
+               </div>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div class="text-center p-5">
+            <div>現在確定されたスケジュールはありません</div>
+            <div>スケジュールを確定して活動しましょう！</div>
+          </div>
+        </div>
+        <!-- 確定スケジュールの予定表示 -->
       </div>
+    </div>
   </div>
 </template>
 
@@ -227,14 +217,14 @@ import firebase from "~/plugins/firebase";
 
 import { ValidationObserver } from "vee-validate";
 
-import TeamDetailCard from "~/components/pages/TeamDetailCard"
-import TeamDetailCardEdit from "~/components/pages/TeamDetailCardEdit"
+import TeamDetailCard from "~/components/pages/TeamDetailCard";
+import TeamDetailCardEdit from "~/components/pages/TeamDetailCardEdit";
 
 export default {
   components: {
     ValidationObserver,
     TeamDetailCard,
-    TeamDetailCardEdit
+    TeamDetailCardEdit,
   },
   data() {
     return {

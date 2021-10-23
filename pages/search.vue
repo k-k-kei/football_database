@@ -1,15 +1,15 @@
 <template>
   <div>
-    <MainView />
+    <TheTeamList />
   </div>
 </template>
 
 <script>
-import MainView from "~/components/pages/MainView"
+import TheTeamList from "~/components/pages/TheTeamList"
 
 export default {
   components: {
-    MainView
+    TheTeamList
   },
   layout: "search",
 }

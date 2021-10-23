@@ -3,7 +3,7 @@
     <!-- モバイルサイズの時のみ
     ヘッダー下に検索コンポーネントを設置 -->
     <div class="md:hidden">
-      <SideBar />
+      <TheSearchItems />
     </div>
     
     <!-- トップビューを表示 -->
@@ -18,7 +18,7 @@
       <!-- デスクトップサイズの時のみ
       検索コンポーネントをトップビュー上に表示 -->
       <div class="hidden md:block md:w-1/2 md:mx-auto">
-        <SideBar />
+        <TheSearchItems />
       </div>
     </div>
 
@@ -38,12 +38,12 @@
 <script>
 import { auth } from "~/plugins/firebase";
 
-import SideBar from "~/components/pages/SideBar"
+import TheSearchItems from "~/components/pages/TheSearchItems"
 import TeamShowCard from "~/components/pages/TeamShowCard"
 
 export default {
   components: {
-    SideBar,
+    TheSearchItems,
     TeamShowCard
   },
   layout: "default",

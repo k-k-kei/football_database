@@ -7,7 +7,7 @@
         <BaseHeader />
       </div>
       <div class="md:w-3/4 mx-auto">
-      <SideBar />
+      <TheSearchItems />
       <Nuxt />
       <BaseFooter />
       <div class="md:hidden">
@@ -22,7 +22,7 @@ import { auth } from "~/plugins/firebase";
 
 import BaseHeader from "~/components/layouts/BaseHeader"
 import BaseHeaderLogin from "~/components/layouts/BaseHeaderLogin"
-import SideBar from "~/components/pages/SideBar"
+import TheSearchItems from "~/components/pages/TheSearchItems"
 import BaseFooter from "~/components/layouts/BaseFooter"
 import AppBarMobile from "~/components/layouts/AppBarMobile"
 
@@ -30,7 +30,7 @@ export default {
   components: {
     BaseHeader,
     BaseHeaderLogin,
-    SideBar,
+    TheSearchItems,
     BaseFooter,
     AppBarMobile
   },

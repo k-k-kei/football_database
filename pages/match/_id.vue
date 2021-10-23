@@ -1,6 +1,6 @@
 <template>
   <!-- スケジュール調整中の予定表示 -->
-  <div class="md:w-2/5 md:mx-auto">
+  <div class="mb-10 md:w-2/5 md:mx-auto">
     <BaseTitleHeader :title="'調整中スケジュール詳細'" />
     <div v-for="match in matches" :key="match.id">
       <div class="w-11/12 m-2 mx-auto overflow-hidden bg-white rounded-lg">
@@ -27,35 +27,39 @@
           <p class="text-base font-bold text-gray-800 p-2">
             vs {{ getTeamName(match.teamId) }}
           </p>
-          <div class="flex-shrink-0 h-10 w-10 mx-2">
-            <img
-              class="h-10 w-10 rounded-full"
-              :src="getTeamImage(match.teamId)"
-              alt=""
-            />
-          </div>
         </div>
 
         <!-- コメント表示エリア -->
         <div class="p-2">
-        <div class="text-sm font-bold">【コメント】</div>
-        <p class="text-xs">{{ match.comment }}</p>
+          <div class="mb-5">
+              <img
+                :src="getTeamImage(match.teamId)"
+                alt=""
+              />
+          </div>
+          <div class="text-sm font-bold mb-1">コメント</div>
+          <p class="text-xs">{{ match.comment }}</p>
         </div>
         <!-- コメント表示エリア -->
 
         <!-- 候補日表示エリア -->
         <div class="my-8 p-2">
-        <div class="text-sm font-bold">【候補日時】</div>
+        <div class="text-sm font-bold">候補日時</div>
           <table>
             <tr class="border-b border-gray-500">
               <td></td>
-              <td v-for="datetime in match.datetime" :key="datetime.id" class="text-sm p-1">
+              <!-- 候補日時を表示 -->
+              <td v-for="datetime in match.datetime" :key="datetime.id" class="text-xs text-center p-3">
                 <div>{{ getDate(datetime) }}</div>
                 <div>{{ getTime(datetime) }}</div>
               </td>
             </tr>
+
+            <!-- チーム名を表示 -->
             <tr v-for="teamId in match.teamId" :key="teamId.id">
-              <td class="text-sm p-1">{{ getName(teamId) }}</td>
+              <td class="text-sm p-3 border-r border-gray-500">{{ getName(teamId) }}</td>
+
+              <!-- 回答を表示 -->
               <td
                 v-for="answer in getAnswer(teamId)"
                 :key="answer.id"
@@ -67,8 +71,8 @@
           </table>
         </div>
       </div>
-
       <!-- 候補日表示エリア -->
+
 
       <!-- 日程調整編集エリア -->
       <!-- 編集画面 -->
@@ -145,6 +149,8 @@
       <!-- 初期表示-->
     </div>
     <!-- 日程調整編集エリア -->
+
+    
 
     <!-- 日程確定入力エリア -->
     <!-- 日程確定フォーム -->
