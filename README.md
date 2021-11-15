@@ -1,69 +1,65 @@
-# nuxt_app
+# タイトル
+社会人サッカー/フットサルチームのマッチングサービス「Whistle」※開発中
 
-## Build Setup
+# サービス概要
+社会人サッカー/フットサルチームが練習や試合の相手を自由に募集・検索できるプラットフォーム。
 
-```bash
-# install dependencies
-$ yarn install
+<img width="240" alt="スクリーンショット 2021-11-02 16 32 52" src="https://user-images.githubusercontent.com/42371057/140451772-b7ac6da2-4e2e-4d80-b368-c69731517a9f.png">
+<img width="235" alt="スクリーンショット 2021-11-02 16 42 56" src="https://user-images.githubusercontent.com/42371057/140073618-8e44ebcb-7cc9-4fbe-8dea-561d3fef6457.png">
 
-# serve with hot reload at localhost:3000
-$ yarn dev
+<br>
 
-# build for production and launch server
-$ yarn build
-$ yarn start
+# サービスURL
+https://football-database-106cd.web.app/
 
-# generate static project
-$ yarn generate
-```
+<br>
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+# 目的
+社会人サッカー/フットサル活動の課題である相手探しを効率化するため。<br>
+そして、日常で競技を楽しむ人を増やすことで幸せに生きる人を増やすことが目的です。
 
-## Special Directories
+<br>
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+# 制作期間
+約2ヶ月（企画、設計、開発）※開発中
 
-### `assets`
+<br>
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+# 使用技術
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+フロントエンド<br>
+* Vue.js 2.x
+* Nuxt.js 2.x
+* Tailwind css
 
-### `components`
+バックエンド<br>
+* Firebase（Firebase Authentication, Firestore, Storage）
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
+デプロイ<br>
+* Firebase Hosting
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
+<br>
 
-### `layouts`
+# 機能一覧
+* サインアップ / ログイン機能
+* 試合募集検索機能
+* 試合募集チケット登録/更新/削除機能
+* 試合募集申し込み機能
+* チーム検索機能
+* チーム登録/更新/削除機能
+* チャット機能
+* 日程調整フォーム作成/登録機能
 
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
+<br>
 
+# こだわったポイント
+* **スマホでも電波に依存せず快適に使える（SSR, PWA）**<br>
+本サービスはデスクトップのみでなくスマホでの使用も想定しています。特に忙しい社会人の方であればスマホでサクッと確認できることが重要だと考えました。そこで、Nuxt.jsを用いたSSRとPWAの実装を行いました。PWAはスマホアプリと同様にホーム画面にアイコンを配置することもできるため閲覧の簡便性を非常に高めてくれるものだと今回学びとなりました。
 
-### `pages`
+* **保守性と再利用性を意識**<br>
+今後このサービスを拡大・リリースした際、ユーザーの意見を取り入れた改善をスピーディーに進めるためにも保守性の高さが重要だと考えています。そこで再利用する可能性の高いパーツをコンポーネントに分割できるVue.jsを利用、またレイアウトにはCSSを規則的に実装することのできるTailwind cssを用いました。
 
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
+* **このサービスにユーザーが期待していることは何かを常に問う**<br>
+私はこのサービスを通して、社会人になってもサッカー/フットサルをプレーすることを諦める人を一人でも減らしたいと考えています。なぜならそれが人々の人生の充実感になり幸せになると信じているからです。そのため、機能開発をする際には徹底したユーザー目線を意識しています。想定ユーザーへインタビュー、スケッチブック一冊分のユーザー行動分析などを行いながら現在もサービスの開発を続けています。
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
