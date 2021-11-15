@@ -329,7 +329,7 @@ export default {
       }
     });
 
-    //サブコレクションからメッセージを取得する
+    //サブコレクションからmatchesを取得する
     matchesRef
       .doc(this.$route.params.id)
       .collection("answers")

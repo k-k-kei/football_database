@@ -145,7 +145,15 @@ export default {
 
     //セレクトボックスで選択した値を取得
     selected(value){
-      this.selectedTeamId = value;
+      this.selectedTeamId = this.getTeamId(value);
+      console.log(this.selectedTeamId)
+    },
+
+    // セレクトボックスで選択されたチーム名をチームIDに変換するため関数
+    getTeamId(name) {
+      return this.$store.state.teams
+      .filter((el) => el.user_id === this.uid && el.name === name)
+      .map(team => team.id)[0];
     },
 
     //チャットルームを作成する

@@ -363,9 +363,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(["selectName"]),
-    ...mapMutations(["selectLevel"]),
-    ...mapMutations(["selectArea"]),
+    ...mapMutations(["selectName", "selectLevel", "selectArea"]),
 
     //検索フォームに入力された値をstoreに送る関数。
     getSearchWords(value) {

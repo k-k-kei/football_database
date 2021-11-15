@@ -1,15 +1,15 @@
 <template>
   <div>
-    <TheTeamList />
+    <TheTicketList />
   </div>
 </template>
 
 <script>
-import TheTeamList from "~/components/pages/TheTeamList"
+import TheTicketList from "~/components/pages/TheTicketList"
 
 export default {
   components: {
-    TheTeamList
+    TheTicketList
   },
   layout: "search",
 }

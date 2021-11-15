@@ -3,7 +3,7 @@
     <div v-if="checkContents()">
 
     <!-- 検索されたアイテムを表示 -->
-    <TeamShowCard :teams="teams(filterdTeams(getName))" :userInfo="userInfo" :link="/tickets/" />
+    <TicketShowCard :tickets="tickets(filterdTickets(getName))" :link="/tickets/" />
     </div>
 
     <!-- 検索結果がなかった場合に表示 -->
@@ -19,11 +19,11 @@
 <script>
 import { auth } from "~/plugins/firebase";
 
-import TeamShowCard from "~/components/pages/TeamShowCard"
+import TicketShowCard from "~/components/pages/TicketShowCard"
 
 export default {
   components: {
-    TeamShowCard
+    TicketShowCard
   },
   data() {
     return {
@@ -33,18 +33,18 @@ export default {
     };
   },
   created: function() {
-    this.$store.dispatch("init");
+    this.$store.dispatch("ticket/init");
     auth.onAuthStateChanged(user => (this.userInfo.user_id = user.uid));
   },
   computed: {
     //gettersを呼び出し。
-    filterdTeams() {
-      return this.$store.getters.filterdTeams;
+    filterdTickets() {
+      return this.$store.getters["ticket/filterdTickets"];
     },
 
     //storeから検索フォームで入力された値を取得。
     getName() {
-      return this.$store.state.teamInfo;
+      return this.$store.state.ticketInfo;
     },
   },
   mounted() {
@@ -56,12 +56,18 @@ export default {
   },
 
   methods: {
-    teams(teams){
-      return teams.filter(el => el.user_id != this.userInfo.user_id);
+    tickets(ticket){
+      return ticket;
+      //自分のuidが含まれるチケットを非表示にする
+      //すでに他の人が申込済みでflag1の場合も非表示にする
+      //※現在はテスト中なので一旦コメントアウトしている。
+      //本番環境では有効にすること。
+      // return ticket.filter(el => el.uid != this.userInfo.user_id || el.flag != 0);
     },
+
     checkContents(){
       //検索コンテンツが0の時にテキスト表示を切り替える
-      return this.filterdTeams(this.getName).length != 0 ? true : false;
+      return this.filterdTickets(this.getName).length != 0 ? true : false;
     }
   }
 };

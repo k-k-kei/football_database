@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex min-h-screen text-gray-800">
+    <div class="text-gray-800">
       <div
         class="
           relative
@@ -12,16 +12,13 @@
           overscroll-auto
         "
       >
-        <div
-          id="top"
-          class="flex flex-col flex-grow h-0 mb-28 p-7 overflow-auto"
-        >
+        <div id="top" class="flex flex-col flex-grow h-60 p-7 overflow-auto">
           <!-- テキスト -->
           <div
+            v-for="chat in chats"
             :class="[
               chat.uid === chatData.uid ? myMessageShape : othersMessageShape,
             ]"
-            v-for="chat in chats"
             :key="chat.id"
           >
             <div v-if="chat.uid != chatData.uid">
@@ -43,29 +40,13 @@
                   {{ chat.message }}
                 </p>
               </div>
-
-              <!-- 送信時間表示 -->
-              <!-- チャット入力と同時に表示されるため、toDateの中身がnullになってエラーとなってしまう。 -->
-              <!-- チャット入力後、timestampの値を受け取って時刻表示形式に直せばエラーは収まるはず。 -->
-              <span class="text-xs text-gray-500 leading-none">{{
-                Number(
-                  chat.timestamp.toDate().getMonth().toString().padStart(2, "0")
-                ) +
-                1 +
-                "/" +
-                chat.timestamp.toDate().getDate().toString().padStart(2, "0") +
-                " " +
-                chat.timestamp.toDate().getHours().toString().padStart(2, "0") +
-                ":" +
-                chat.timestamp.toDate().getMinutes().toString().padStart(2, "0")
-              }}</span>
             </div>
           </div>
         </div>
         <!-- テキストここまで -->
 
         <!-- 送信フォーム -->
-        <div class="fixed w-full bottom-0 bg-gray-400 p-4 md:w-2/5 md:mx-auto">
+        <div class="w-full bg-gray-400 p-4 md:w-2/5 md:mx-auto">
           <div class="flex w-full">
             <input
               type="text"
@@ -97,23 +78,29 @@
 import firebase from "~/plugins/firebase";
 import { auth } from "~/plugins/firebase";
 
-const db = firebase.firestore();
-const chatsRef = db.collection("chats");
+// const db = firebase.firestore();
+// const chatsRef = db.collection("chats");
 
 export default {
-  layout: "chatui",
+  props: {
+    chats: Array,
+    ticketId: String,
+    collectionName: String,
+  },
+  //   layout: "chatui",
   data() {
     return {
       // チャット保存用オブジェクト
       chatData: {
         message: "",
-        docId: this.$route.params.id,
+        // docId: this.$route.params.id,
+        docId: this.ticketId,
         uid: "",
         read: false,
       },
 
       // チャット表示用オブジェクト
-      chats: [],
+      //   chats: [],
       userProfileImage: "",
 
       myMessageShape: "myMessageShape",
@@ -124,21 +111,8 @@ export default {
   },
   created: function () {
     this.$store.dispatch("init");
-    this.$store.dispatch("chat/init");
+    // this.$store.dispatch("chat/init");
     this.$store.dispatch("user/userInit");
-
-    //サブコレクションからメッセージを取得する
-    chatsRef
-      .doc(this.$route.params.id)
-      .collection("message")
-      .orderBy("timestamp", "asc")
-      .onSnapshot((snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          if (change.type === "added") {
-            this.chats.push(change.doc.data({ serverTimestamps: "estimate" }));
-          }
-        });
-      });
 
     //メッセージにuidを含める
     auth.onAuthStateChanged((user) => {
@@ -175,12 +149,13 @@ export default {
       });
     },
 
+    //collectionNameで指定されたコレクションのサブコレクションにチャットを追加
     add() {
-      this.$store.dispatch("chat/add", this.chatData);
-      this.$store.dispatch("chat/setLatestMessage", {
-        docId: this.chatData.docId,
-        latestMessage: this.chatData.message,
-      });
+      this.$store.dispatch(this.collectionName + "/chatAdd", this.chatData);
+      //   this.$store.dispatch("chat/setLatestMessage", {
+      //     docId: this.chatData.docId,
+      //     latestMessage: this.chatData.message,
+      //   });
       this.chatData.message = "";
     },
 
@@ -200,37 +175,37 @@ export default {
   updated() {
     this.scrollToEnd();
 
-    this.chats.forEach((el) => {
-      if (el.read === false && el.uid === this.chatData.uid) {
-        this.$store.dispatch("chat/setUnreadFlag", {
-          docId: this.chatData.docId,
-          unReadMessage: el.uid,
-        });
-        return;
-      } else {
-        this.$store.dispatch("chat/setUnreadFlag", {
-          docId: this.chatData.docId,
-          unReadMessage: false,
-        });
-      }
-    });
+    // this.chats.forEach((el) => {
+    //   if (el.read === false && el.uid === this.chatData.uid) {
+    //     this.$store.dispatch("chat/setUnreadFlag", {
+    //       docId: this.chatData.docId,
+    //       unReadMessage: el.uid,
+    //     });
+    //     return;
+    //   } else {
+    //     this.$store.dispatch("chat/setUnreadFlag", {
+    //       docId: this.chatData.docId,
+    //       unReadMessage: false,
+    //     });
+    //   }
+    // });
 
     //チャットルームを開くと既読フラグ(read)をtrueにする
-    chatsRef
-      .doc(this.$route.params.id)
-      .collection("message")
-      .where("read", "==", false)
-      .onSnapshot((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          // console.log("trueに変更する処理");
-          if (doc.data().uid != this.chatData.uid) {
-            this.$store.dispatch("chat/setReadFlag", {
-              docId: this.chatData.docId,
-              subDocId: doc.id,
-            });
-          }
-        });
-      });
+    // chatsRef
+    //   .doc(this.$route.params.id)
+    //   .collection("message")
+    //   .where("read", "==", false)
+    //   .onSnapshot((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //       // console.log("trueに変更する処理");
+    //       if (doc.data().uid != this.chatData.uid) {
+    //         this.$store.dispatch("chat/setReadFlag", {
+    //           docId: this.chatData.docId,
+    //           subDocId: doc.id,
+    //         });
+    //       }
+    //     });
+    //   });
   },
 };
 </script>

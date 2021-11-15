@@ -1,7 +1,12 @@
 <template>
-    <div class="fixed bottom-0 h-20 w-full bg-white">
+    <!-- 
+      
+      iphoneX以降のフルスクリーンに対応できていないため要調整。
+      
+     -->
+    <div class="fixed bottom-0 h-14 w-full bg-white">
         <div class="pt-2">
-            <ul class="flex justify-evenly pb-4">
+            <ul class="flex justify-evenly pb-2">
                 <li>
                     <nuxt-link to="/">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon-size" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -19,18 +24,11 @@
                     </a>
                 </li>
                 <li>
-                    <button @click="chatValidation(uid)">
-                    <div class="relative">
-                    <div
-                    class="absolute right-2 h-3 w-3 bg-red-500 rounded-full"
-                    v-if="getUnreadMessage(chats)"
-                    >
-                    </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-size" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
-                    </div>
-                    <p class="sub-text">チャット</p>
+                    <button @click="addValidation(uid)">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon-size" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                      </svg>
+                      <p class="sub-text">追加</p>
                     </button>
                 </li>
                 <li>
@@ -43,28 +41,39 @@
                 </li>
             </ul>
         </div>
+
+    <transition>
+        <div
+          class="overlay overflow-scroll md:w-1/2 md:mx-auto"
+          v-show="modal"
+        >
+        <!-- チケット作成フォームコンポーネント -->
+        <TheMatchRegisterationForm />
+        </div>
+    </transition>
     </div>
 </template>
 
 <script>
 import { auth } from "~/plugins/firebase";
 
+import TheMatchRegisterationForm from "~/components/pages/TheMatchRegisterationForm";
+
 export default {
+  components: {
+    TheMatchRegisterationForm
+  },
   data() {
     return {
       uid: "",
+
+      modal: false
     };
   },
   created() {
     this.$store.dispatch("chat/init");
 
-    auth.onAuthStateChanged((user) => {
-      if (!user) {
-        this.uid = null;
-      } else {
-        this.uid = user.uid;
-      }
-    });
+    auth.onAuthStateChanged((user) => this.uid = user.uid);
   },
   computed: {
     chats() {
@@ -75,7 +84,7 @@ export default {
   },
   methods: {
     //ログインしていない場合、チャットではなくログインページを表示する
-    chatValidation(uid){
+    addValidation(uid){
         if(uid === null){
           this.$toast("ログインが必要です", {
             position: "top-center",
@@ -83,7 +92,7 @@ export default {
           });
           this.$router.push("/auth/login");
         }else{
-          this.$router.push("/chat");
+          this.showModal()
         }
     },
 
@@ -99,11 +108,17 @@ export default {
           this.$router.push("/myPage");
         }
     },
+
+    showModal(){
+      this.modal  = true;
+    },
+
     getUnreadMessage(obj) {
       return obj.some(
         (el) => el.unReadMessage != false && el.unReadMessage != this.uid
       );
     },
+
   },
 };
 </script>
@@ -111,10 +126,21 @@ export default {
 
 <style lang="postcss" scoped>
 .icon-size{
-    @apply h-8 w-8 mx-auto;
+    @apply h-4 w-4 mx-auto;
 }
 
 .sub-text{
     @apply text-xs text-center;
+}
+
+/* モーダル */
+.overlay {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: gray;
 }
 </style>
