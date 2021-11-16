@@ -30,6 +30,15 @@ export default {
     return {
       uid: "",
       ticketId: this.$route.params.id,
+
+      ticketInfo: {
+        title: "",
+        datetime: "",
+        level: "",
+        place: "",
+        time: "",
+        comment: ""
+      }
     };
   },
 
@@ -44,8 +53,19 @@ export default {
 
   computed: {
     ticketDetail() {
-      return this.$store.state.ticket.tickets
+      const ticket = this.$store.state.ticket.tickets
       .filter((el) => el.id === this.ticketId && el.flag === 0);
+
+    ticket.forEach((el) => {
+      this.ticketInfo.title = el.title;
+      this.ticketInfo.datetime = el.datetime;
+      this.ticketInfo.level = el.level;
+      this.ticketInfo.place = el.place;
+      this.ticketInfo.time = el.time;
+      this.ticketInfo.comment = el.comment;
+    })
+
+      return ticket;
     },
 
     chats() {
@@ -68,6 +88,13 @@ export default {
     //approvalsコレクションにチケットIDと申し込みユーザーIDを保存する。
     makeApprovalData(){
       this.$store.dispatch("approval/add", {
+        uid: this.uid,
+        title: this.ticketInfo.title,
+        datetime: this.ticketInfo.datetime,
+        level: this.ticketInfo.level,
+        place: this.ticketInfo.place,
+        time: this.ticketInfo.time,
+        comment: this.ticketInfo.comment,
         ticketId: this.ticketId,
         participant: this.uid
       });
@@ -80,8 +107,8 @@ export default {
 
     //申し込みデータのfirestoreへの保存と詳細ページ遷移を実行。
     applyTicket(){
-      this.updateTicketData();
       this.makeApprovalData();
+      this.updateTicketData();
       this.gotoApprovalPage();
     }
   }
