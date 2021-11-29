@@ -66,8 +66,8 @@
       <div>
         <BaseTitleHeader :title="'マッチ管理'" />
         <div class="my-2">
-          <BaseBannerButton :title="'自分が作成したマッチ'" :link="'myPage/ownMatch'" />
-          <BaseBannerButton :title="'申込をしたマッチ'" :link="'myPage/othersMatch'" />
+          <BaseBannerButton :title="'一覧を見る'" :link="'myPage/ownMatch'" />
+          <!-- <BaseBannerButton :title="'申込をしたマッチ'" :link="'myPage/othersMatch'" /> -->
         </div>
       </div>
 

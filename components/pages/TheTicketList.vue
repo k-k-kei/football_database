@@ -3,7 +3,7 @@
     <div v-if="checkContents()">
 
     <!-- 検索されたアイテムを表示 -->
-    <TicketShowCard :tickets="tickets(filterdTickets(getName))" :link="/tickets/" />
+    <TicketShowCard :tickets="tickets(filterdTickets(getName))" :link="/ticket/" />
     </div>
 
     <!-- 検索結果がなかった場合に表示 -->

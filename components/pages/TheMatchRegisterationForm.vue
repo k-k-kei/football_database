@@ -37,7 +37,7 @@
         <div class="flex mt-5 py-5">
           <div class="w-11/12 mx-auto">
             <!-- チーム名 -->
-            <div>募集日</div>
+            <div>募集日 <span class="text-sm text-red-400">※必須</span></div>
             <ValidationProvider name="募集日" rules="required" v-slot="v">
               <div>
                 <BaseInputDatetime
@@ -56,7 +56,7 @@
                   :name="'title'"
                   :value="matchmake.title"
                   :label="'タイトル'"
-                  :required="false"
+                  :required="true"
                   :placeholder="'練習試合...etc'"
                   @inputValue="inputMatchTitle"
                 />
@@ -68,14 +68,29 @@
             </div>
 
             <div class="mb-3">
+              <ValidationProvider name="競技種目" rules="required" v-slot="v">
+                <BaseSelectBox
+                  :name="'category'"
+                  :label="'競技種目'"
+                  :required="true"
+                  :options="category"
+                  @selected="inputMatchCategory"
+                />
+
+                <div class="bg-yellow-500 text-white text-center">
+                  {{ v.errors[0] }}
+                </div>
+              </ValidationProvider>
+            </div>
+
+            <div class="mb-3">
               <ValidationProvider name="募集レベル" rules="required" v-slot="v">
-                <BaseInputForm
+                <BaseSelectBox
                   :name="'level'"
-                  :value="matchmake.level"
                   :label="'募集レベル'"
-                  :required="false"
-                  :placeholder="'競技志向のチームのみ...etc'"
-                  @inputValue="inputMatchLevel"
+                  :required="true"
+                  :options="level"
+                  @selected="inputMatchLevel"
                 />
 
                 <div class="bg-yellow-500 text-white text-center">
@@ -90,7 +105,7 @@
                   :name="'time'"
                   :value="matchmake.time"
                   :label="'時間'"
-                  :required="false"
+                  :required="true"
                   :placeholder="'2時間...etc'"
                   @inputValue="inputMatchTime"
                 />
@@ -103,19 +118,29 @@
 
             <div class="mb-3">
               <ValidationProvider name="場所" rules="required" v-slot="v">
-                <BaseInputForm
-                  :name="'place'"
-                  :value="matchmake.place"
-                  :label="'場所'"
-                  :required="false"
-                  :placeholder="'かもめコート...etc'"
-                  @inputValue="inputMatchPlace"
+                <BaseSelectBox
+                  :name="'area'"
+                  :label="'希望地域'"
+                  :required="true"
+                  :options="area"
+                  @selected="inputMatchArea"
                 />
 
                 <div class="bg-yellow-500 text-white text-center">
                   {{ v.errors[0] }}
                 </div>
               </ValidationProvider>
+            </div>
+
+            <div class="mb-3">
+                <BaseInputForm
+                  :name="'place'"
+                  :value="matchmake.place"
+                  :label="'使用予定コート'"
+                  :required="false"
+                  :placeholder="'かもめコート...etc'"
+                  @inputValue="inputMatchPlace"
+                />
             </div>
 
             <div class="sm:text-sm">コメント</div>
@@ -179,12 +204,25 @@ export default {
 
   data() {
     return {
+      area: ["渋谷区", "新宿区"],
+      category: ["サッカー", "フットサル"],
+      level: [
+        "競技志向（ハイレベル）",
+        "競技志向（シリアス）",
+        "競技志向（ジェネラル）",
+        "エンジョイ（シリアス）",
+        "エンジョイ（ジェネラル）",
+        "エンジョイ（ファン）",
+      ],
+
       matchmake: {
         uid: "",
         datetime: "",
         title: "",
+        category: "",
         time: "",
         level: "",
+        area: "",
         place: "",
         comment: "",
       },
@@ -229,12 +267,20 @@ export default {
       this.matchmake.title = value;
     },
 
+    inputMatchCategory(value) {
+      this.matchmake.category = value;
+    },
+
     inputMatchTime(value) {
       this.matchmake.time = value;
     },
 
     inputMatchLevel(value) {
       this.matchmake.level = value;
+    },
+
+    inputMatchArea(value) {
+      this.matchmake.area = value;
     },
 
     inputMatchPlace(value) {

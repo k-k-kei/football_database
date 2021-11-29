@@ -140,12 +140,12 @@
                 <div class="w-11/12 mx-auto">
 
                   <!-- 都道府県 -->
-                  <BaseTitleHeader :title="'都道府県'" />
+                  <BaseTitleHeader :title="'対戦希望エリア'" />
                   <div class="block">
                     <div class="mt-2">
                       <div
-                        v-for="area in ticketAreas"
-                        :key="area.id"
+                        v-for="(area, index) in ticketAreas"
+                        :key="index"
                         class="flex flex-wrap"
                       >
                         <label class="w-1/2 inline-flex items-center mb-3">
@@ -230,7 +230,7 @@
                 <!-- チームレベル -->
                 <BaseTitleHeader :title="'競技レベル'" />
                 <div class="block">
-                  <div v-for="level in ticketLevels" :key="level.id">
+                  <div v-for="(level, index) in ticketLevels" :key="index">
                     <label class="w-full inline-flex items-center mb-3">
                       <input
                         type="checkbox"
@@ -296,10 +296,10 @@ export default {
 
   computed: {
     ticketAreas() {
-      const place = this.$store.state.ticket.tickets
+      const area = this.$store.state.ticket.tickets
         .filter((el) => el.user_id != this.user_id)
-        .map((data) => data.place);
-      return new Set(place);
+        .map((data) => data.area);
+      return new Set(area);
     },
 
     ticketLevels() {
@@ -311,7 +311,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations("ticket", ["selectName", "selectLevel", "selectPlace"]),
+    ...mapMutations("ticket", ["selectName", "selectLevel", "selectArea"]),
     
     //検索フォームに入力された値をstoreに送る関数。
     getSearchWords(value) {
@@ -324,7 +324,7 @@ export default {
       const items = this.selectedItemArea.join("　");
       console.log(items);
 
-      this.selectPlace(items);
+      this.selectArea(items);
       this.closeModalArea();
     },
 

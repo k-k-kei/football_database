@@ -22,7 +22,7 @@
           <div class="w-1/2 px-4 md:p-4">
             <div class="mt-1">
               <div class="text-sm font-bold">募集日時</div>
-              <p class="text-xs">{{ ticket.datetime }}</p>
+              <p class="text-xs">{{ changeDatetimeShape(ticket.datetime) }}~</p>
             </div>
             <div class="my-1">
               <div class="text-sm font-bold">レベル</div>
@@ -48,6 +48,12 @@ export default {
 
   created(){
     this.$store.dispatch("init");
+  },
+
+  computed:{
+    changeDatetimeShape(){
+      return datetime => datetime.replace("T", " ");
+    }
   },
 
   methods: {
